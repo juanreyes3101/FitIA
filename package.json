@@ -1,0 +1,12 @@
+{
+  "name": "fitia",
+  "private": true,
+  "description": "Monorepo de FitIA: packages/shared + apps (web, móvil, escritorio)",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "web": "npm -w apps/web run dev"
+  }
+}

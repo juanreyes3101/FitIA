@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  html,
+  body {
+    @apply bg-asfalto text-hueso font-texto antialiased;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  body {
+    overflow-x: clip;
+  }
+  h1, h2, h3, h4, p {
+    margin: 0;
+  }
+  button, input, select, textarea {
+    font-family: inherit;
+  }
+  a {
+    @apply text-voltaje;
+  }
+  a:hover {
+    @apply text-voltaje-hover;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.voltaje.DEFAULT');
+    outline-offset: 3px;
+  }
+  input[type='range'] {
+    accent-color: theme('colors.voltaje.DEFAULT');
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Contenedor de página: 1440 máx. y márgenes laterales fluidos del diseño */
+  .contenedor {
+    @apply mx-auto w-full max-w-[1440px];
+    padding-left: clamp(16px, 4vw, 56px);
+    padding-right: clamp(16px, 4vw, 56px);
+  }
+  .kicker {
+    @apply font-metrica text-[13px] tracking-[.06em] text-voltaje;
+  }
+  .titulo {
+    @apply font-titulo font-normal uppercase;
+    line-height: 0.9;
+  }
+  .titulo-xl {
+    @apply titulo;
+    font-size: clamp(48px, 6vw, 96px);
+  }
+  .etiqueta {
+    @apply text-[12px] font-bold tracking-[.08em];
+  }
+  .tarjeta {
+    @apply rounded border border-grafito bg-concreto;
+  }
+  .cifra {
+    @apply font-metrica tabular-nums;
+  }
+  /* Textura de concreto: ruido fino al 8 %, solo en fondos grandes */
+  .grano {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* Cinta de obra: diagonales a 45°, franjas de 14 px */
+  .cinta {
+    background: repeating-linear-gradient(-45deg, #d4ff00 0 14px, #0b0b0c 14px 28px);
+  }
+  /* Foto duotono sin imagen: gradiente gráfico en Grafito × Voltaje */
+  .duotono {
+    background:
+      radial-gradient(120% 90% at 70% 30%, #3a4700 0%, transparent 60%),
+      repeating-linear-gradient(-45deg, rgba(212, 255, 0, 0.06) 0 2px, transparent 2px 18px),
+      #2a2a2e;
+  }
+}

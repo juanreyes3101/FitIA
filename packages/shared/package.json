@@ -1,0 +1,12 @@
+{
+  "name": "@fitia/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tipos, cliente API (JWT + refresh) y tokens de diseño compartidos por web, móvil y escritorio",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens": "./src/tokens.ts"
+  }
+}

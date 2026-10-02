@@ -54,6 +54,9 @@ class PerfilEntrada(Entrada):
     lugar_entreno: Literal["GIMNASIO", "CASA", "PARQUE"] = "GIMNASIO"
     observaciones: str | None = Field(default=None, max_length=500)
     condiciones: list[CondicionEntrada] | None = None  # solo AUTORREPORTE (lumbar, rodilla, hipertensión)
+    # Datos de la cuenta que pide el onboarding (se guardan en `usuarios`, no en perfiles_salud)
+    fecha_nacimiento: date | None = None
+    sexo: Literal["F", "M", "O", "N"] | None = None
 
 
 class MedicionEntrada(Entrada):

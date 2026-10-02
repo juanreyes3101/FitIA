@@ -122,7 +122,7 @@ FitIA/
 | POST | `/auth/login` | público | Devuelve un JWT (access 1 h + refresh 7 d) |
 | POST | `/auth/refresh` | refresh token | Emite un nuevo access token |
 | GET | `/imc?peso=&estatura=` | público | Calcula y clasifica el IMC |
-| GET/PUT | `/perfil` | usuario | Perfil de salud y condiciones |
+| GET/PUT | `/perfil` | usuario | Perfil de salud y condiciones. GET incluye `cupo_ia_restante` (`sp_cupo_ia`); PUT acepta además `fecha_nacimiento` y `sexo` (onboarding) |
 | POST | `/perfil/mediciones` | usuario | Nueva medición (el trigger actualiza las condiciones) |
 | GET | `/ejercicios?tipo=&lumbar=` | usuario | Catálogo filtrable |
 | GET | `/ejercicios/seguros` | usuario | `CALL sp_ejercicios_seguros` |

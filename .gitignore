@@ -14,3 +14,4 @@ out/
 .DS_Store
 .pytest_cache/
 .claude/settings.local.json
+apps/web/revision/
