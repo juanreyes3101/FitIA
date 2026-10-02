@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"></helmet>
+<div data-screen-label="Progreso" style="display:flex;flex-direction:column;gap:20px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#D4FF00">PROGRESO · DESDE EL 1 AGO</div><h1 style="margin-top:8px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(40px,5vw,72px);line-height:.9;text-transform:uppercase">Vas bajando.<br><span style="color:#D4FF00">Sin afán.</span></h1></div>
+    <div role="group" aria-label="Rango de tiempo" style="display:flex;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden">
+      <sc-for list="{{ rangos }}" as="r" hint-placeholder-count="3"><button onClick="{{ r.pick }}" aria-pressed="{{ r.on }}" style="min-height:48px;padding:0 18px;border:0;background:{{ r.bg }};color:{{ r.fg }};font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #F2F0EB;outline-offset:-4px">{{ r.l }}</button></sc-for>
+    </div>
+  </header>
+
+  <sc-if value="{{ isCarga }}" hint-placeholder-val="{{ false }}">
+    <div aria-busy="true" style="display:grid;grid-template-columns:{{ c4 }};gap:12px">
+      <div style="height:120px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div><div style="height:120px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div><div style="height:120px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div><div style="height:120px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+    </div>
+    <div style="height:320px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+  </sc-if>
+
+  <sc-if value="{{ isVacio }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;overflow:hidden;min-height:360px;background:#1A1A1D;border:1px dashed #2A2A2E;border-radius:4px;padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:16px">
+      <div aria-hidden="true" style="position:absolute;right:-10px;top:-40px;font-family:Anton,sans-serif;font-size:clamp(180px,22vw,300px);line-height:1;color:transparent;-webkit-text-stroke:2px #2A2A2E">0 KG</div>
+      <h2 style="position:relative;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(36px,4vw,56px);line-height:.92;text-transform:uppercase">Aún no hay<br>nada que medir</h2>
+      <p style="position:relative;max-width:440px;color:#9A9AA0;font-size:17px">Entrena tu primera sesión y registra tu peso. Aquí verás peso, IMC, sesiones y dolor semana a semana.</p>
+      <button onClick="{{ goEntreno }}" style="position:relative;min-height:52px;padding:0 24px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900">Empezar mi primera sesión</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isNormal }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ nota }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:12px;align-items:center;padding:12px 16px;border:1px solid #2A2A2E;border-radius:4px;font-size:15px;color:#9A9AA0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A9AA0" stroke-width="2" stroke-linecap="square" style="flex:none"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7v1"></path></svg>Llevas 60 días con FitIA, así que aquí ves todo tu historial.</div>
+    </sc-if>
+    <div style="display:grid;grid-template-columns:{{ c4 }};gap:12px">
+      <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+        <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:8px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#9A9AA0">{{ k.l }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:clamp(32px,3.4vw,44px);font-weight:700;line-height:1;letter-spacing:-.03em">{{ k.v }}<span style="font-size:16px;color:#9A9AA0;font-weight:400">{{ k.u }}</span></span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:{{ k.dc }}">{{ k.d }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:{{ c2 }};gap:16px">
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;line-height:1;text-transform:uppercase">Peso</h2><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">KG</span></div>
+        <div style="position:relative;height:220px;margin-left:36px">
+          <sc-for list="{{ peso.grid }}" as="g" hint-placeholder-count="4"><div style="position:absolute;left:0;right:0;top:{{ g.top }};border-top:1px dashed #2A2A2E"></div><span style="position:absolute;left:-36px;top:{{ g.top }};transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0">{{ g.l }}</span></sc-for>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="{{ peso.aria }}" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible"><path d="{{ peso.area }}" fill="rgba(212,255,0,.08)"></path><path d="{{ peso.line }}" fill="none" stroke="#D4FF00" stroke-width="3" vector-effect="non-scaling-stroke"></path></svg>
+          <sc-for list="{{ peso.dots }}" as="d" hint-placeholder-count="2"><div style="position:absolute;left:{{ d.left }};top:{{ d.top }};width:12px;height:12px;margin:-6px 0 0 -6px;background:{{ d.bg }};border:2px solid #D4FF00"></div><div style="position:absolute;left:{{ d.left }};top:{{ d.top }};transform:translate({{ d.tx }},-150%);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;padding:2px 6px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:2px;white-space:nowrap">{{ d.l }}</div></sc-for>
+        </div>
+        <div style="margin-left:36px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0"><span>{{ x0 }}</span><span>{{ x1 }}</span></div>
+      </div>
+
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;line-height:1;text-transform:uppercase">IMC</h2><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">KG/M²</span></div>
+        <div style="position:relative;height:220px;margin-left:36px">
+          <div style="position:absolute;left:0;right:0;top:0;height:{{ imc.obTop }};background:rgba(255,77,26,.08);border-bottom:1px solid #FF4D1A"></div>
+          <span style="position:absolute;right:4px;top:4px;font-size:11px;font-weight:700;letter-spacing:.08em;color:#FF4D1A">OBESIDAD ≥30</span>
+          <span style="position:absolute;right:4px;bottom:4px;font-size:11px;font-weight:700;letter-spacing:.08em;color:#FFB020">SOBREPESO 25–29,9</span>
+          <sc-for list="{{ imc.grid }}" as="g" hint-placeholder-count="4"><span style="position:absolute;left:-36px;top:{{ g.top }};transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0">{{ g.l }}</span></sc-for>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="{{ imc.aria }}" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible"><path d="{{ imc.line }}" fill="none" stroke="#F2F0EB" stroke-width="3" vector-effect="non-scaling-stroke"></path></svg>
+          <sc-for list="{{ imc.dots }}" as="d" hint-placeholder-count="2"><div style="position:absolute;left:{{ d.left }};top:{{ d.top }};width:12px;height:12px;margin:-6px 0 0 -6px;background:#0B0B0C;border:2px solid #F2F0EB"></div><div style="position:absolute;left:{{ d.left }};top:{{ d.top }};transform:translate({{ d.tx }},40%);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;padding:2px 6px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:2px;white-space:nowrap">{{ d.l }}</div></sc-for>
+        </div>
+        <div style="margin-left:36px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0"><span>{{ x0 }}</span><span>{{ x1 }}</span></div>
+      </div>
+
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;line-height:1;text-transform:uppercase">Sesiones por semana</h2><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">META 3</span></div>
+        <div style="position:relative;height:180px;display:flex;align-items:flex-end;gap:8px;border-bottom:2px solid #2A2A2E">
+          <div style="position:absolute;left:0;right:0;bottom:75%;border-top:1px dashed #D4FF00"></div>
+          <sc-for list="{{ ses }}" as="b" hint-placeholder-count="9"><div style="flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:{{ b.fg }}">{{ b.n }}</span><div style="width:100%;height:{{ b.h }};background:{{ b.bg }};border:{{ b.bd }}"></div></div></sc-for>
+        </div>
+        <div style="display:flex;gap:8px"><sc-for list="{{ ses }}" as="b" hint-placeholder-count="9"><span style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0">{{ b.l }}</span></sc-for></div>
+      </div>
+
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;line-height:1;text-transform:uppercase">Dolor lumbar promedio</h2><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">0–10</span></div>
+        <div style="position:relative;height:180px;display:flex;align-items:flex-end;gap:8px;border-bottom:2px solid #2A2A2E">
+          <div style="position:absolute;left:0;right:0;bottom:50%;border-top:1px dashed #FF4D1A"></div>
+          <span style="position:absolute;right:0;bottom:calc(50% + 4px);font-size:11px;font-weight:700;letter-spacing:.06em;color:#FF4D1A">ALERTA &gt;5</span>
+          <sc-for list="{{ dol }}" as="b" hint-placeholder-count="9"><div style="flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700">{{ b.v }}</span><div style="width:100%;height:{{ b.h }};background:{{ b.bg }}"></div></div></sc-for>
+        </div>
+        <div style="display:flex;gap:8px"><sc-for list="{{ dol }}" as="b" hint-placeholder-count="9"><span style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0">{{ b.l }}</span></sc-for></div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const f = (n, d = 1) => n.toFixed(d).replace('.', ',');
+const H2 = 1.65 * 1.65;
+function mk(pts, min, max, fmtL, color) {
+  const d0 = pts[0].d, d1 = pts[pts.length - 1].d;
+  const X = d => (d - d0) / (d1 - d0 || 1) * 100, Y = v => (max - v) / (max - min) * 100;
+  const line = pts.map((p, i) => (i ? 'L' : 'M') + X(p.d).toFixed(2) + ' ' + Y(p.v).toFixed(2)).join(' ');
+  const a = pts[0], b = pts[pts.length - 1];
+  return { line, area: line + ' L100 100 L0 100 Z', Y, dots: [a, b].map((p, i) => ({ left: X(p.d) + '%', top: Y(p.v) + '%', l: fmtL(p.v), tx: i ? '-100%' : '0', bg: i ? color : '#0B0B0C' })) };
+}
+class Component extends DCLogic {
+  state = { rango: 90 };
+  renderVals() {
+    const a = this.props.app || {}; const est = a.estado || 'normal'; const m = a.mobile; const r = this.state.rango;
+    const all = (a.data && a.data.pesos) || [{ d: 0, v: 81, f: '' }, { d: 60, v: 78, f: '' }];
+    const pesos = r === 30 ? all.filter(p => p.d >= 30) : all;
+    const semAll = (a.data && a.data.semanas) || [];
+    const sem = r === 30 ? semAll.slice(-5) : semAll;
+    const first = pesos[0], last = pesos[pesos.length - 1];
+    const P = mk(pesos, 77.5, 81.5, v => f(v) + ' kg', '#D4FF00');
+    const imcPts = pesos.map(p => ({ d: p.d, v: p.v / H2 }));
+    const I = mk(imcPts, 27.5, 30.5, v => f(v, 2), '#F2F0EB');
+    const done = sem.slice(0, -1);
+    const avgS = done.length ? done.reduce((t, w) => t + w.n, 0) / done.length : 0;
+    const d0 = sem[0] ? sem[0].dolor : 0, d1 = sem.length ? sem[sem.length - 1].dolor : 0;
+    const dCol = v => v <= 3 ? '#3DDC84' : v <= 5 ? '#FFB020' : '#FF4D1A';
+    const dp = last.v - first.v, di = last.v / H2 - first.v / H2;
+    return {
+      isCarga: est === 'carga', isVacio: est === 'vacio', isNormal: est !== 'carga' && est !== 'vacio',
+      goEntreno: () => a.go('entreno'),
+      rangos: [30, 90, 365].map(n => ({ l: n + ' D', on: r === n, bg: r === n ? '#D4FF00' : 'transparent', fg: r === n ? '#0B0B0C' : '#F2F0EB', pick: () => this.setState({ rango: n }) })),
+      nota: r > 60,
+      c4: m ? 'repeat(2,minmax(0,1fr))' : 'repeat(4,minmax(0,1fr))', c2: m ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))',
+      kpis: [
+        { l: 'PESO', v: f(last.v), u: ' kg', d: (dp <= 0 ? '' : '+') + f(dp) + ' kg', dc: dp <= 0 ? '#3DDC84' : '#FFB020' },
+        { l: 'IMC', v: f(last.v / H2, 2), u: '', d: (di <= 0 ? '' : '+') + f(di, 2) + ' · sobrepeso', dc: '#3DDC84' },
+        { l: 'SESIONES / SEM', v: f(avgS), u: ' /3', d: Math.round(avgS / 3 * 100) + '% de tu meta', dc: '#F2F0EB' },
+        { l: 'DOLOR PROMEDIO', v: f(d1), u: ' /10', d: (d1 - d0 <= 0 ? '' : '+') + f(d1 - d0) + ' desde el inicio', dc: d1 <= d0 ? '#3DDC84' : '#FF4D1A' }
+      ],
+      peso: { ...P, grid: [78, 79, 80, 81].map(v => ({ top: P.Y(v) + '%', l: v })), aria: `Peso de ${f(first.v)} a ${f(last.v)} kg` },
+      imc: { ...I, obTop: I.Y(30) + '%', grid: [28, 29, 30].map(v => ({ top: I.Y(v) + '%', l: v })), aria: `IMC de ${f(first.v / H2, 2)} a ${f(last.v / H2, 2)}` },
+      x0: first.f, x1: last.f,
+      ses: sem.map((w, i) => { const cur = i === sem.length - 1; return { l: cur ? 'HOY' : w.l, n: w.n, h: (w.n / 4 * 100) + '%', bg: cur ? 'transparent' : w.n >= 3 ? '#D4FF00' : '#5A5A60', bd: cur ? '2px dashed #D4FF00' : '0', fg: w.n >= 3 ? '#D4FF00' : '#F2F0EB' }; }),
+      dol: sem.map((w, i) => ({ l: i === sem.length - 1 ? 'HOY' : w.l, v: f(w.dolor), h: (w.dolor / 10 * 100) + '%', bg: dCol(w.dolor) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box}html,body{margin:0;background:#0B0B0C;color:#F2F0EB;font-family:'Inter Tight',system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}body{overflow-x:clip}a{color:#D4FF00}a:hover{color:#E1FF4D}h1,h2,h3,p{margin:0}button{font-family:inherit}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
+</helmet>
+<dc-import name="FitiaNav" active="imc" hint-size="100%,1px"></dc-import>
+
+<section data-screen-label="IMC · Calculadora" style="position:relative;overflow:hidden;padding:160px 0 120px">
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:.08;background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.8%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url%28%23n%29%27/%3E%3C/svg%3E)"></div>
+  <div style="position:absolute;right:-2vw;top:100px;font-family:Anton,sans-serif;font-size:clamp(180px,30vw,480px);line-height:.8;color:transparent;-webkit-text-stroke:2px #1F1F23;pointer-events:none">IMC</div>
+  <div style="position:relative;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(32px,5vw,80px);align-items:center">
+    <div data-reveal="0" style="display:flex;flex-direction:column;gap:24px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">HERRAMIENTA GRATIS</div>
+      <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(64px,8vw,136px);line-height:.88;text-transform:uppercase">Calculadora<br><span style="color:#D4FF00">IMC</span></h1>
+      <p style="max-width:460px;font-size:19px;line-height:1.45;text-wrap:pretty">Mueve el peso y la estatura. El resultado se actualiza al instante. No guardamos nada hasta que crees tu cuenta.</p>
+    </div>
+    <div data-reveal="150"><dc-import name="FitiaIMC" hint-size="100%,560px"></dc-import></div>
+  </div>
+</section>
+
+<section data-screen-label="IMC · Qué es" style="padding:96px 0;border-top:1px solid #2A2A2E">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(32px,5vw,80px)">
+    <div data-reveal="0" style="display:flex;flex-direction:column;gap:20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">01 · QUÉ ES</div>
+      <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,5vw,80px);line-height:.92;text-transform:uppercase">Una cuenta<br>sencilla.</h2>
+      <p style="max-width:520px;font-size:17px;color:#9A9AA0;text-wrap:pretty">El Índice de Masa Corporal relaciona tu peso con tu estatura. Sirve para ubicar, de forma rápida, si tu peso está por debajo, dentro o por encima del rango que la Organización Mundial de la Salud usa como referencia para adultos.</p>
+    </div>
+    <div data-reveal="120" style="display:flex;flex-direction:column;gap:16px">
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:16px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">FÓRMULA</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(20px,2.4vw,30px);font-weight:700;line-height:1.3">IMC = peso (kg) ÷ estatura (m)²</div>
+        <div style="height:1px;background:#2A2A2E"></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">EJEMPLO</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(18px,2vw,24px);line-height:1.4">72 ÷ (1.68 × 1.68) = <span style="color:#D4FF00;font-weight:700">25.5</span></div>
+      </div>
+      <div style="border:1px solid #2A2A2E;border-radius:4px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:12px 20px;background:#1A1A1D;font-size:12px;font-weight:700;letter-spacing:.08em;color:#9A9AA0"><span>RANGO (OMS, ADULTOS)</span><span>IMC</span></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:14px 20px;border-top:1px solid #2A2A2E;align-items:center"><span style="display:flex;align-items:center;gap:10px"><span style="width:12px;height:12px;background:#FFB020"></span>Bajo peso</span><span style="font-family:'JetBrains Mono',monospace">&lt; 18.5</span></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:14px 20px;border-top:1px solid #2A2A2E;align-items:center"><span style="display:flex;align-items:center;gap:10px"><span style="width:12px;height:12px;background:#3DDC84"></span>Normal</span><span style="font-family:'JetBrains Mono',monospace">18.5 – 24.9</span></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:14px 20px;border-top:1px solid #2A2A2E;align-items:center"><span style="display:flex;align-items:center;gap:10px"><span style="width:12px;height:12px;background:#FFB020"></span>Sobrepeso</span><span style="font-family:'JetBrains Mono',monospace">25 – 29.9</span></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:14px 20px;border-top:1px solid #2A2A2E;align-items:center"><span style="display:flex;align-items:center;gap:10px"><span style="width:12px;height:12px;background:#FF4D1A"></span>Obesidad</span><span style="font-family:'JetBrains Mono',monospace">≥ 30</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="IMC · Límites" style="position:relative;padding:96px 0 120px;border-top:1px solid #2A2A2E;overflow:hidden">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px)">
+    <div data-reveal="0" style="display:flex;flex-direction:column;gap:20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#FF4D1A;letter-spacing:.06em">02 · SUS LÍMITES</div>
+      <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,5vw,80px);line-height:.92;text-transform:uppercase">Lo que el IMC<br>no te dice.</h2>
+    </div>
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+      <div data-reveal="0" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:14px"><span style="width:44px;height:44px;border:2px solid #FF4D1A;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4D1A" stroke-width="2" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"></path></svg></span><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;line-height:1;text-transform:uppercase">Músculo o grasa</h3><p style="color:#9A9AA0;font-size:15px">No los distingue. Alguien que entrena fuerza puede salir con “sobrepeso” sin tenerlo.</p></div>
+      <div data-reveal="100" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:14px"><span style="width:44px;height:44px;border:2px solid #FF4D1A;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4D1A" stroke-width="2" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"></path></svg></span><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;line-height:1;text-transform:uppercase">Dónde está la grasa</h3><p style="color:#9A9AA0;font-size:15px">No mide la grasa abdominal, que es la que más pesa para la salud. Para eso sirve el perímetro de cintura.</p></div>
+      <div data-reveal="200" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:14px"><span style="width:44px;height:44px;border:2px solid #FF4D1A;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4D1A" stroke-width="2" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"></path></svg></span><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;line-height:1;text-transform:uppercase">No aplica a todos</h3><p style="color:#9A9AA0;font-size:15px">No es igual para menores de 18, embarazadas ni adultos mayores. Ahí se usan otras tablas.</p></div>
+      <div data-reveal="300" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:14px"><span style="width:44px;height:44px;border:2px solid #FF4D1A;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4D1A" stroke-width="2" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"></path></svg></span><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;line-height:1;text-transform:uppercase">No es diagnóstico</h3><p style="color:#9A9AA0;font-size:15px">Solo un profesional de la salud puede decirte cómo estás. El IMC es un punto de partida.</p></div>
+    </div>
+    <div data-reveal="0" style="margin-top:48px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:start;max-width:900px">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg>
+      <p style="font-size:clamp(20px,2vw,26px);line-height:1.4;text-wrap:pretty">Por eso FitIA usa el IMC <strong style="color:#D4FF00">junto</strong> con tu nivel, tus molestias y cómo te va en cada sesión. El número cambia; tu rutina también.</p>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="IMC · Registro" style="position:relative;overflow:hidden;padding:140px 0 120px">
+  <div style="position:absolute;left:0;right:0;top:60px;bottom:-60px;background:#D4FF00;transform:skewY(-7deg)"></div>
+  <div data-reveal="0" style="position:relative;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;color:#0B0B0C">
+    <div><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(56px,8vw,128px);line-height:.88;text-transform:uppercase">Guarda tu IMC.<br>Recibe tu rutina.</h2><p style="margin-top:16px;font-size:19px;font-weight:600;max-width:520px">Crea tu cuenta gratis y la IA arma tu primera rutina con este dato.</p></div>
+    <a href="FitIA%20Ingresar.dc.html#registro" style="display:inline-flex;align-items:center;gap:10px;min-height:60px;padding:0 32px;border-radius:4px;background:#0B0B0C;color:#D4FF00;font-size:18px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 #3A4700;transition:transform 90ms,box-shadow 90ms" style-hover="background:#1A1A1D;color:#D4FF00" style-active="transform:translateY(2px);box-shadow:0 2px 0 #3A4700" style-focus="outline:3px solid #0B0B0C;outline-offset:3px">Crear cuenta gratis</a>
+  </div>
+</section>
+
+<dc-import name="FitiaFooter" hint-size="100%,560px"></dc-import>
+</x-dc>
+</body>
+</html>

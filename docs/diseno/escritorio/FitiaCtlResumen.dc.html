@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Resumen" style="display:flex;flex-direction:column;gap:14px;animation:fitia-in 300ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:#D4FF00">MIÉRCOLES 30 SEP 2026 · {{ clock }}</div><h1 style="margin-top:4px;font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:.95;text-transform:uppercase">Resumen</h1></div>
+    <div role="group" style="display:flex;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden"><sc-for list="{{ rangos }}" as="r" hint-placeholder-count="3"><button onClick="{{ r.pick }}" style="min-height:34px;padding:0 12px;border:0;background:{{ r.bg }};color:{{ r.fg }};font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer">{{ r.l }}</button></sc-for></div>
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+    <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+      <div style="position:relative;overflow:hidden;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#9A9AA0">{{ k.l }}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;line-height:1;letter-spacing:-.03em;color:{{ k.c }}">{{ k.v }}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:{{ k.dc }}">{{ k.d }}</span>
+        <svg viewBox="0 0 100 24" preserveAspectRatio="none" style="width:100%;height:28px"><path d="{{ k.sp }}" fill="none" stroke="{{ k.sc }}" stroke-width="1.6" vector-effect="non-scaling-stroke"></path></svg>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr);gap:10px">
+    <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:Anton,sans-serif;font-size:20px">USO DE IA · HOY</span><span style="font-size:11px;font-weight:700;padding:3px 6px;border-radius:2px;border:1px solid #D4FF00;color:#D4FF00">{{ provider }}</span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2A2A2E;border:1px solid #2A2A2E">
+        <div style="background:#1A1A1D;padding:10px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700">1.942</div><div style="font-size:11px;font-weight:700;color:#9A9AA0">SOLICITUDES</div></div>
+        <div style="background:#1A1A1D;padding:10px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700">3,1 M</div><div style="font-size:11px;font-weight:700;color:#9A9AA0">TOKENS</div></div>
+        <div style="background:#1A1A1D;padding:10px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#D4FF00">US$4,72</div><div style="font-size:11px;font-weight:700;color:#9A9AA0">COSTO EST.</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{ iaUso }}" as="u" hint-placeholder-count="4"><div style="display:flex;flex-direction:column;gap:4px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>{{ u.l }}</span><span style="font-family:'JetBrains Mono',monospace;color:#9A9AA0">{{ u.v }}</span></div><div style="height:6px;background:#2A2A2E"><div style="height:100%;width:{{ u.w }};background:{{ u.c }}"></div></div></div></sc-for>
+      </div>
+      <span style="font-size:12px;color:#9A9AA0">Cupo diario de la cuenta: 62 % usado · fallback a Mock si el proveedor falla.</span>
+    </div>
+
+    <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:12px">
+      <span style="font-family:Anton,sans-serif;font-size:20px">USUARIOS POR IMC</span>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="position:relative;width:150px;height:150px;flex:none">
+          <svg viewBox="0 0 42 42" style="width:100%;height:100%;transform:rotate(-90deg)"><circle cx="21" cy="21" r="15.915" fill="none" stroke="#2A2A2E" stroke-width="6"></circle><sc-for list="{{ dona }}" as="d" hint-placeholder-count="4"><circle cx="21" cy="21" r="15.915" fill="none" stroke="{{ d.c }}" stroke-width="{{ d.w }}" stroke-dasharray="{{ d.da }}" stroke-dashoffset="{{ d.off }}" style="cursor:pointer;transition:stroke-width 150ms" onMouseEnter="{{ d.hover }}"></circle></sc-for></svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;line-height:1">{{ donaV }}</span><span style="font-size:11px;font-weight:700;color:#9A9AA0">{{ donaL }}</span></div>
+        </div>
+        <ul style="flex:1;display:flex;flex-direction:column;gap:6px">
+          <sc-for list="{{ dona }}" as="d" hint-placeholder-count="4"><li onMouseEnter="{{ d.hover }}" style="display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 6px;border-radius:2px;background:{{ d.rowBg }};cursor:default"><span style="width:10px;height:10px;background:{{ d.c }}"></span><span style="flex:1">{{ d.l }}</span><span style="font-family:'JetBrains Mono',monospace;font-weight:700">{{ d.p }}%</span></li></sc-for>
+        </ul>
+      </div>
+      <span style="font-size:12px;color:#9A9AA0">1.284 usuarios activos con IMC registrado.</span>
+    </div>
+
+    <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:Anton,sans-serif;font-size:20px">RUTINAS GENERADAS POR HORA</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">HOY</span></div>
+      <div style="flex:1;min-height:140px;display:flex;align-items:flex-end;gap:4px;border-bottom:1px solid #2A2A2E">
+        <sc-for list="{{ horas }}" as="h" hint-placeholder-count="12"><div title="{{ h.tip }}" style="flex:1;height:{{ h.h }};background:{{ h.c }}"></div></sc-for>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><span>5:00</span><span>8:00</span><span>AHORA</span></div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:10px">
+    <button onClick="{{ goMon }}" style="text-align:left;background:#1A1A1D;border:1px solid {{ monBd }};border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px;color:#F2F0EB;cursor:pointer" style-hover="border-color:#F2F0EB">
+      <span style="display:flex;justify-content:space-between;width:100%"><span style="font-family:Anton,sans-serif;font-size:20px">SALUD DE LA PLATAFORMA</span><span style="font-size:13px;font-weight:700;color:#D4FF00">Monitoreo ›</span></span>
+      <span style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:100%"><sc-for list="{{ svcs }}" as="s" hint-placeholder-count="4"><span style="padding:8px;border:1px solid {{ s.bd }};border-radius:2px;display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;font-weight:700">{{ s.n }}</span><span style="font-size:11px;font-weight:700;color:{{ s.c }}">● {{ s.st }}</span></span></sc-for></span>
+    </button>
+    <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:6px">
+      <span style="font-family:Anton,sans-serif;font-size:20px;margin-bottom:4px">ACTIVIDAD RECIENTE</span>
+      <sc-for list="{{ act }}" as="a" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:64px 10px minmax(0,1fr);gap:10px;align-items:center;padding:5px 0;border-top:1px solid #2A2A2E;font-size:13px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">{{ a.h }}</span><span style="width:8px;height:8px;background:{{ a.c }}"></span><span>{{ a.t }}</span></div></sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const sp = a => { const mn = Math.min(...a), mx = Math.max(...a); return a.map((v, i) => (i ? 'L' : 'M') + (i / (a.length - 1) * 100).toFixed(1) + ' ' + (22 - (v - mn) / (mx - mn || 1) * 20).toFixed(1)).join(' '); };
+const DONA = [['Bajo peso', 4, '#FFB020'], ['Normal', 31, '#3DDC84'], ['Sobrepeso', 38, '#D4FF00'], ['Obesidad', 27, '#FF4D1A']];
+const HORAS = [3, 6, 14, 22, 11, 7, 5, 8, 6, 4, 9, 12];
+class Component extends DCLogic {
+  state = { rango: 'Hoy', hov: 2 };
+  renderVals() {
+    const c = this.props.ctl || {}; const m = c.mon || { rep: {} }; const s = this.state;
+    let acc = 0;
+    const mult = s.rango === 'Hoy' ? 1 : s.rango === '7 días' ? 1 : 1;
+    const bad = m.latOpen || m.errOpen;
+    return {
+      clock: c.clock, provider: (c.cfg || {}).provider || 'Gemini',
+      rangos: ['Hoy', '7 días', '30 días'].map(l => ({ l: l.toUpperCase(), bg: s.rango === l ? '#D4FF00' : 'transparent', fg: s.rango === l ? '#0B0B0C' : '#F2F0EB', pick: () => this.setState({ rango: l }) })),
+      kpis: [
+        { l: 'USUARIOS ACTIVOS', v: s.rango === 'Hoy' ? '1.284' : s.rango === '7 días' ? '2.106' : '3.417', d: '▲ 6,2 % vs. periodo anterior', dc: '#3DDC84', c: '#F2F0EB', sp: sp([1100, 1130, 1150, 1190, 1210, 1240, 1284]), sc: '#F2F0EB' },
+        { l: 'RUTINAS GENERADAS', v: s.rango === 'Hoy' ? '107' : s.rango === '7 días' ? '684' : '2.931', d: '▲ 14 vs. ayer', dc: '#3DDC84', c: '#D4FF00', sp: sp([80, 92, 76, 99, 88, 95, 107]), sc: '#D4FF00' },
+        { l: 'INGRESOS DEL MES (SIM.)', v: '$4.312.400', d: '217 suscripciones Pro', dc: '#9A9AA0', c: '#F2F0EB', sp: sp([3.1, 3.3, 3.6, 3.7, 3.9, 4.1, 4.31]), sc: '#F2F0EB' },
+        { l: 'ANOMALÍAS HOY', v: String((m.log || []).length), d: bad ? '1 incidente abierto' : 'Todas resueltas', dc: bad ? '#FF4D1A' : '#3DDC84', c: bad ? '#FF4D1A' : '#F2F0EB', sp: sp([0, 1, 0, 2, 1, 0, (m.log || []).length]), sc: bad ? '#FF4D1A' : '#9A9AA0' }
+      ].map(k => ({ ...k, v: k.v, mult })),
+      iaUso: [['Generar rutina', 1180, '#D4FF00'], ['Ajuste por molestia', 412, '#F2F0EB'], ['Explicar ejercicio', 268, '#9A9AA0'], ['Errores / reintentos', 82, '#FF4D1A']].map(([l, v, col]) => ({ l, v: v.toLocaleString('es-CO'), w: (v / 1180 * 100) + '%', c: col })),
+      dona: DONA.map(([l, p, col], i) => { const o = { l, p, c: col, da: `${p} ${100 - p}`, off: String(-acc), w: s.hov === i ? 8 : 6, rowBg: s.hov === i ? '#232327' : 'transparent', hover: () => this.setState({ hov: i }) }; acc += p; return o; }),
+      donaV: Math.round(1284 * DONA[s.hov][1] / 100).toLocaleString('es-CO'), donaL: DONA[s.hov][0].toUpperCase(),
+      horas: HORAS.map((v, i) => ({ h: (v / 22 * 100) + '%', c: i === HORAS.length - 1 ? '#D4FF00' : '#5A5A60', tip: `${5 + i}:00 · ${v} rutinas` })),
+      goMon: () => c.go('monitoreo'), monBd: bad ? '#FF4D1A' : '#2A2A2E',
+      svcs: [['API', bad], ['IA', false], ['BD', false], ['WEB', false]].map(([n, b]) => ({ n, st: b ? 'DEGRADADO' : 'OK', c: b ? '#FF4D1A' : '#3DDC84', bd: b ? '#FF4D1A' : '#2A2A2E' })),
+      act: [['10:41', '#D4FF00', 'Rutina IA generada · Laura Gómez · lumbar moderada'], ['10:38', '#3DDC84', 'Pago Pro aprobado (sim.) · Jhon Ríos · $19.900'], ['10:35', '#FFB020', 'Rutina en revisión · entrenador Diana Moreno'], ['10:29', '#F2F0EB', 'Nuevo usuario · Gimnasio Bosa Fit'], ['10:22', '#FF4D1A', 'Dolor 7/10 reportado · Marta Peña · alerta al entrenador']].map(([h, col, t]) => ({ h, c: col, t }))
+    };
+  }
+}
+</script>
+</body>
+</html>

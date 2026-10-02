@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Reportes" style="display:flex;flex-direction:column;gap:14px;animation:fitia-in 300ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:#D4FF00">ABR – SEP 2026 · DATOS SIMULADOS</div><h1 style="margin-top:4px;font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:.95;text-transform:uppercase">Reportes</h1></div>
+    <div style="display:flex;gap:8px"><button onClick="{{ csv }}" style="min-height:36px;padding:0 14px;border:1px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:13px;font-weight:700;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">Exportar CSV</button><button onClick="{{ pdf }}" style="min-height:36px;padding:0 14px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #7E9900" style-active="transform:translateY(2px);box-shadow:0 1px 0 #7E9900">Exportar PDF</button></div>
+  </header>
+  <div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:10px">
+    <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:Anton,sans-serif;font-size:20px">INGRESOS POR MES</span><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">TOTAL <strong style="color:#D4FF00">{{ totIng }}</strong></span></div>
+      <div style="height:220px;display:flex;align-items:flex-end;gap:12px;border-bottom:1px solid #2A2A2E">
+        <sc-for list="{{ ing }}" as="b" hint-placeholder-count="6"><div style="flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:{{ b.fc }}">{{ b.t }}</span><div style="width:100%;display:flex;flex-direction:column;height:{{ b.h }}"><div style="flex:{{ b.an }};background:#7E9900"></div><div style="flex:{{ b.me }};background:{{ b.c }}"></div></div></div></sc-for>
+      </div>
+      <div style="display:flex;gap:12px"><sc-for list="{{ ing }}" as="b" hint-placeholder-count="6"><span style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0">{{ b.m }}</span></sc-for></div>
+      <div style="display:flex;gap:14px;font-size:12px;color:#9A9AA0"><span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:#D4FF00"></span>Pro mensual</span><span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:#7E9900"></span>Pro anual (prorrateado)</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:Anton,sans-serif;font-size:20px">ADHERENCIA</span><span style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:#D4FF00">71 %</span></div>
+        <svg viewBox="0 0 100 40" preserveAspectRatio="none" style="width:100%;height:90px;overflow:visible"><path d="M0 30 L100 30" stroke="#2A2A2E" stroke-dasharray="2 2" vector-effect="non-scaling-stroke"></path><path d="{{ adh }}" fill="none" stroke="#D4FF00" stroke-width="2" vector-effect="non-scaling-stroke"></path></svg>
+        <span style="font-size:12px;color:#9A9AA0">% de usuarios que cumplen ≥ 2 sesiones por semana. Línea punteada: meta 60 %.</span>
+      </div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:Anton,sans-serif;font-size:20px">USO DE IA</span><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">US$ <strong style="color:#F2F0EB">{{ totIA }}</strong> · 6 MESES</span></div>
+        <sc-for list="{{ ia }}" as="r" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:36px minmax(0,1fr) 72px;gap:8px;align-items:center;font-size:12px"><span style="font-family:'JetBrains Mono',monospace;color:#9A9AA0">{{ r.m }}</span><span style="height:10px;background:#2A2A2E;display:flex"><span style="width:{{ r.w1 }};background:#F2F0EB"></span><span style="width:{{ r.w2 }};background:#5A5A60"></span></span><span style="font-family:'JetBrains Mono',monospace;text-align:right">{{ r.t }}</span></div></sc-for>
+        <span style="font-size:12px;color:#9A9AA0">Barra clara: solicitudes Gemini · gris: respuestas Mock (pruebas y fallback).</span>
+      </div>
+    </div>
+  </div>
+  <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:auto">
+    <table><thead><tr style="background:#141416"><sc-for list="{{ heads }}" as="h" hint-placeholder-count="7"><th style="text-align:{{ h.al }};padding:8px 12px;font-size:11px;letter-spacing:.06em;color:#9A9AA0">{{ h.l }}</th></sc-for></tr></thead>
+      <tbody><sc-for list="{{ tabla }}" as="r" hint-placeholder-count="6"><tr style="border-top:1px solid #2A2A2E"><sc-for list="{{ r }}" as="x" hint-placeholder-count="7"><td style="padding:7px 12px;text-align:{{ x.al }};font-family:{{ x.ff }};font-size:13px">{{ x.v }}</td></sc-for></tr></sc-for></tbody>
+    </table>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const M = ['ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP'];
+const MEN = [1.21, 1.68, 2.05, 2.62, 3.05, 3.40], ANU = [0.31, 0.42, 0.55, 0.68, 0.79, 0.91];
+const ADH = [58, 61, 64, 66, 69, 71];
+const IAQ = [[18.2, 2.1], [24.6, 2.4], [31.0, 3.8], [38.4, 3.1], [44.9, 4.6], [52.3, 3.9]];
+const COST = [62, 81, 104, 126, 149, 171];
+const USR = [312, 488, 702, 913, 1104, 1284];
+class Component extends DCLogic {
+  rows() { return M.map((m, i) => [m, USR[i], '$' + Math.round((MEN[i] + ANU[i]) * 1e6).toLocaleString('es-CO'), ADH[i] + ' %', (IAQ[i][0] + IAQ[i][1]).toFixed(1).replace('.', ',') + ' mil', 'US$' + COST[i], i === 5 ? 3 : [5, 4, 4, 2, 3][i]]); }
+  renderVals() {
+    const c = this.props.ctl || {};
+    const mx = Math.max(...MEN.map((v, i) => v + ANU[i]));
+    const H = ['MES', 'USUARIOS ACTIVOS', 'INGRESOS (SIM.)', 'ADHERENCIA', 'SOLICITUDES IA', 'COSTO IA', 'INCIDENTES'];
+    return {
+      totIng: '$' + Math.round((MEN.reduce((a, b) => a + b) + ANU.reduce((a, b) => a + b)) * 1e6).toLocaleString('es-CO'),
+      ing: M.map((m, i) => { const t = MEN[i] + ANU[i]; return { m, t: '$' + t.toFixed(1).replace('.', ',') + ' M', h: (t / mx * 88) + '%', me: MEN[i], an: ANU[i], c: i === 5 ? '#D4FF00' : '#B8DB00', fc: i === 5 ? '#D4FF00' : '#9A9AA0' }; }),
+      adh: ADH.map((v, i) => (i ? 'L' : 'M') + (i / 5 * 100) + ' ' + (40 - (v - 40) / 40 * 40).toFixed(1)).join(' '),
+      totIA: COST.reduce((a, b) => a + b),
+      ia: M.map((m, i) => ({ m, w1: (IAQ[i][0] / 60 * 100) + '%', w2: (IAQ[i][1] / 60 * 100) + '%', t: (IAQ[i][0] + IAQ[i][1]).toFixed(1).replace('.', ',') + ' mil' })),
+      heads: H.map((l, i) => ({ l, al: i ? 'right' : 'left' })),
+      tabla: this.rows().map(r => r.map((v, i) => ({ v, al: i ? 'right' : 'left', ff: i ? "'JetBrains Mono',monospace" : "'Inter Tight',sans-serif" }))),
+      csv: () => { const csv = [H.join(','), ...this.rows().map(r => r.map(x => String(x).replace(/,/g, '.')).join(','))].join('\n'); try { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'fitia-reporte-abr-sep-2026.csv'; document.body.appendChild(a); a.click(); a.remove(); } catch (e) {} c.toast('ok', 'CSV exportado', 'fitia-reporte-abr-sep-2026.csv'); },
+      pdf: () => { c.toast('ok', 'Preparando PDF', 'Se abre el diálogo de impresión'); setTimeout(() => { try { window.print(); } catch (e) {} }, 500); }
+    };
+  }
+}
+</script>
+</body>
+</html>

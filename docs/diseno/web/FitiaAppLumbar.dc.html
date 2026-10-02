@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"></helmet>
+<div data-screen-label="Zona lumbar" style="display:flex;flex-direction:column;gap:20px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#3DDC84">BIBLIOTECA · MOLESTIA LUMBAR</div><h1 style="margin-top:8px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(40px,5vw,72px);line-height:.9;text-transform:uppercase">Cuida tu<br>espalda.</h1></div>
+    <p style="max-width:380px;color:#9A9AA0;font-size:16px">Ejercicios elegidos para fortalecer y aliviar la zona lumbar. El sello verde indica los que la IA considera seguros para ti hoy.</p>
+  </header>
+
+  <div style="display:flex;flex-direction:column;gap:12px;padding:16px;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px">
+    <label style="position:relative;display:block">
+      <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Buscar ejercicio</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A9AA0" stroke-width="2" stroke-linecap="square" style="position:absolute;left:14px;top:50%;transform:translateY(-50%)"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+      <input value="{{ q }}" onChange="{{ onQ }}" placeholder="Busca: puente, plancha, glúteos…" style="width:100%;min-height:52px;padding:0 16px 0 44px;background:#0B0B0C;border:2px solid #2A2A2E;border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00">
+    </label>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+      <div role="group" aria-label="Tipo" style="display:flex;gap:6px;flex-wrap:wrap">
+        <sc-for list="{{ tipos }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.pick }}" aria-pressed="{{ t.on }}" style="min-height:44px;padding:0 14px;border:2px solid {{ t.bd }};border-radius:2px;background:{{ t.bg }};color:{{ t.fg }};font-size:14px;font-weight:600;cursor:pointer" style-active="transform:translateY(2px)" style-focus="outline:2px solid #F2F0EB;outline-offset:2px">{{ t.l }}</button></sc-for>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <div role="group" aria-label="Nivel" style="display:flex;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden">
+          <sc-for list="{{ niveles }}" as="n" hint-placeholder-count="3"><button onClick="{{ n.pick }}" aria-pressed="{{ n.on }}" style="min-height:40px;padding:0 12px;border:0;background:{{ n.bg }};color:{{ n.fg }};font-size:14px;font-weight:600;cursor:pointer">{{ n.l }}</button></sc-for>
+        </div>
+        <button role="switch" aria-checked="{{ solo }}" onClick="{{ toggleSolo }}" style="display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 4px;border:0;background:transparent;color:#F2F0EB;font-size:14px;font-weight:600;cursor:pointer" style-focus="outline:2px solid #D4FF00;outline-offset:2px"><span style="width:44px;height:24px;border-radius:2px;background:{{ swBg }};position:relative;transition:background 150ms"><span style="position:absolute;top:3px;left:{{ swL }};width:18px;height:18px;background:{{ swK }};transition:left 150ms cubic-bezier(.2,.8,.2,1)"></span></span>Solo seguros para mí</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">{{ countTxt }}</div>
+
+  <sc-if value="{{ isCarga }}" hint-placeholder-val="{{ false }}">
+    <div aria-busy="true" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px">
+      <div style="height:300px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div><div style="height:300px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div><div style="height:300px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;overflow:hidden;min-height:280px;background:#1A1A1D;border:1px dashed #2A2A2E;border-radius:4px;padding:40px 28px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:14px">
+      <div aria-hidden="true" style="position:absolute;right:-10px;top:-40px;font-family:Anton,sans-serif;font-size:240px;line-height:1;color:transparent;-webkit-text-stroke:2px #2A2A2E">0</div>
+      <h2 style="position:relative;font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:.95;text-transform:uppercase">Nada por aquí</h2>
+      <p style="position:relative;color:#9A9AA0">No hay ejercicios con “{{ q }}” y esos filtros. Prueba con otra palabra.</p>
+      <button onClick="{{ clear }}" style="position:relative;min-height:48px;padding:0 20px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">Limpiar filtros</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px">
+      <sc-for list="{{ items }}" as="e" hint-placeholder-count="6">
+        <button onClick="{{ e.go }}" style="display:flex;flex-direction:column;text-align:left;padding:0;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;color:#F2F0EB;cursor:pointer;transition:transform 150ms,box-shadow 150ms" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #D4FF00" style-focus="outline:2px solid #D4FF00;outline-offset:2px">
+          <div style="position:relative;width:100%;height:160px;isolation:isolate;background:#2A2A2E">
+            <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="lib-{{ e.id }}" shape="rect" placeholder="{{ e.nombre }}"></image-slot></div>
+            <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+            <span style="position:absolute;left:12px;top:12px;background:#0B0B0C;color:#F2F0EB;font-size:11px;font-weight:700;letter-spacing:.06em;padding:5px 7px;border-radius:2px;pointer-events:none">{{ e.tipoUp }}</span>
+            <span aria-hidden="true" style="position:absolute;right:10px;bottom:-12px;font-family:Anton,sans-serif;font-size:72px;line-height:1;color:#0B0B0C;pointer-events:none">{{ e.num }}</span>
+          </div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:10px;flex:1;width:100%">
+            <span style="font-family:Anton,sans-serif;font-size:24px;line-height:1;text-transform:uppercase">{{ e.nombre }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700">{{ e.dosis }} <span style="color:#9A9AA0;font-weight:400">· {{ e.nivel }}</span></span>
+            <span style="margin-top:auto;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.06em;padding:5px 8px;border-radius:2px;background:{{ e.selloBg }};color:{{ e.selloFg }};border:1px solid {{ e.selloBd }};align-self:flex-start">{{ e.sello }}</span>
+          </div>
+        </button>
+      </sc-for>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const TIPOS = ['Todos', 'Movilidad', 'Core', 'Fuerza', 'Cardio'];
+const NIV = ['Todos', 'Principiante', 'Intermedio'];
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+class Component extends DCLogic {
+  state = { q: '', tipo: 'Todos', nivel: 'Todos', solo: false };
+  componentDidMount() { const q = ((this.props.app || {}).q || {}).buscar; if (q) this.setState({ q }); }
+  renderVals() {
+    const a = this.props.app || {}; const s = this.state;
+    const all = Object.values(a.ej || {});
+    const nq = norm(s.q.trim());
+    const list = all.filter(e => (s.tipo === 'Todos' || e.tipo === s.tipo) && (s.nivel === 'Todos' || e.nivel === s.nivel) && (!s.solo || e.segura) && (!nq || norm(e.nombre + ' ' + e.musculos.p.join(' ') + ' ' + e.musculos.s.join(' ')).includes(nq)));
+    const carga = a.estado === 'carga';
+    return {
+      q: s.q, onQ: e => this.setState({ q: e.target.value }),
+      tipos: TIPOS.map(l => ({ l, on: s.tipo === l, bg: s.tipo === l ? '#D4FF00' : 'transparent', fg: s.tipo === l ? '#0B0B0C' : '#F2F0EB', bd: s.tipo === l ? '#D4FF00' : '#2A2A2E', pick: () => this.setState({ tipo: l }) })),
+      niveles: NIV.map(l => ({ l, on: s.nivel === l, bg: s.nivel === l ? '#F2F0EB' : 'transparent', fg: s.nivel === l ? '#0B0B0C' : '#F2F0EB', pick: () => this.setState({ nivel: l }) })),
+      solo: s.solo, toggleSolo: () => this.setState({ solo: !s.solo }),
+      swBg: s.solo ? '#3DDC84' : '#2A2A2E', swL: s.solo ? '23px' : '3px', swK: s.solo ? '#0B0B0C' : '#9A9AA0',
+      countTxt: carga ? 'CARGANDO EJERCICIOS…' : `${list.length} DE ${all.length} EJERCICIOS`,
+      isCarga: carga, empty: !carga && list.length === 0, hasItems: !carga && list.length > 0,
+      clear: () => this.setState({ q: '', tipo: 'Todos', nivel: 'Todos', solo: false }),
+      items: list.map((e, i) => ({ ...e, num: String(i + 1).padStart(2, '0'), tipoUp: e.tipo.toUpperCase(), sello: e.segura ? '✓ SEGURO PARA TU ESPALDA' : 'SOLO CON MOLESTIA LEVE', selloBg: e.segura ? 'rgba(61,220,132,.12)' : 'transparent', selloFg: e.segura ? '#3DDC84' : '#FFB020', selloBd: e.segura ? 'transparent' : '#FFB020', go: () => a.go('ejercicio', e.id) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Usuarios" style="display:flex;flex-direction:column;gap:12px;animation:fitia-in 300ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:#D4FF00">{{ countTxt }}</div><h1 style="margin-top:4px;font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:.95;text-transform:uppercase">Usuarios</h1></div>
+    <button onClick="{{ exportar }}" style="min-height:36px;padding:0 14px;border:1px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">Exportar CSV</button>
+  </header>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <label style="position:relative;flex:1;min-width:240px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9A9AA0" stroke-width="2" stroke-linecap="square" style="position:absolute;left:10px;top:50%;transform:translateY(-50%)"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg><input value="{{ q }}" onChange="{{ onQ }}" placeholder="Buscar por nombre, correo o gimnasio" aria-label="Buscar" style="width:100%;min-height:36px;padding:0 10px 0 34px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;color:#F2F0EB" style-focus="outline:none;border-color:#D4FF00"></label>
+    <sc-for list="{{ filtros }}" as="f" hint-placeholder-count="3"><select value="{{ f.v }}" onChange="{{ f.on }}" aria-label="{{ f.l }}" style="min-height:36px;padding:0 10px;background:#0B0B0C;border:1px solid {{ f.bd }};border-radius:4px;color:#F2F0EB"><sc-for list="{{ f.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select></sc-for>
+    <sc-if value="{{ hasF }}" hint-placeholder-val="{{ false }}"><button onClick="{{ clear }}" style="min-height:36px;padding:0 10px;border:0;background:transparent;color:#D4FF00;font-size:13px;font-weight:600;cursor:pointer">Limpiar</button></sc-if>
+  </div>
+
+  <div style="display:grid;grid-template-columns:{{ cols }};gap:10px;align-items:start">
+    <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:auto;max-height:calc(100vh - 250px)">
+      <table>
+        <thead><tr style="position:sticky;top:0;z-index:1;background:#141416"><sc-for list="{{ heads }}" as="h" hint-placeholder-count="7"><th style="text-align:{{ h.al }};padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.06em;color:#9A9AA0;white-space:nowrap">{{ h.l }}</th></sc-for></tr></thead>
+        <tbody>
+          <sc-for list="{{ rows }}" as="u" hint-placeholder-count="12">
+            <tr onClick="{{ u.pick }}" style="border-top:1px solid #2A2A2E;background:{{ u.bg }};cursor:pointer;opacity:{{ u.op }}" style-hover="background:#202024">
+              <td style="padding:7px 12px"><div style="display:flex;align-items:center;gap:10px"><span style="width:28px;height:28px;flex:none;border-radius:2px;background:{{ u.avBg }};color:#0B0B0C;font-family:Anton,sans-serif;font-size:13px;display:flex;align-items:center;justify-content:center">{{ u.ini }}</span><span style="min-width:0"><span style="display:block;font-weight:600;white-space:nowrap">{{ u.nombre }}</span><span style="display:block;font-size:12px;color:#9A9AA0;white-space:nowrap">{{ u.gym }}</span></span></div></td>
+              <td style="padding:7px 12px;font-size:13px">{{ u.rol }}</td>
+              <td style="padding:7px 12px"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:2px;background:{{ u.planBg }};color:{{ u.planFg }}">{{ u.plan }}</span></td>
+              <td style="padding:7px 12px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:13px;color:{{ u.imcC }}">{{ u.imcT }}</td>
+              <td style="padding:7px 12px;font-size:13px;color:{{ u.condC }}">{{ u.cond }}</td>
+              <td style="padding:7px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0;white-space:nowrap">{{ u.ultima }}</td>
+              <td style="padding:7px 12px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:{{ u.estC }}"><span style="width:7px;height:7px;border-radius:50%;background:currentColor"></span>{{ u.estado }}</span></td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+      <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}"><div style="padding:40px;text-align:center;color:#9A9AA0">Ningún usuario coincide con esos filtros.</div></sc-if>
+    </div>
+
+    <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+      <aside style="position:sticky;top:0;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:14px;animation:fitia-slide 220ms cubic-bezier(.2,.8,.2,1)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+          <div style="display:flex;gap:12px;align-items:center"><span style="width:48px;height:48px;border-radius:2px;background:{{ sel.avBg }};color:#0B0B0C;font-family:Anton,sans-serif;font-size:20px;display:flex;align-items:center;justify-content:center">{{ sel.ini }}</span><div><div style="font-family:Anton,sans-serif;font-size:22px;line-height:1">{{ sel.nombre }}</div><div style="font-size:12px;color:#9A9AA0">{{ sel.correo }}</div></div></div>
+          <button onClick="{{ closeSel }}" aria-label="Cerrar ficha" style="width:32px;height:32px;border:0;border-radius:4px;background:transparent;color:#9A9AA0;cursor:pointer" style-hover="background:#2A2A2E;color:#F2F0EB">✕</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2A2A2E;border:1px solid #2A2A2E">
+          <div style="background:#1A1A1D;padding:8px"><div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700">{{ sel.peso }}</div><div style="font-size:10px;font-weight:700;color:#9A9AA0">KG</div></div>
+          <div style="background:#1A1A1D;padding:8px"><div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:{{ sel.imcC }}">{{ sel.imcT }}</div><div style="font-size:10px;font-weight:700;color:#9A9AA0">IMC</div></div>
+          <div style="background:#1A1A1D;padding:8px"><div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700">{{ sel.adh }}%</div><div style="font-size:10px;font-weight:700;color:#9A9AA0">ADHERENCIA</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#9A9AA0">PESO · 8 SEMANAS</span><svg viewBox="0 0 100 40" preserveAspectRatio="none" style="width:100%;height:64px"><path d="{{ selSp }}" fill="none" stroke="#D4FF00" stroke-width="2" vector-effect="non-scaling-stroke"></path></svg><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ sel.dC }}">{{ sel.delta }}</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:13px"><div style="display:flex;justify-content:space-between"><span style="color:#9A9AA0">Condición</span><span style="color:{{ sel.condC }}">{{ sel.cond }}</span></div><div style="display:flex;justify-content:space-between"><span style="color:#9A9AA0">Entrenador</span><span>{{ sel.coach }}</span></div><div style="display:flex;justify-content:space-between"><span style="color:#9A9AA0">Dolor promedio</span><span style="font-family:'JetBrains Mono',monospace">{{ sel.dolor }}/10</span></div></div>
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;font-weight:700">Rol</span><select value="{{ sel.rol }}" onChange="{{ setRol }}" style="min-height:36px;padding:0 10px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;color:#F2F0EB"><option>Usuario</option><option>Entrenador</option><option>Administrador</option></select></label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button onClick="{{ activar }}" disabled="{{ sel.isAct }}" style="min-height:38px;border:1px solid #3DDC84;border-radius:4px;background:transparent;color:#3DDC84;font-size:13px;font-weight:700;cursor:pointer;opacity:{{ actOp }}" style-hover="background:rgba(61,220,132,.12)">Activar</button>
+          <button onClick="{{ bloquear }}" disabled="{{ sel.isBlk }}" style="min-height:38px;border:1px solid #FF3B3B;border-radius:4px;background:transparent;color:#FF3B3B;font-size:13px;font-weight:700;cursor:pointer;opacity:{{ blkOp }}" style-hover="background:rgba(255,59,59,.12)">Bloquear</button>
+        </div>
+      </aside>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const NOM = ['Laura Gómez', 'Jhon Ríos', 'Marta Peña', 'Daniela Suárez', 'Carlos Ruiz', 'Andrés Moreno', 'Paola Cárdenas', 'Felipe Rojas', 'Yuli Herrera', 'Brayan Castillo', 'Sandra Vargas', 'Kevin Ortiz', 'Luz Marina Díaz', 'Cristian Pérez', 'Natalia Jiménez', 'Oscar Gutiérrez', 'Diana Moreno', 'Edwin Ramírez', 'Leidy Torres', 'Julián Mejía', 'Angie Castro', 'Wilson Rincón', 'Karen López', 'Stiven Muñoz', 'Gloria Patiño', 'Camilo Arias', 'Jennifer Ospina', 'Fabián Niño', 'Rosa Cifuentes', 'Mauricio León'];
+const GYM = ['La 68 · Engativá', 'Bosa Fit', 'Power Kennedy', 'Suba Strong', 'Usme Activo'];
+const CON = ['Lumbar', 'Ninguna', 'Rodilla', 'Hipertensión', 'Ninguna', 'Lumbar'];
+const COACH = ['Diana Moreno', 'Edwin Ramírez', 'Leidy Torres'];
+const rng = s => () => (s = (s * 9301 + 49297) % 233280) / 233280;
+const r = rng(7);
+const BASE = NOM.map((n, i) => { const peso = Math.round(58 + r() * 40); const est = Math.round(152 + r() * 30); const imc = peso / Math.pow(est / 100, 2); const rol = i === 16 || i === 17 || i === 18 ? 'Entrenador' : i === 29 ? 'Administrador' : 'Usuario'; return { id: i, nombre: n, correo: n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ /g, '.') + '@correo.co', gym: GYM[i % 5], rol, plan: i % 4 === 1 ? 'Pro' : 'Free', peso, imc, cond: i === 0 ? 'Lumbar' : CON[i % 6], ultima: ['hoy 10:41', 'hoy 08:12', 'ayer', 'hace 2 d', 'hace 5 d', 'hace 12 d'][i % 6], estado: i % 11 === 7 ? 'Bloqueado' : i % 6 === 5 ? 'Inactivo' : 'Activo', adh: Math.round(40 + r() * 58), dolor: (r() * 6).toFixed(1).replace('.', ','), coach: COACH[i % 3], tr: Array.from({ length: 8 }, (_, k) => peso + 3 - k * (0.2 + r() * 0.4)) }; });
+BASE[0] = { ...BASE[0], peso: 78, imc: 28.65, adh: 82, dolor: '3,0', tr: [81, 80.6, 80.1, 79.5, 79.2, 78.8, 78.3, 78], coach: 'Diana Moreno' };
+const imcC = v => v < 18.5 ? '#FFB020' : v < 25 ? '#3DDC84' : v < 30 ? '#FFB020' : '#FF4D1A';
+const AV = ['#D4FF00', '#F2F0EB', '#FF4D1A', '#3DDC84', '#FFB020'];
+class Component extends DCLogic {
+  state = { users: BASE, q: '', rol: '', plan: '', cond: '', sel: 0 };
+  upd(p) { const s = this.state; this.setState({ users: s.users.map(u => u.id === s.sel ? { ...u, ...p } : u) }); }
+  renderVals() {
+    const c = this.props.ctl || {}; const s = this.state; const q = s.q.trim().toLowerCase();
+    const list = s.users.filter(u => (!q || (u.nombre + u.correo + u.gym).toLowerCase().includes(q)) && (!s.rol || u.rol === s.rol) && (!s.plan || u.plan === s.plan) && (!s.cond || u.cond === s.cond));
+    const dec = u => ({ ...u, ini: u.nombre.split(' ').map(x => x[0]).slice(0, 2).join(''), avBg: AV[u.id % 5], imcT: u.imc.toFixed(1).replace('.', ','), imcC: imcC(u.imc), condC: u.cond === 'Ninguna' ? '#9A9AA0' : '#FF4D1A', estC: u.estado === 'Activo' ? '#3DDC84' : u.estado === 'Bloqueado' ? '#FF3B3B' : '#9A9AA0', planBg: u.plan === 'Pro' ? '#D4FF00' : '#2A2A2E', planFg: u.plan === 'Pro' ? '#0B0B0C' : '#F2F0EB' });
+    const selU = s.users.find(u => u.id === s.sel);
+    const sel = selU ? dec(selU) : null;
+    let sp = ''; if (sel) { const a = sel.tr, mn = Math.min(...a) - .5, mx = Math.max(...a) + .5; sp = a.map((v, i) => (i ? 'L' : 'M') + (i / 7 * 100) + ' ' + (38 - (v - mn) / (mx - mn) * 36).toFixed(1)).join(' '); }
+    const F = (key, l, opts) => ({ l, v: s[key], bd: s[key] ? '#D4FF00' : '#2A2A2E', opts: [{ v: '', l }, ...opts.map(o => ({ v: o, l: o }))], on: e => this.setState({ [key]: e.target.value }) });
+    return {
+      countTxt: `${list.length} DE ${s.users.length} · ${s.users.filter(u => u.estado === 'Activo').length} ACTIVOS`,
+      q: s.q, onQ: e => this.setState({ q: e.target.value }),
+      filtros: [F('rol', 'Todos los roles', ['Usuario', 'Entrenador', 'Administrador']), F('plan', 'Todos los planes', ['Free', 'Pro']), F('cond', 'Toda condición', ['Lumbar', 'Rodilla', 'Hipertensión', 'Ninguna'])],
+      hasF: !!(s.q || s.rol || s.plan || s.cond), clear: () => this.setState({ q: '', rol: '', plan: '', cond: '' }),
+      cols: sel ? 'minmax(0,1fr) 320px' : 'minmax(0,1fr)',
+      heads: [['USUARIO', 'left'], ['ROL', 'left'], ['PLAN', 'left'], ['IMC', 'right'], ['CONDICIÓN', 'left'], ['ÚLTIMA SESIÓN', 'left'], ['ESTADO', 'left']].map(([l, al]) => ({ l, al })),
+      rows: list.map(u => ({ ...dec(u), bg: u.id === s.sel ? '#232327' : 'transparent', op: u.estado === 'Bloqueado' ? .6 : 1, pick: () => this.setState({ sel: u.id }) })),
+      empty: list.length === 0, hasSel: !!sel, sel: sel ? { ...sel, isAct: sel.estado === 'Activo', isBlk: sel.estado === 'Bloqueado', delta: `${(sel.tr[7] - sel.tr[0]).toFixed(1).replace('.', ',')} kg en 8 semanas`, dC: sel.tr[7] <= sel.tr[0] ? '#3DDC84' : '#FFB020' } : {},
+      selSp: sp, closeSel: () => this.setState({ sel: null }),
+      actOp: sel && sel.estado === 'Activo' ? .4 : 1, blkOp: sel && sel.estado === 'Bloqueado' ? .4 : 1,
+      activar: () => { this.upd({ estado: 'Activo' }); c.toast('ok', 'Usuario activado', sel.nombre); },
+      bloquear: () => { this.upd({ estado: 'Bloqueado' }); c.toast('warn', 'Usuario bloqueado', `${sel.nombre} no podrá ingresar`); },
+      setRol: e => { const v = e.target.value; this.upd({ rol: v }); c.toast('ok', 'Rol actualizado', `${sel.nombre} → ${v}`); },
+      exportar: () => { const csv = ['nombre,correo,gimnasio,rol,plan,imc,condicion,estado', ...list.map(u => [u.nombre, u.correo, u.gym, u.rol, u.plan, u.imc.toFixed(2), u.cond, u.estado].join(','))].join('\n'); try { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'fitia-usuarios.csv'; document.body.appendChild(a); a.click(); a.remove(); } catch (er) {} c.toast('ok', 'CSV exportado', `${list.length} usuarios`); }
+    };
+  }
+}
+</script>
+</body>
+</html>

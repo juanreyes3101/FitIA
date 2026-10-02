@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"></helmet>
+<div data-screen-label="Dashboard" style="display:flex;flex-direction:column;gap:16px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:8px">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#D4FF00">MIÉRCOLES 30 SEP · SEMANA 9</div>
+      <h1 style="margin-top:8px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(40px,5vw,72px);line-height:.9;text-transform:uppercase">Hola, {{ nombre }}.<br><span style="color:#D4FF00">{{ titular }}</span></h1>
+    </div>
+    <button onClick="{{ goPlanes }}" style="display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 14px;border:1px solid {{ cupoBd }};border-radius:4px;background:transparent;color:#F2F0EB;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#1A1A1D" style-focus="outline:2px solid #D4FF00;outline-offset:2px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ cupoBd }}" stroke-width="2" stroke-linecap="square"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg>{{ cupoTxt }}</button>
+  </header>
+
+  <sc-if value="{{ showError }}" hint-placeholder-val="{{ false }}">
+    <div role="alert" style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:16px 20px;background:rgba(255,176,32,.08);border:1px solid #FFB020;border-radius:4px">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB020" stroke-width="2" stroke-linecap="square" style="flex:none"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v1"></path></svg>
+      <div style="flex:1;min-width:220px"><div style="font-weight:700">La IA no respondió, usamos una rutina base segura.</div><div style="font-size:15px;color:#9A9AA0">Es una rutina probada para molestia lumbar. Cuando la IA vuelva, la personalizamos sin gastar tu cupo.</div></div>
+      <button onClick="{{ retry }}" style="min-height:44px;padding:0 16px;border:2px solid #FFB020;border-radius:4px;background:transparent;color:#FFB020;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px" style-hover="background:#FFB020;color:#0B0B0C" style-active="transform:translateY(2px)">{{ retryLabel }}</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCarga }}" hint-placeholder-val="{{ false }}">
+    <div aria-busy="true" aria-label="Cargando tu inicio" style="display:grid;grid-template-columns:{{ c21 }};gap:16px">
+      <div style="height:320px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+      <div style="height:320px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+      <div style="height:260px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+      <div style="height:260px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">Cargando tu semana…</div>
+  </sc-if>
+
+  <sc-if value="{{ isVacio }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;overflow:hidden;min-height:360px;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:16px">
+      <div aria-hidden="true" style="position:absolute;right:-16px;top:-50px;font-family:Anton,sans-serif;font-size:clamp(200px,24vw,320px);line-height:1;color:transparent;-webkit-text-stroke:2px #2A2A2E;pointer-events:none">00</div>
+      <span style="position:relative;width:56px;height:56px;border:2px solid #D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"></path></svg></span>
+      <h2 style="position:relative;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(36px,4vw,56px);line-height:.92;text-transform:uppercase">Aún no tienes<br>rutina</h2>
+      <p style="position:relative;max-width:420px;color:#9A9AA0;font-size:17px">Cuéntanos de ti en 2 minutos y la IA arma tu primera rutina, cuidando tu espalda.</p>
+      <button onClick="{{ goOnb }}" style="position:relative;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">Arma mi rutina</button>
+    </div>
+    <div style="display:grid;grid-template-columns:{{ c11 }};gap:16px">
+      <div style="background:#1A1A1D;border:1px dashed #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:10px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#9A9AA0">PESO</span><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1">TU GRÁFICA APARECE AQUÍ</div><p style="color:#9A9AA0;font-size:15px">Registra tu peso una vez por semana y mira cómo cambia.</p></div>
+      <div style="background:#1A1A1D;border:1px dashed #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:10px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#9A9AA0">RACHA</span><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1">0 SEMANAS · TODO EMPIEZA HOY</div><p style="color:#9A9AA0;font-size:15px">Cada semana con 2 sesiones o más suma a tu racha.</p></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isNormal }}" hint-placeholder-val="{{ true }}">
+    <div style="display:grid;grid-template-columns:{{ c21 }};gap:16px">
+      <article style="position:relative;overflow:hidden;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:20px;min-height:340px">
+        <div aria-hidden="true" style="position:absolute;right:-12px;top:-40px;font-family:Anton,sans-serif;font-size:clamp(180px,20vw,260px);line-height:1;color:#232327;pointer-events:none">02</div>
+        <div style="position:relative;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <span style="font-size:12px;font-weight:700;letter-spacing:.08em;padding:6px 10px;border-radius:2px;background:#D4FF00;color:#0B0B0C">ENTRENO DE HOY</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.08em;padding:5px 9px;border-radius:2px;background:rgba(61,220,132,.12);color:#3DDC84"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z"></path><path d="M9 12l2 2 4-4"></path></svg>CUIDA TU ESPALDA</span>
+        </div>
+        <div style="position:relative">
+          <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(36px,4vw,56px);line-height:.92;text-transform:uppercase">Día {{ hoy.n }} · {{ hoy.title }}</h2>
+          <div style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:14px;color:#9A9AA0"><span><strong style="color:#F2F0EB">45</strong> MIN</span><span><strong style="color:#F2F0EB">{{ hoyCount }}</strong> EJERCICIOS</span><span><strong style="color:#F2F0EB">{{ hoySeries }}</strong> SERIES</span></div>
+        </div>
+        <ol style="position:relative;display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ hoyEj }}" as="e" hint-placeholder-count="5">
+            <li><button onClick="{{ e.go }}" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border:1px solid #2A2A2E;border-radius:2px;background:#0B0B0C;color:#F2F0EB;font-size:14px;font-weight:600;cursor:pointer" style-hover="border-color:#F2F0EB" style-focus="outline:2px solid #D4FF00;outline-offset:2px"><span style="font-family:'JetBrains Mono',monospace;color:#9A9AA0">{{ e.num }}</span>{{ e.nombre }}</button></li>
+          </sc-for>
+        </ol>
+        <sc-if value="{{ hoyPend }}" hint-placeholder-val="{{ true }}">
+          <div style="position:relative;margin-top:auto;display:flex;gap:12px;flex-wrap:wrap">
+            <button onClick="{{ goEntreno }}" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 28px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:17px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms,background 120ms" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M7 4l13 8-13 8z"></path></svg>Empezar entreno</button>
+            <button onClick="{{ goRutina }}" style="display:inline-flex;align-items:center;min-height:56px;padding:0 22px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C" style-active="transform:translateY(2px)" style-focus="outline:2px solid #D4FF00;outline-offset:3px">Ver rutina</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ hoyHecho }}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative;margin-top:auto;display:flex;align-items:center;gap:14px;padding:16px;border:1px solid #3DDC84;border-radius:4px;background:rgba(61,220,132,.08)">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3DDC84" stroke-width="2.5" stroke-linecap="square"><path d="M4 12l5 5L20 6"></path></svg>
+            <div><div style="font-weight:700">¡Sesión de hoy lista!</div><div style="font-size:15px;color:#9A9AA0">Esfuerzo {{ ultRpe }}/10 · Dolor {{ ultDolor }}/10. El viernes toca movilidad lumbar.</div></div>
+          </div>
+        </sc-if>
+      </article>
+
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:18px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#9A9AA0">RACHA SEMANAL</div>
+        <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:'JetBrains Mono',monospace;font-size:72px;font-weight:700;line-height:.9;letter-spacing:-.04em;color:#D4FF00">8</span><span style="font-family:Anton,sans-serif;font-size:24px;line-height:1">SEMANAS<br>SEGUIDAS</span></div>
+        <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">
+          <sc-for list="{{ semana }}" as="d" hint-placeholder-count="7">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div style="width:100%;aspect-ratio:1;max-width:44px;border-radius:2px;background:{{ d.bg }};border:2px {{ d.bs }} {{ d.bd }};display:flex;align-items:center;justify-content:center;color:{{ d.fg }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" style="opacity:{{ d.chk }}"><path d="M4 12l5 5L20 6"></path></svg></div>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ d.lc }}">{{ d.l }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <p style="margin-top:auto;font-size:15px;color:#9A9AA0"><strong style="color:#F2F0EB">{{ semanaTxt }}</strong> La semana cuenta con 2 sesiones o más.</p>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:{{ c12 }};gap:16px">
+      <div style="position:relative;overflow:hidden;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:20px">
+        <div aria-hidden="true" style="position:absolute;right:-8px;top:-24px;font-family:Anton,sans-serif;font-size:140px;line-height:1;color:#212125;pointer-events:none">IMC</div>
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+          <div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#9A9AA0">IMC ACTUAL</div><div style="margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;line-height:1;letter-spacing:-.04em;color:#D4FF00">28,65</div></div>
+          <span style="font-size:12px;font-weight:700;letter-spacing:.08em;padding:6px 10px;border-radius:2px;background:#FFB020;color:#0B0B0C">SOBREPESO</span>
+        </div>
+        <div style="position:relative;padding-top:6px">
+          <div style="display:flex;gap:3px">
+            <div style="flex:3.5;height:12px;background:#2A2A2E"></div><div style="flex:6.5;height:12px;background:#2A2A2E"></div><div style="flex:5;height:12px;background:#FFB020"></div><div style="flex:10;height:12px;background:#2A2A2E"></div>
+          </div>
+          <div style="position:absolute;top:0;left:54.6%;width:4px;height:24px;margin-left:-2px;background:#F2F0EB;box-shadow:0 0 0 2px #1A1A1D"></div>
+          <div style="margin-top:8px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><span>15</span><span>18,5</span><span>25</span><span>30</span><span>40</span></div>
+        </div>
+        <p style="position:relative;font-size:15px"><span style="font-family:'JetBrains Mono',monospace;color:#3DDC84;font-weight:700">−1,10</span> desde que empezaste (29,75). <span style="color:#9A9AA0">Vas por buen camino.</span></p>
+      </div>
+
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+          <div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#9A9AA0">PESO · ÚLTIMOS 60 DÍAS</div><div style="margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:700;line-height:1;letter-spacing:-.03em">78,0<span style="font-size:18px;color:#9A9AA0;font-weight:400"> kg</span></div></div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;padding:6px 10px;border-radius:2px;background:rgba(61,220,132,.12);color:#3DDC84">−3,0 kg</span>
+        </div>
+        <div style="position:relative;height:200px;margin:8px 0 0 36px">
+          <sc-for list="{{ yGrid }}" as="g" hint-placeholder-count="4">
+            <div style="position:absolute;left:0;right:0;top:{{ g.top }};border-top:1px dashed #2A2A2E"></div>
+            <span style="position:absolute;left:-36px;top:{{ g.top }};transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0">{{ g.l }}</span>
+          </sc-for>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="Gráfica de peso: de 81 kg a 78 kg en 60 días" role="img" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
+            <path d="{{ area }}" fill="rgba(212,255,0,.08)"></path>
+            <path d="{{ line }}" fill="none" stroke="#D4FF00" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linejoin="miter"></path>
+          </svg>
+          <sc-for list="{{ keyPts }}" as="k" hint-placeholder-count="3">
+            <div style="position:absolute;left:{{ k.left }};top:{{ k.top }};width:12px;height:12px;margin:-6px 0 0 -6px;background:{{ k.bg }};border:2px solid #D4FF00"></div>
+            <div style="position:absolute;left:{{ k.left }};top:{{ k.top }};transform:translate({{ k.tx }},-150%);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap;padding:2px 6px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:2px">{{ k.label }}</div>
+          </sc-for>
+        </div>
+        <div style="margin-left:36px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0"><span>1 ago</span><span>31 ago</span><span>30 sep</span></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:{{ c111 }};gap:16px">
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#9A9AA0">ADHERENCIA SEMANAL</span><span style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700">{{ adhProm }}%</span></div>
+        <div style="height:120px;display:flex;align-items:flex-end;gap:6px;border-bottom:2px solid #2A2A2E;position:relative">
+          <div style="position:absolute;left:0;right:0;bottom:100%;border-top:1px dashed #9A9AA0"></div>
+          <sc-for list="{{ adh }}" as="b" hint-placeholder-count="9">
+            <div title="{{ b.tip }}" style="flex:1;height:{{ b.h }};background:{{ b.bg }};border:{{ b.bd }};transition:height 600ms cubic-bezier(.2,.8,.2,1)"></div>
+          </sc-for>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><span>S1</span><span>META 3/SEM</span><span>HOY</span></div>
+      </div>
+
+      <div style="background:#1A1A1D;border:1px solid {{ cupoCardBd }};border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#9A9AA0">RUTINAS IA</span></div>
+        <div style="font-family:Anton,sans-serif;font-size:28px;line-height:1;text-transform:uppercase">{{ cupoTxt }}</div>
+        <div style="display:flex;gap:3px"><sc-for list="{{ cupoSegs }}" as="c" hint-placeholder-count="2"><div style="flex:1;height:8px;background:{{ c.bg }}"></div></sc-for></div>
+        <p style="font-size:14px;color:#9A9AA0">{{ cupoSub }}</p>
+        <button onClick="{{ goRutina }}" style="margin-top:auto;min-height:44px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C" style-active="transform:translateY(2px)" style-focus="outline:2px solid #D4FF00;outline-offset:2px">Ir a mi rutina</button>
+      </div>
+
+      <button onClick="{{ goLumbar }}" style="position:relative;overflow:hidden;text-align:left;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:12px;color:#F2F0EB;cursor:pointer;transition:transform 150ms,box-shadow 150ms" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #D4FF00" style-focus="outline:2px solid #D4FF00;outline-offset:2px">
+        <div aria-hidden="true" style="position:absolute;right:-6px;bottom:-30px;font-family:Anton,sans-serif;font-size:140px;line-height:1;color:#232327">16</div>
+        <span style="position:relative;width:48px;height:48px;border:2px solid #3DDC84;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3DDC84" stroke-width="2" stroke-linecap="square"><path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z"></path><path d="M9 12l2 2 4-4"></path></svg></span>
+        <span style="position:relative;font-family:Anton,sans-serif;font-size:28px;line-height:1;text-transform:uppercase">Zona lumbar</span>
+        <span style="position:relative;font-size:15px;color:#9A9AA0">16 ejercicios para tu espalda, con técnica y por qué sirven.</span>
+        <span style="position:relative;margin-top:auto;font-weight:600;color:#D4FF00">Ver biblioteca →</span>
+      </button>
+    </div>
+
+    <sc-if value="{{ isFree }}" hint-placeholder-val="{{ true }}">
+      <aside aria-label="Publicidad" style="position:relative;background:#F2F0EB;color:#0B0B0C;border-radius:4px;padding:28px 24px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+        <span style="position:absolute;left:12px;top:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#5C5C62">PUBLICIDAD</span>
+        <div style="width:120px;height:72px;flex:none;border-radius:2px;overflow:hidden;background:#D9D6CF"><image-slot id="ad-anunciante" shape="rect" placeholder="Logo anunciante"></image-slot></div>
+        <div style="flex:1;min-width:220px"><div style="font-weight:700;font-size:17px">Deportes El Campeón · Calle 72</div><div style="font-size:15px;color:#3A3A40">Tenis para entrenar desde $89.900. Muestra tu app FitIA y llévate 10 % de descuento.</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <a href="#" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:4px;background:#0B0B0C;color:#F2F0EB;font-size:15px;font-weight:600;text-decoration:none" style-hover="background:#2A2A2E;color:#F2F0EB" style-focus="outline:2px solid #0B0B0C;outline-offset:2px">Ver oferta</a>
+          <button onClick="{{ goPlanes }}" style="min-height:44px;padding:0 12px;border:0;border-radius:4px;background:transparent;color:#0B0B0C;font-size:15px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:4px" style-hover="background:#E6E3DC">Quitar anuncios con Pro</button>
+        </div>
+      </aside>
+    </sc-if>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const MIN = 77.5, MAX = 81.5;
+const fmt = (n, d = 1) => n.toFixed(d).replace('.', ',');
+class Component extends DCLogic {
+  state = { retrying: false, fixed: false };
+  componentWillUnmount() { clearTimeout(this.to); }
+  renderVals() {
+    const a = this.props.app || {}; const u = a.user || {}; const est = a.estado || 'normal'; const m = a.mobile;
+    const go = r => () => a.go && a.go(r);
+    const hoy = (a.rutina || [])[1] || { n: 2, title: '', ejercicios: [] };
+    const series = hoy.ejercicios.reduce((t, e) => { const mm = String(e.dosis).match(/^(\d+)\s*×/); return t + (mm ? +mm[1] : 1); }, 0);
+    const pesos = (a.data && a.data.pesos) || [];
+    const Y = v => (MAX - v) / (MAX - MIN) * 100;
+    const line = pesos.map((p, i) => (i ? 'L' : 'M') + (p.d / 60 * 100).toFixed(2) + ' ' + Y(p.v).toFixed(2)).join(' ');
+    const sem = (a.data && a.data.semanas) || [];
+    const hechas = sem.length ? sem[sem.length - 1].n : 1;
+    const comp = sem.slice(0, -1);
+    const adhProm = comp.length ? Math.round(comp.reduce((t, w) => t + Math.min(1, w.n / 3), 0) / comp.length * 100) : 0;
+    const cupo = a.cupo ?? 1;
+    const cupoTxt = cupo === 0 ? 'Ya usaste tus rutinas IA de este mes' : cupo === 1 ? 'Te queda 1 rutina IA este mes' : `Te quedan ${cupo} rutinas IA este mes`;
+    const dayState = ['hecho', 'libre', a.sesionHoy ? 'hecho' : 'hoy', 'libre', 'plan', 'libre', 'libre'];
+    const DS = { hecho: { bg: '#D4FF00', bd: '#D4FF00', bs: 'solid', fg: '#0B0B0C', chk: 1, lc: '#F2F0EB' }, hoy: { bg: 'transparent', bd: '#D4FF00', bs: 'solid', fg: '#D4FF00', chk: 0, lc: '#D4FF00' }, plan: { bg: 'transparent', bd: '#9A9AA0', bs: 'dashed', fg: '#9A9AA0', chk: 0, lc: '#F2F0EB' }, libre: { bg: '#141416', bd: '#141416', bs: 'solid', fg: '#9A9AA0', chk: 0, lc: '#9A9AA0' } };
+    return {
+      nombre: u.nombre || 'Laura',
+      titular: a.sesionHoy ? 'Hoy ya cumpliste.' : 'Hoy toca pierna.',
+      isCarga: est === 'carga', isVacio: est === 'vacio', isNormal: est !== 'carga' && est !== 'vacio',
+      showError: est === 'error' && !this.state.fixed,
+      retryLabel: this.state.retrying ? 'Reintentando…' : 'Reintentar con IA',
+      retry: () => {
+        if (this.state.retrying) return;
+        this.setState({ retrying: true });
+        this.to = setTimeout(() => { this.setState({ retrying: false, fixed: true }); a.setRutinaTipo && a.setRutinaTipo('ia'); a.toast && a.toast('ia', 'La IA volvió', 'Tu rutina ya está personalizada otra vez. No gastaste cupo.'); }, 1400);
+      },
+      c21: m ? 'minmax(0,1fr)' : 'minmax(0,2fr) minmax(0,1fr)', c12: m ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,2fr)', c11: m ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))', c111: m ? 'minmax(0,1fr)' : 'repeat(3,minmax(0,1fr))',
+      hoy, hoyCount: hoy.ejercicios.length, hoySeries: series,
+      hoyEj: hoy.ejercicios.map((e, i) => ({ nombre: e.nombre, num: '0' + (i + 1), go: () => a.go('ejercicio', e.id) })),
+      hoyPend: !a.sesionHoy, hoyHecho: !!a.sesionHoy,
+      ultRpe: a.ultima ? a.ultima.rpe : '–', ultDolor: a.ultima ? a.ultima.dolor : '–',
+      semana: ['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((l, i) => ({ l, ...DS[dayState[i]] })),
+      semanaTxt: `${hechas} de 3 sesiones esta semana.`,
+      line, area: line + ' L100 100 L0 100 Z',
+      yGrid: [78, 79, 80, 81].map(v => ({ top: Y(v) + '%', l: v })),
+      keyPts: [0, 30, 60].map(d => { const p = pesos.find(x => x.d === d) || { v: 0 }; return { left: (d / 60 * 100) + '%', top: Y(p.v) + '%', label: fmt(p.v) + ' kg', tx: d === 0 ? '0' : d === 60 ? '-100%' : '-50%', bg: d === 60 ? '#D4FF00' : '#0B0B0C' }; }),
+      adh: sem.map((w, i) => { const cur = i === sem.length - 1; return { h: Math.min(100, w.n / 3 * 100) + '%', bg: cur ? 'transparent' : (w.n >= 3 ? '#D4FF00' : '#5A5A60'), bd: cur ? '2px dashed #D4FF00' : '0', tip: `${w.l}: ${w.n} de 3` }; }),
+      adhProm,
+      cupoTxt, cupoBd: cupo === 0 ? '#FF4D1A' : '#FFB020', cupoCardBd: cupo <= 1 ? '#FFB020' : '#2A2A2E',
+      cupoSub: a.isFree ? (cupo === 0 ? 'Se recargan el 1 de octubre. Con Pro tienes 10 al mes.' : 'Se recargan el 1 de octubre. Con Pro tienes 10 al mes.') : 'Plan Pro: 10 rutinas IA al mes.',
+      cupoSegs: Array.from({ length: a.cupoMax || 2 }, (_, i) => ({ bg: i < cupo ? '#D4FF00' : '#2A2A2E' })),
+      isFree: a.isFree !== false,
+      goPlanes: go('planes'), goRutina: go('rutina'), goEntreno: go('entreno'), goLumbar: go('lumbar'), goOnb: go('onboarding')
+    };
+  }
+}
+</script>
+</body>
+</html>

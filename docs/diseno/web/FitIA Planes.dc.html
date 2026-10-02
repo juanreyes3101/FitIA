@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box}html,body{margin:0;background:#0B0B0C;color:#F2F0EB;font-family:'Inter Tight',system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}body{overflow-x:clip}a{color:#D4FF00}a:hover{color:#E1FF4D}h1,h2,h3,p{margin:0}button{font-family:inherit}table{border-collapse:collapse}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
+</helmet>
+<dc-import name="FitiaNav" active="planes" hint-size="100%,1px"></dc-import>
+
+<section data-screen-label="Planes · Resumen" style="position:relative;overflow:hidden;padding:160px 0 96px">
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:.08;background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.8%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url%28%23n%29%27/%3E%3C/svg%3E)"></div>
+  <div style="position:absolute;right:-1vw;top:90px;font-family:Anton,sans-serif;font-size:clamp(180px,30vw,480px);line-height:.8;color:transparent;-webkit-text-stroke:2px #1F1F23;pointer-events:none">$0</div>
+  <div style="position:relative;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px)">
+    <div data-reveal="0" style="display:flex;flex-direction:column;gap:24px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">PLANES</div>
+      <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(64px,8vw,136px);line-height:.88;text-transform:uppercase">Gratis completo.<br><span style="color:#D4FF00">Pro si quieres más.</span></h1>
+      <p style="max-width:560px;font-size:19px;line-height:1.45;text-wrap:pretty">Con Free entrenas de verdad: rutinas IA, ajustes por molestias y seguimiento. Pro suma más rutinas al mes y quita los anuncios.</p>
+      <div role="group" aria-label="Periodo de pago" style="display:flex;width:max-content;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden">
+        <button onClick="{{ setMensual }}" aria-pressed="{{ mensualOn }}" style="min-height:48px;padding:0 20px;border:0;background:{{ mBg }};color:{{ mFg }};font-size:15px;font-weight:600;cursor:pointer">Mensual</button>
+        <button onClick="{{ setAnual }}" aria-pressed="{{ anual }}" style="min-height:48px;padding:0 20px;border:0;background:{{ aBg }};color:{{ aFg }};font-size:15px;font-weight:600;cursor:pointer">Anual · −17%</button>
+      </div>
+    </div>
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:16px;max-width:1040px">
+      <div data-reveal="0" style="position:relative;background:#1A1A1D;border:2px solid #D4FF00;border-radius:4px;padding:52px 28px 28px;display:flex;flex-direction:column;gap:22px;overflow:hidden;box-shadow:8px 8px 0 #D4FF00">
+        <div style="position:absolute;left:0;right:0;top:0;height:28px;background:repeating-linear-gradient(-45deg,#D4FF00 0 14px,#0B0B0C 14px 28px)"></div>
+        <div style="position:absolute;right:16px;top:40px;transform:rotate(7deg);border:2px solid #D4FF00;color:#D4FF00;font-family:Anton,sans-serif;font-size:20px;line-height:1;padding:6px 10px">COMPLETO</div>
+        <div><div style="font-family:Anton,sans-serif;font-size:40px;line-height:1">FITIA FREE</div><div style="margin-top:6px;font-size:15px;color:#9A9AA0">Sin excusas, sin costo.</div></div>
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:64px;font-weight:700;line-height:1;letter-spacing:-.04em;color:#D4FF00">$0</span><span style="color:#9A9AA0;font-size:15px">para siempre · con publicidad</span></div>
+        <a href="FitIA%20Ingresar.dc.html#registro" style="display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms" style-hover="background:#E1FF4D;color:#0B0B0C" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">Empieza gratis</a>
+      </div>
+      <div data-reveal="120" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:52px 28px 28px;display:flex;flex-direction:column;gap:22px">
+        <div><div style="font-family:Anton,sans-serif;font-size:40px;line-height:1">FITIA PRO</div><div style="margin-top:6px;font-size:15px;color:#9A9AA0">Más rutinas, cero anuncios.</div></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:64px;font-weight:700;line-height:1;letter-spacing:-.04em">{{ proPrice }}</span><span style="color:#9A9AA0;font-size:15px">{{ proPer }}</span></div><span style="font-size:14px;color:#D4FF00">{{ proNote }}</span></div>
+        <a href="FitIA%20Ingresar.dc.html#registro" style="display:flex;align-items:center;justify-content:center;min-height:52px;border:2px solid #F2F0EB;border-radius:4px;color:#F2F0EB;font-size:16px;font-weight:600;text-decoration:none;transition:transform 90ms" style-hover="background:#F2F0EB;color:#0B0B0C" style-active="transform:translateY(2px)" style-focus="outline:2px solid #D4FF00;outline-offset:3px">Pasarme a Pro</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Planes · Comparativa" style="padding:96px 0;border-top:1px solid #2A2A2E">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px)">
+    <div data-reveal="0" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,5vw,80px);line-height:.92;text-transform:uppercase">Cara a cara</h2>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">{{ swipeHint }}</span>
+    </div>
+    <div data-reveal="100" style="margin-top:40px;overflow-x:auto;border:1px solid #2A2A2E;border-radius:4px">
+      <table style="width:100%;min-width:620px">
+        <thead>
+          <tr style="background:#1A1A1D">
+            <th scope="col" style="position:sticky;left:0;background:#1A1A1D;text-align:left;padding:20px;font-size:12px;font-weight:700;letter-spacing:.08em;color:#9A9AA0;width:46%">CARACTERÍSTICA</th>
+            <th scope="col" style="text-align:left;padding:20px;width:27%"><span style="font-family:Anton,sans-serif;font-weight:400;font-size:24px;color:#D4FF00">FREE</span><span style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:400;color:#9A9AA0">$0</span></th>
+            <th scope="col" style="text-align:left;padding:20px;width:27%"><span style="font-family:Anton,sans-serif;font-weight:400;font-size:24px">PRO</span><span style="display:block;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:400;color:#9A9AA0">{{ proShort }}</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="14">
+            <tr style="border-top:1px solid #2A2A2E;background:{{ r.rowBg }}">
+              <th scope="row" style="position:sticky;left:0;background:{{ r.headBg }};text-align:left;padding:{{ r.pad }};font-family:{{ r.font }};font-size:{{ r.size }};font-weight:{{ r.weight }};color:{{ r.color }};letter-spacing:{{ r.ls }}">{{ r.label }}</th>
+              <td style="padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:15px;color:{{ r.fColor }}">{{ r.free }}</td>
+              <td style="padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:15px;color:{{ r.pColor }}">{{ r.pro }}</td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Planes · Preguntas" style="padding:96px 0 120px;border-top:1px solid #2A2A2E">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(32px,5vw,80px);align-items:start">
+    <div data-reveal="0"><div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">PREGUNTAS</div><h2 style="margin-top:12px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,5vw,80px);line-height:.92;text-transform:uppercase">Sin letra<br>pequeña.</h2></div>
+    <div data-reveal="100" style="display:flex;flex-direction:column;border-top:1px solid #2A2A2E">
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="4">
+        <div style="border-bottom:1px solid #2A2A2E">
+          <button onClick="{{ f.toggle }}" aria-expanded="{{ f.open }}" style="width:100%;min-height:72px;padding:16px 0;border:0;background:transparent;color:#F2F0EB;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;font-size:18px;font-weight:600;cursor:pointer" style-hover="color:#D4FF00" style-focus="outline:2px solid #D4FF00;outline-offset:2px">{{ f.q }}<span style="width:44px;height:44px;flex:none;border:2px solid {{ f.bd }};border-radius:4px;display:flex;align-items:center;justify-content:center;transform:rotate({{ f.rot }});transition:transform 200ms cubic-bezier(.2,.8,.2,1),border-color 200ms"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 5v14M5 12h14"></path></svg></span></button>
+          <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}"><p style="padding:0 60px 24px 0;color:#9A9AA0;font-size:16px;text-wrap:pretty">{{ f.a }}</p></sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<dc-import name="FitiaFooter" hint-size="100%,560px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const YES = '✓', NO = '—';
+const ROWS = [
+  { g: 'Rutinas' },
+  { label: 'Rutinas IA al mes', free: '2', pro: '10' },
+  { label: 'Ajuste por molestias (espalda, rodilla, hombro)', free: YES, pro: YES },
+  { label: 'Videos de técnica', free: YES, pro: YES },
+  { label: 'Ajuste automático de cargas', free: 'Cada semana', pro: 'Cada sesión' },
+  { g: 'Seguimiento' },
+  { label: 'Calculadora y registro de IMC', free: YES, pro: YES },
+  { label: 'Registro de series y peso', free: YES, pro: YES },
+  { label: 'Historial de progreso', free: '3 meses', pro: 'Completo' },
+  { label: 'Exportar progreso en PDF', free: NO, pro: YES },
+  { g: 'Experiencia' },
+  { label: 'Web y app para celular', free: YES, pro: YES },
+  { label: 'Publicidad', free: 'Sí', pro: 'No' },
+  { label: 'Soporte', free: 'Comunidad', pro: 'WhatsApp' },
+  { g: 'Pago' },
+  { label: 'Medios de pago', free: NO, pro: 'Nequi · Daviplata · PSE · tarjeta' }
+];
+const FAQS = [
+  { q: '¿El plan gratis de verdad es completo?', a: 'Sí. Tienes 2 rutinas IA al mes, ajustes por molestias, IMC y registro de progreso. No vence y no te pedimos tarjeta. A cambio, ves algo de publicidad.' },
+  { q: '¿Qué pasa si se me acaban las rutinas del mes?', a: 'Sigues entrenando con las que ya tienes y registrando tu progreso. El mes siguiente se recargan. Si necesitas más, puedes pasarte a Pro.' },
+  { q: '¿Puedo cancelar Pro cuando quiera?', a: 'Sí, desde tu perfil y sin llamadas. Vuelves a Free al final del periodo que ya pagaste y no pierdes tu historial.' },
+  { q: '¿Cómo pago Pro?', a: 'Con Nequi, Daviplata, PSE o tarjeta débito o crédito. El plan anual se paga en un solo cobro.' }
+];
+class Component extends DCLogic {
+  state = { anual: false, open: 0, narrow: false };
+  componentDidMount() { this.onR = () => this.setState({ narrow: window.innerWidth < 700 }); this.onR(); window.addEventListener('resize', this.onR); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); }
+  renderVals() {
+    const a = this.state.anual;
+    const col = v => v === YES ? '#D4FF00' : v === NO ? '#6E6E74' : '#F2F0EB';
+    return {
+      anual: a, mensualOn: !a,
+      setMensual: () => this.setState({ anual: false }), setAnual: () => this.setState({ anual: true }),
+      mBg: a ? 'transparent' : '#D4FF00', mFg: a ? '#F2F0EB' : '#0B0B0C',
+      aBg: a ? '#D4FF00' : 'transparent', aFg: a ? '#0B0B0C' : '#F2F0EB',
+      proPrice: a ? '$199.000' : '$19.900', proPer: a ? '/año' : '/mes',
+      proNote: a ? 'Equivale a $16.583 al mes · ahorras $39.800' : 'Cancela cuando quieras',
+      proShort: a ? '$199.000/año' : '$19.900/mes',
+      swipeHint: this.state.narrow ? 'DESLIZA LA TABLA →' : '',
+      rows: ROWS.map(r => r.g
+        ? { label: r.g.toUpperCase(), free: '', pro: '', rowBg: '#141416', headBg: '#141416', pad: '24px 20px 10px', font: 'Anton,sans-serif', size: '22px', weight: 400, color: '#D4FF00', ls: '.01em', fColor: '#F2F0EB', pColor: '#F2F0EB' }
+        : { ...r, rowBg: 'transparent', headBg: '#0B0B0C', pad: '16px 20px', font: "'Inter Tight',sans-serif", size: '16px', weight: 500, color: '#F2F0EB', ls: 'normal', fColor: col(r.free), pColor: col(r.pro) }),
+      faqs: FAQS.map((f, i) => { const open = this.state.open === i; return { ...f, open, rot: open ? '45deg' : '0deg', bd: open ? '#D4FF00' : '#2A2A2E', toggle: () => this.setState({ open: open ? -1 : i }) }; })
+    };
+  }
+}
+</script>
+</body>
+</html>

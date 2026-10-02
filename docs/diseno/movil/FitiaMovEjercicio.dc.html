@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Detalle de ejercicio" style="display:flex;flex-direction:column;animation:fitia-in 350ms cubic-bezier(.2,.8,.2,1)">
+  <div style="position:relative;height:300px;overflow:hidden;isolation:isolate;background:#2A2A2E">
+    <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="mov-vid-{{ e.id }}" shape="rect" placeholder="Video en bucle: {{ e.nombre }}"></image-slot></div>
+    <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+    <button onClick="{{ back }}" aria-label="Volver" style="position:absolute;left:12px;top:12px;width:48px;height:48px;border:0;border-radius:4px;background:#0B0B0C;color:#F2F0EB;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M15 6l-6 6 6 6"></path></svg></button>
+    <button onClick="{{ toggle }}" aria-label="{{ playLabel }}" style="position:absolute;right:12px;top:12px;display:flex;align-items:center;gap:8px;min-height:48px;padding:0 12px;border:0;border-radius:4px;background:#0B0B0C;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="{{ dotC }}"><path d="{{ icon }}"></path></svg>{{ playTxt }}</button>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(11,11,12,.5)"><div style="height:100%;background:#0B0B0C;animation:{{ loopAnim }}"></div></div>
+  </div>
+  <div style="padding:16px;display:flex;flex-direction:column;gap:18px">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:#D4FF00">{{ kicker }}</div>
+      <h1 style="margin-top:6px;font-family:Anton,sans-serif;font-weight:400;font-size:46px;line-height:.9;text-transform:uppercase">{{ e.nombre }}</h1>
+      <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap"><sc-if value="{{ e.segura }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;font-weight:700;letter-spacing:.06em;padding:6px 9px;border-radius:2px;background:rgba(61,220,132,.14);color:#3DDC84">✓ SEGURO PARA TU ESPALDA</span></sc-if><sc-if value="{{ cuidado }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:700;padding:5px 8px;border-radius:2px;border:1px solid #FFB020;color:#FFB020">CUIDA LA POSTURA</span></sc-if></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #2A2A2E;border-bottom:1px solid #2A2A2E">
+      <div style="padding:12px 0"><div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700">{{ e.dosis }}</div><div style="font-size:12px;font-weight:700;color:#9A9AA0">DOSIS</div></div>
+      <div style="padding:12px 0 12px 10px;border-left:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700">{{ e.descanso }}</div><div style="font-size:12px;font-weight:700;color:#9A9AA0">DESCANSO</div></div>
+      <div style="padding:12px 0 12px 10px;border-left:1px solid #2A2A2E"><div style="font-size:15px;font-weight:700;line-height:1.25">{{ e.equipo }}</div><div style="font-size:12px;font-weight:700;color:#9A9AA0">EQUIPO</div></div>
+    </div>
+    <div style="background:#0B0B0C;border:2px solid #D4FF00;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:8px;box-shadow:5px 5px 0 #D4FF00">
+      <span style="font-family:Anton,sans-serif;font-size:22px;line-height:1">✦ POR QUÉ LO ELEGIMOS</span>
+      <p style="font-size:16px">{{ e.porque }}</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px"><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;text-transform:uppercase">Paso a paso</h2>
+      <sc-for list="{{ pasos }}" as="p" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;align-items:baseline;padding:12px 0;border-top:1px solid #2A2A2E"><span style="font-family:Anton,sans-serif;font-size:32px;line-height:.9;color:#D4FF00">{{ p.n }}</span><span style="font-size:17px">{{ p.t }}</span></div></sc-for>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px"><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;text-transform:uppercase">Músculos</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ mp }}" as="x" hint-placeholder-count="2"><span style="min-height:36px;display:inline-flex;align-items:center;padding:0 12px;border-radius:2px;background:#D4FF00;color:#0B0B0C;font-size:15px;font-weight:700">{{ x }}</span></sc-for><sc-for list="{{ ms }}" as="x" hint-placeholder-count="2"><span style="min-height:36px;display:inline-flex;align-items:center;padding:0 12px;border-radius:2px;border:1px solid #2A2A2E;font-size:15px;font-weight:600">{{ x }}</span></sc-for></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px"><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:26px;text-transform:uppercase">Errores comunes</h2>
+      <sc-for list="{{ e.errores }}" as="x" hint-placeholder-count="2"><div style="display:flex;gap:10px;padding:12px;background:rgba(255,77,26,.07);border:1px solid #3A2018;border-radius:4px;font-size:16px"><span style="color:#FF4D1A;font-weight:700">✕</span>{{ x }}</div></sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { play: true };
+  renderVals() {
+    const a = this.props.app || {}; const e = (a.ej || {})[a.param] || Object.values(a.ej || {})[0] || { nombre: '', errores: [], pasos: [], musculos: { p: [], s: [] } };
+    const dia = (a.rutina || []).find(d => d.ids.includes(e.id));
+    return {
+      e, cuidado: !e.segura, back: () => a.back(),
+      kicker: (e.tipo || '').toUpperCase() + (dia ? ` · DÍA ${dia.n}` : ' · BIBLIOTECA'),
+      toggle: () => this.setState({ play: !this.state.play }), playLabel: this.state.play ? 'Pausar video' : 'Reproducir video',
+      playTxt: this.state.play ? 'EN BUCLE' : 'PAUSA', icon: this.state.play ? 'M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z' : 'M7 4l13 8-13 8z', dotC: this.state.play ? '#FF4D1A' : '#F2F0EB',
+      loopAnim: this.state.play ? 'fitia-loop 6s linear infinite' : 'none',
+      pasos: (e.pasos || []).map((t, i) => ({ t, n: '0' + (i + 1) })), mp: (e.musculos || {}).p || [], ms: (e.musculos || {}).s || []
+    };
+  }
+}
+</script>
+</body>
+</html>

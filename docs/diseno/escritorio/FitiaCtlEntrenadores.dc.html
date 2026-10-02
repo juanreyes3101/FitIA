@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Entrenadores" style="display:flex;flex-direction:column;gap:14px;animation:fitia-in 300ms cubic-bezier(.2,.8,.2,1)">
+  <header><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:#D4FF00">3 ENTRENADORES · {{ pend }} RUTINAS POR REVISAR</div><h1 style="margin-top:4px;font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:.95;text-transform:uppercase">Entrenadores</h1></header>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+    <sc-for list="{{ coaches }}" as="t" hint-placeholder-count="3">
+      <button onClick="{{ t.pick }}" style="text-align:left;background:#1A1A1D;border:1px solid {{ t.bd }};border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px;color:#F2F0EB;cursor:pointer" style-hover="border-color:#F2F0EB">
+        <span style="display:flex;gap:10px;align-items:center;width:100%"><span style="width:40px;height:40px;border-radius:2px;background:{{ t.c }};color:#0B0B0C;font-family:Anton,sans-serif;font-size:16px;display:flex;align-items:center;justify-content:center">{{ t.ini }}</span><span style="flex:1"><span style="display:block;font-weight:700">{{ t.n }}</span><span style="display:block;font-size:12px;color:#9A9AA0">{{ t.gym }}</span></span><span style="font-size:11px;font-weight:700;color:{{ t.stC }}">● {{ t.st }}</span></span>
+        <span style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%"><span><span style="display:block;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700">{{ t.users }}</span><span style="font-size:11px;font-weight:700;color:#9A9AA0">ASIGNADOS</span></span><span><span style="display:block;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:{{ t.qC }}">{{ t.q }}</span><span style="font-size:11px;font-weight:700;color:#9A9AA0">EN COLA</span></span><span><span style="display:block;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700">{{ t.t }}</span><span style="font-size:11px;font-weight:700;color:#9A9AA0">T. REVISIÓN</span></span></span>
+        <span style="display:flex;gap:3px;width:100%"><sc-for list="{{ t.cap }}" as="p" hint-placeholder-count="10"><span style="flex:1;height:6px;background:{{ p }}"></span></sc-for></span>
+        <span style="font-size:12px;color:#9A9AA0">Capacidad: {{ t.users }} de 40 usuarios</span>
+      </button>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:10px;align-items:start">
+    <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:Anton,sans-serif;font-size:20px">RUTINAS POR REVISAR</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">{{ filtroTxt }}</span></div>
+      <sc-if value="{{ vacia }}" hint-placeholder-val="{{ false }}"><div style="padding:32px;text-align:center;border:1px dashed #2A2A2E;border-radius:4px"><div style="font-family:Anton,sans-serif;font-size:24px">COLA AL DÍA</div><div style="color:#9A9AA0;font-size:13px">No hay rutinas pendientes de revisión.</div></div></sc-if>
+      <sc-for list="{{ cola }}" as="r" hint-placeholder-count="5">
+        <div style="border:1px solid {{ r.bd }};border-radius:4px;background:#141416;animation:fitia-in 200ms">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 12px">
+            <div style="min-width:0;display:flex;flex-direction:column;gap:3px">
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><strong>{{ r.u }}</strong><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:2px;background:{{ r.motBg }};color:{{ r.motFg }}">{{ r.mot }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0">{{ r.h }} · {{ r.coach }}</span></div>
+              <div style="font-size:13px;color:#C8C8CC">{{ r.desc }}</div>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button onClick="{{ r.ajustar }}" style="min-height:34px;padding:0 12px;border:1px solid #F2F0EB;border-radius:4px;background:{{ r.ajBg }};color:{{ r.ajFg }};font-size:13px;font-weight:700;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">Ajustar</button>
+              <button onClick="{{ r.aprobar }}" style="min-height:34px;padding:0 12px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #7E9900" style-active="transform:translateY(2px);box-shadow:0 1px 0 #7E9900">Aprobar</button>
+            </div>
+          </div>
+          <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:10px 12px;border-top:1px solid #2A2A2E;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ r.ejs }}" as="e" hint-placeholder-count="4"><button onClick="{{ e.toggle }}" style="min-height:30px;padding:0 10px;border:1px solid {{ e.bd }};border-radius:2px;background:transparent;color:{{ e.fg }};font-size:12px;font-weight:600;cursor:pointer;text-decoration:{{ e.td }}">{{ e.n }}</button></sc-for></div>
+              <textarea value="{{ r.nota }}" onChange="{{ r.onNota }}" rows="2" placeholder="Nota para la IA y el usuario (ej.: cambiar zancada por puente de glúteo)" style="padding:8px 10px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;color:#F2F0EB;resize:vertical" style-focus="outline:none;border-color:#D4FF00"></textarea>
+              <div style="display:flex;justify-content:flex-end"><button onClick="{{ r.guardar }}" style="min-height:34px;padding:0 14px;border:0;border-radius:4px;background:#F2F0EB;color:#0B0B0C;font-size:13px;font-weight:700;cursor:pointer">Guardar ajuste y aprobar</button></div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:6px">
+      <span style="font-family:Anton,sans-serif;font-size:20px;margin-bottom:4px">USUARIOS DE {{ coachUp }}</span>
+      <sc-for list="{{ asign }}" as="a" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:minmax(0,1fr) 54px 60px;gap:8px;align-items:center;padding:6px 0;border-top:1px solid #2A2A2E;font-size:13px"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ a.n }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ a.dC }};text-align:right">D {{ a.d }}</span><span style="height:6px;background:#2A2A2E"><span style="display:block;height:100%;width:{{ a.w }};background:{{ a.c }}"></span></span></div></sc-for>
+      <span style="font-size:12px;color:#9A9AA0;margin-top:4px">D = dolor promedio · barra = adherencia</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const CO = [['Diana Moreno', 'La 68 · Engativá', '#D4FF00', 38, '4 min', 'En línea'], ['Edwin Ramírez', 'Bosa Fit', '#F2F0EB', 29, '11 min', 'En línea'], ['Leidy Torres', 'Power Kennedy', '#3DDC84', 34, '7 min', 'Ausente']];
+const COLA0 = [
+  { id: 1, u: 'Marta Peña', coach: 'Diana Moreno', h: '10:22', mot: 'DOLOR 7/10', grave: true, desc: 'IA sugiere bajar volumen de pierna y sumar movilidad lumbar.', ejs: ['Sentadilla a cajón', 'Puente de glúteo', 'Gato-camello', 'Prensa de piernas'] },
+  { id: 2, u: 'Laura Gómez', coach: 'Diana Moreno', h: '10:41', mot: 'LUMBAR MODERADA', desc: 'Nueva rutina 3×45 min · Día 2 incluye zancada estática.', ejs: ['Sentadilla a cajón', 'Puente de glúteo', 'Prensa de piernas', 'Zancada estática con apoyo', 'Elevación de talones'] },
+  { id: 3, u: 'Wilson Rincón', coach: 'Edwin Ramírez', h: '09:57', mot: 'HIPERTENSIÓN', grave: true, desc: 'Incluye intervalos de alta intensidad: requiere confirmación.', ejs: ['Bicicleta estática', 'Caminata en banda inclinada', 'Plancha en rodillas'] },
+  { id: 4, u: 'Natalia Jiménez', coach: 'Leidy Torres', h: '09:40', mot: 'PRIMERA RUTINA', desc: 'Principiante sin molestias · 4 días de 30 min.', ejs: ['Bicho muerto', 'Sentadilla a cajón', 'Perro de caza'] },
+  { id: 5, u: 'Gloria Patiño', coach: 'Edwin Ramírez', h: '09:12', mot: 'RODILLA', desc: 'IA quitó zancadas; revisar carga en prensa.', ejs: ['Prensa de piernas', 'Puente de glúteo', 'Bicicleta estática'] }
+];
+const NOMS = ['Laura Gómez', 'Marta Peña', 'Sandra Vargas', 'Kevin Ortiz', 'Camilo Arias', 'Angie Castro', 'Julián Mejía'];
+class Component extends DCLogic {
+  state = { cola: COLA0, coach: 0, open: null, quit: {}, notas: {} };
+  done(r, ajust) { const c = this.props.ctl || {}; this.setState(s => ({ cola: s.cola.filter(x => x.id !== r.id), open: null })); c.toast('ok', ajust ? 'Rutina ajustada y aprobada' : 'Rutina aprobada', `${r.u} ya la ve en su app`); }
+  renderVals() {
+    const s = this.state; const nm = CO[s.coach][0];
+    return {
+      pend: s.cola.length, coachUp: nm.toUpperCase(), filtroTxt: `${s.cola.length} PENDIENTES · ORDEN: GRAVEDAD`,
+      coaches: CO.map(([n, gym, c, users, t, st], i) => { const q = s.cola.filter(x => x.coach === n).length; return { n, gym, c, users, t, st, stC: st === 'En línea' ? '#3DDC84' : '#9A9AA0', ini: n.split(' ').map(x => x[0]).join(''), q, qC: q > 1 ? '#FFB020' : '#F2F0EB', bd: s.coach === i ? '#D4FF00' : '#2A2A2E', cap: Array.from({ length: 10 }, (_, k) => k < Math.round(users / 4) ? (users > 36 ? '#FFB020' : c) : '#2A2A2E'), pick: () => this.setState({ coach: i }) }; }),
+      vacia: s.cola.length === 0,
+      cola: [...s.cola].sort((a, b) => (b.grave ? 1 : 0) - (a.grave ? 1 : 0)).map(r => { const open = s.open === r.id; const q = s.quit[r.id] || []; return { ...r, open, bd: r.grave ? '#FF4D1A' : '#2A2A2E', motBg: r.grave ? 'rgba(255,77,26,.14)' : '#2A2A2E', motFg: r.grave ? '#FF4D1A' : '#F2F0EB', ajBg: open ? '#F2F0EB' : 'transparent', ajFg: open ? '#0B0B0C' : '#F2F0EB', ajustar: () => this.setState({ open: open ? null : r.id }), aprobar: () => this.done(r, false), ejs: r.ejs.map(n => { const off = q.includes(n); return { n: (off ? '− ' : '') + n, bd: off ? '#FF4D1A' : '#2A2A2E', fg: off ? '#FF4D1A' : '#F2F0EB', td: off ? 'line-through' : 'none', toggle: () => this.setState(st => ({ quit: { ...st.quit, [r.id]: off ? q.filter(x => x !== n) : [...q, n] } })) }; }), nota: s.notas[r.id] || '', onNota: e => this.setState(st => ({ notas: { ...st.notas, [r.id]: e.target.value } })), guardar: () => this.done(r, true) }; }),
+      asign: NOMS.map((n, i) => { const d = [3, 6.8, 2.1, 1.4, 4.2, 0.8, 2.5][i]; const w = [82, 48, 91, 66, 55, 97, 72][i]; return { n, d: d.toFixed(1).replace('.', ','), dC: d > 5 ? '#FF4D1A' : '#9A9AA0', w: w + '%', c: w > 75 ? '#D4FF00' : '#5A5A60' }; })
+    };
+  }
+}
+</script>
+</body>
+</html>

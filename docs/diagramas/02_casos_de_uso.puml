@@ -1,0 +1,96 @@
+@startuml 02_casos_de_uso
+title FitIA — Diagrama de casos de uso
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam defaultFontName Arial
+skinparam usecase {
+  BackgroundColor #F4FFD6
+  BorderColor #3A3A3A
+}
+skinparam actor {
+  BorderColor #111111
+}
+
+actor "Visitante" as V
+actor "Usuario" as U
+actor "Entrenador" as E
+actor "Administrador" as A
+actor "Servicio de IA\n(Google Gemini,\ncapa gratuita)" as IA <<sistema>>
+actor "Pasarela de pago\nsimulada" as PG <<sistema>>
+actor "Monitor autónomo\n(MAPE-K)" as MON <<sistema>>
+
+U -|> V
+
+rectangle "FitIA (Web · App móvil · Consola de escritorio)" {
+  usecase "Ver landing, planes\ny 'Sobre nosotros'" as UC01
+  usecase "Calcular IMC\n(sin registro)" as UC02
+  usecase "Registrarse" as UC03
+  usecase "Iniciar sesión" as UC04
+
+  usecase "Completar perfil de salud\n(peso, estatura, actividad,\nmolestias)" as UC05
+  usecase "Registrar medición\ncorporal" as UC06
+  usecase "Generar rutina\npersonalizada con IA" as UC07
+  usecase "Validar seguridad\nde la rutina" as UC08
+  usecase "Ver rutina y\ndetalle de ejercicio" as UC09
+  usecase "Registrar sesión\nde entrenamiento" as UC10
+  usecase "Ver ejercicios\npara zona lumbar" as UC11
+  usecase "Consultar progreso\n(peso, IMC, adherencia)" as UC12
+  usecase "Suscribirse a plan Pro\n(pago simulado)" as UC13
+  usecase "Ver publicidad\n(plan gratis)" as UC14
+
+  usecase "Revisar / ajustar\nrutina de un usuario" as UC15
+  usecase "Ver usuarios\nasignados" as UC16
+
+  usecase "Gestionar usuarios\ny entrenadores" as UC17
+  usecase "Gestionar ejercicios y\ncontraindicaciones" as UC18
+  usecase "Gestionar planes\ny anuncios" as UC19
+  usecase "Ver reportes\n(ingresos, uso de IA)" as UC20
+  usecase "Supervisar salud\nde la plataforma" as UC21
+
+  usecase "Recolectar métricas" as UC22
+  usecase "Calcular línea base\ndinámica" as UC23
+  usecase "Detectar anomalías" as UC24
+  usecase "Auto-remediar\n(escalar, reiniciar,\ncambiar proveedor IA)" as UC25
+}
+
+V --> UC01
+V --> UC02
+V --> UC03
+U --> UC04
+U --> UC05
+U --> UC06
+U --> UC07
+U --> UC09
+U --> UC10
+U --> UC11
+U --> UC12
+U --> UC13
+U --> UC14
+
+E --> UC04
+E --> UC15
+E --> UC16
+
+A --> UC04
+A --> UC17
+A --> UC18
+A --> UC19
+A --> UC20
+A --> UC21
+
+UC07 ..> UC08 : <<include>>
+UC07 ..> UC05 : <<include>>
+UC06 ..> UC02 : <<include>>
+UC10 ..> UC12 : <<extend>>
+UC13 --> PG
+UC07 --> IA
+
+MON --> UC22
+MON --> UC23
+MON --> UC24
+MON --> UC25
+UC24 ..> UC23 : <<include>>
+UC25 ..> UC24 : <<extend>>
+UC21 ..> UC24 : <<include>>
+@enduml

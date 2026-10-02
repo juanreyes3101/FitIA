@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Modo entreno" style="position:relative;min-height:100vh;display:flex;flex-direction:column;background:#0B0B0C;padding-top:{{ insetTop }};padding-bottom:{{ insetBottom }};overflow:hidden">
+  <header style="padding:8px 12px 10px;display:flex;align-items:center;gap:10px">
+    <button onClick="{{ pausar }}" aria-label="Pausar" style="width:52px;height:52px;flex:none;border:2px solid #2A2A2E;border-radius:4px;background:transparent;color:#F2F0EB;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(2px)"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg></button>
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 7px;border-radius:2px;background:#FF4D1A;color:#0B0B0C"><span style="width:7px;height:7px;border-radius:50%;background:#0B0B0C;animation:fitia-pulse 1.2s infinite"></span>EN VIVO</span><span style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700">{{ elapsed }}</span></div>
+      <div style="display:flex;gap:3px"><sc-for list="{{ segs }}" as="s" hint-placeholder-count="5"><div style="flex:1;height:6px;background:#2A2A2E"><div style="height:100%;width:{{ s.w }};background:#D4FF00;transition:width 400ms"></div></div></sc-for></div>
+    </div>
+  </header>
+
+  <sc-if value="{{ isSerie }}" hint-placeholder-val="{{ true }}">
+    <div onPointerDown="{{ pd }}" onPointerUp="{{ pu }}" onPointerCancel="{{ pc }}" style="flex:1;display:flex;flex-direction:column;touch-action:pan-y;user-select:none">
+      <div style="flex:1;display:flex;flex-direction:column;padding:4px 16px 0;transform:translateX({{ dragX }});transition:{{ dragT }}">
+        <div style="position:relative;height:clamp(150px,26vh,220px);border-radius:4px;overflow:hidden;isolation:isolate;background:#2A2A2E">
+          <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="mov-en-{{ cur.id }}" shape="rect" placeholder="{{ cur.nombre }}"></image-slot></div>
+          <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+          <span aria-hidden="true" style="position:absolute;right:8px;bottom:-16px;font-family:Anton,sans-serif;font-size:120px;line-height:1;color:#0B0B0C;pointer-events:none">{{ exNum }}</span>
+          <span style="position:absolute;left:10px;top:10px;background:#0B0B0C;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;padding:5px 8px;border-radius:2px;pointer-events:none">{{ exPos }}/{{ exTotal }}</span>
+        </div>
+        <h1 style="margin-top:14px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(40px,11vw,52px);line-height:.88;text-transform:uppercase">{{ cur.nombre }}</h1>
+        <div style="margin-top:10px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+          <div><div style="font-family:'JetBrains Mono',monospace;font-size:clamp(88px,26vw,120px);font-weight:700;line-height:.82;letter-spacing:-.06em;color:#D4FF00">{{ reps }}</div><div style="margin-top:6px;font-size:14px;font-weight:700;letter-spacing:.08em;color:#9A9AA0">{{ repsLabel }}</div></div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><span style="font-family:Anton,sans-serif;font-size:32px;line-height:1">SERIE {{ setN }}/{{ setTotal }}</span><div style="display:flex;gap:4px"><sc-for list="{{ pips }}" as="p" hint-placeholder-count="3"><span style="width:26px;height:12px;background:{{ p.bg }}"></span></sc-for></div></div>
+        </div>
+      </div>
+      <div style="padding:14px 16px 8px;display:flex;flex-direction:column;gap:10px">
+        <button onClick="{{ serieLista }}" style="display:flex;align-items:center;justify-content:center;gap:12px;min-height:84px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:Anton,sans-serif;font-size:38px;cursor:pointer;box-shadow:0 6px 0 #7E9900;transition:transform 90ms,box-shadow 90ms" style-active="transform:translateY(4px);box-shadow:0 2px 0 #7E9900"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M4 12l5 5L20 6"></path></svg>SERIE LISTA</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0"><button onClick="{{ prev }}" disabled="{{ noPrev }}" style="min-height:44px;padding:0 6px;border:0;background:transparent;color:{{ prevFg }};font:inherit;cursor:pointer">‹ ANTERIOR</button><span>DESLIZA ↔</span><button onClick="{{ next }}" style="min-height:44px;padding:0 6px;border:0;background:transparent;color:#F2F0EB;font:inherit;cursor:pointer">SIGUIENTE ›</button></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isRest }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:0 16px;text-align:center;animation:{{ restAnim }}">
+      <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:.9;text-transform:uppercase">{{ restTitle }}</h1>
+      <div role="timer" aria-label="{{ restAria }}" style="position:relative;width:min(280px,76vw);aspect-ratio:1">
+        <svg viewBox="0 0 280 280" style="width:100%;height:100%;transform:rotate(-90deg)"><circle cx="140" cy="140" r="120" fill="none" stroke="#1A1A1D" stroke-width="20"></circle><circle cx="140" cy="140" r="120" fill="none" stroke="{{ ringColor }}" stroke-width="20" stroke-dasharray="753.98" stroke-dashoffset="{{ ringOff }}" style="transition:stroke-dashoffset 1s linear,stroke 200ms"></circle></svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"><span style="font-family:'JetBrains Mono',monospace;font-size:84px;font-weight:700;line-height:1;letter-spacing:-.05em;color:{{ ringColor }}">{{ restTxt }}</span><span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M8 4h8v16H8zM4 8v8M20 8v8"></path></svg>{{ vibTxt }}</span></div>
+      </div>
+      <div style="width:100%;padding:14px;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;font-size:17px;text-align:left"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0;display:block">SIGUIENTE</span><strong>{{ nextLabel }}</strong></div>
+      <div style="width:100%;display:grid;grid-template-columns:1fr 1.4fr;gap:10px">
+        <button onClick="{{ plus15 }}" style="min-height:64px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;cursor:pointer" style-active="transform:translateY(2px)">+15 s</button>
+        <button onClick="{{ skipRest }}" style="min-height:64px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 4px 0 #7E9900" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900">Saltar descanso</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isEval }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow:auto;padding:8px 16px 16px;display:flex;flex-direction:column;gap:22px;animation:fitia-in 300ms">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#D4FF00">TERMINASTE · {{ elapsed }} · {{ hechas }} SERIES</div><h1 style="margin-top:6px;font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:.9;text-transform:uppercase">¿Cómo te fue?</h1></div>
+      <div style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-family:Anton,sans-serif;font-size:26px;line-height:1">ESFUERZO (RPE)</span><span style="font-size:15px;font-weight:700;color:{{ rpeC }}">{{ rpeTxt }}</span></div><div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px"><sc-for list="{{ rpeOpts }}" as="o" hint-placeholder-count="10"><button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="min-height:60px;border:2px solid {{ o.bd }};border-radius:4px;background:{{ o.bg }};color:{{ o.fg }};font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;cursor:pointer" style-active="transform:translateY(2px)">{{ o.n }}</button></sc-for></div><div style="display:flex;justify-content:space-between;font-size:13px;color:#9A9AA0"><span>1 Muy fácil</span><span>10 Máximo</span></div></div>
+      <div style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-family:Anton,sans-serif;font-size:26px;line-height:1">DOLOR EN LA ESPALDA</span><span style="font-size:15px;font-weight:700;color:{{ dolC }}">{{ dolTxt }}</span></div><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px"><sc-for list="{{ dolOpts }}" as="o" hint-placeholder-count="11"><button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="min-height:60px;border:2px solid {{ o.bd }};border-radius:4px;background:{{ o.bg }};color:{{ o.fg }};font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;cursor:pointer" style-active="transform:translateY(2px)">{{ o.n }}</button></sc-for></div><div style="display:flex;justify-content:space-between;font-size:13px;color:#9A9AA0"><span>0 Nada</span><span>10 Insoportable</span></div></div>
+      <button onClick="{{ save }}" style="min-height:64px;border:0;border-radius:4px;background:{{ saveBg }};color:{{ saveFg }};font-family:Anton,sans-serif;font-size:26px;cursor:pointer;box-shadow:0 4px 0 {{ saveSh }};animation:{{ shake }}" style-active="transform:translateY(2px)">GUARDAR SESIÓN</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCuidado }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow:auto;display:flex;flex-direction:column;gap:16px;padding:0 16px 16px;animation:fitia-in 300ms">
+      <div style="height:14px;margin:0 -16px;background:repeating-linear-gradient(-45deg,#FF4D1A 0 12px,#0B0B0C 12px 24px)"></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#FF4D1A">DOLOR {{ dolor }}/10 · CUIDÉMONOS</div>
+      <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:.88;text-transform:uppercase">Hoy, a bajar<br>el ritmo.</h1>
+      <p style="font-size:17px">Un dolor de {{ dolor }}/10 es una señal para frenar, no para aguantar. Guardamos tu sesión y bajaremos la carga de la próxima.</p>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column"><span style="font-family:Anton,sans-serif;font-size:22px;margin-bottom:6px">MOVILIDAD SUAVE · 8 MIN</span><sc-for list="{{ movil }}" as="x" hint-placeholder-count="3"><button onClick="{{ x.go }}" style="display:flex;align-items:center;gap:12px;min-height:52px;border:0;border-top:1px solid #2A2A2E;background:transparent;color:#F2F0EB;text-align:left;cursor:pointer;padding:0"><span style="font-family:Anton,sans-serif;font-size:22px;color:#3DDC84;width:30px">{{ x.num }}</span><span style="flex:1;font-weight:600">{{ x.nombre }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9A9AA0">{{ x.dosis }}</span></button></sc-for></div>
+      <button onClick="{{ goLumbar }}" style="min-height:64px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 4px 0 #7E9900" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900">Hacer movilidad ahora</button>
+      <p style="font-size:14px;color:#9A9AA0;padding:12px;border:1px solid #FFB020;border-radius:4px">Si el dolor sigue más de 48 horas, baja por la pierna o sientes hormigueo, consulta a un profesional de la salud.</p>
+      <button onClick="{{ goHoy }}" style="min-height:52px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:16px;font-weight:700;cursor:pointer">Ir a Hoy</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isOk }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:0 16px 16px;animation:fitia-in 300ms">
+      <span style="width:84px;height:84px;background:#D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="3" stroke-linecap="square" stroke-dasharray="64" style="animation:fitia-draw 600ms 200ms both"><path d="M4 12l5 5L20 6"></path></svg></span>
+      <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:72px;line-height:.84;text-transform:uppercase">¡Sesión<br><span style="color:#D4FF00">lista!</span></h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#2A2A2E;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden">
+        <div style="background:#1A1A1D;padding:14px"><div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700">{{ elapsed }}</div><div style="font-size:12px;font-weight:700;color:#9A9AA0">TIEMPO</div></div>
+        <div style="background:#1A1A1D;padding:14px"><div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700">{{ hechas }}</div><div style="font-size:12px;font-weight:700;color:#9A9AA0">SERIES</div></div>
+        <div style="background:#1A1A1D;padding:14px"><div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700">{{ rpe }}/10</div><div style="font-size:12px;font-weight:700;color:#9A9AA0">ESFUERZO</div></div>
+        <div style="background:#1A1A1D;padding:14px"><div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:#3DDC84">{{ dolor }}/10</div><div style="font-size:12px;font-weight:700;color:#9A9AA0">DOLOR</div></div>
+      </div>
+      <p style="font-size:17px">Vas <strong>2 de 3</strong> esta semana. ¡Así es, Laura!</p>
+      <button onClick="{{ goHoy }}" style="min-height:64px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:Anton,sans-serif;font-size:26px;cursor:pointer;box-shadow:0 4px 0 #7E9900" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900">LISTO</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ paused }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="Pausa" style="position:absolute;inset:0;z-index:20;background:rgba(11,11,12,.94);display:flex;flex-direction:column;justify-content:flex-end;padding:16px 16px calc(16px + {{ insetBottom }});gap:10px;animation:fitia-fade 200ms">
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9A9AA0">PAUSA · {{ elapsed }}</span><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:72px;line-height:.86;text-transform:uppercase">Tómate<br>tu tiempo.</h2></div>
+      <button onClick="{{ reanudar }}" style="min-height:72px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:Anton,sans-serif;font-size:32px;cursor:pointer;box-shadow:0 5px 0 #7E9900" style-active="transform:translateY(3px);box-shadow:0 2px 0 #7E9900">REANUDAR</button>
+      <button onClick="{{ terminar }}" style="min-height:56px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:17px;font-weight:700;cursor:pointer">Terminar y evaluar</button>
+      <button onClick="{{ goHoy }}" style="min-height:48px;border:0;background:transparent;color:#FF3B3B;font-size:16px;font-weight:700;cursor:pointer">Salir sin guardar</button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const parse = d => { const m = String(d).match(/^(\d+)\s*×\s*(.+)$/); return m ? { sets: +m[1], reps: m[2].trim() } : { sets: 1, reps: String(d) }; };
+const secs = t => { const m = String(t).match(/(\d+)/); return m ? +m[1] : 0; };
+const mmss = n => Math.floor(n / 60) + ':' + String(n % 60).padStart(2, '0');
+const RPE = ['', 'Muy fácil', 'Fácil', 'Fácil', 'Moderado', 'Moderado', 'Algo duro', 'Duro', 'Muy duro', 'Casi máximo', 'Máximo'];
+const DOL = ['Nada', 'Casi nada', 'Leve', 'Leve', 'Moderado', 'Moderado', 'Fuerte', 'Fuerte', 'Muy fuerte', 'Muy fuerte', 'Insoportable'];
+const dC = n => n <= 3 ? '#3DDC84' : n <= 5 ? '#FFB020' : '#FF4D1A';
+class Component extends DCLogic {
+  state = { ex: 0, set: 1, fase: 'serie', rest: 0, restTotal: 60, t: 0, rpe: null, dolor: null, hechas: 0, paused: false, dx: 0, drag: false, buzz: false, tried: false };
+  componentDidMount() {
+    const q = (this.props.app || {}).q || {};
+    if (q.fase === 'descanso') this.setState({ fase: 'descanso', rest: 8, restTotal: 60, set: 2, t: 754, hechas: 1 });
+    if (q.fase === 'eval') this.setState({ fase: 'eval', t: 2610, hechas: 15 });
+    if (q.fase === 'dolor') this.setState({ fase: 'cuidado', rpe: 7, dolor: 7, t: 2610, hechas: 15 });
+    if (q.fase === 'ok') this.setState({ fase: 'ok', rpe: 6, dolor: 2, t: 2610, hechas: 15 });
+    if (q.fase === 'pausa') this.setState({ paused: true, t: 754 });
+    window.__fitiaMovEnInst = this;
+    if (!window.__fitiaMovEnTimer) window.__fitiaMovEnTimer = setInterval(() => { const i = window.__fitiaMovEnInst; if (i && i.tickEn) { try { i.tickEn(); } catch (e) {} } }, 1000);
+  }
+  tickEn() {
+    {
+      const s = this.state; if (s.paused || (s.fase !== 'serie' && s.fase !== 'descanso')) return;
+      const n = { t: s.t + 1 };
+      if (s.fase === 'descanso') {
+        if (s.rest <= 1) { n.fase = 'serie'; n.rest = 0; this.vib([220, 90, 220]); }
+        else { n.rest = s.rest - 1; if (n.rest <= 3) this.vib(40); }
+      }
+      this.setState(n);
+    }
+  }
+  componentWillUnmount() { clearTimeout(this.bt); }
+  vib(p) { const a = this.props.app || {}; if (a.vibrar === false) return; try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} this.setState({ buzz: true }); clearTimeout(this.bt); this.bt = setTimeout(() => this.setState({ buzz: false }), 400); }
+  list() { const a = this.props.app || {}; if ((a.q || {}).lumbar) return ['gato', 'perro', 'rotacion', 'rodilla', 'nino'].map(id => (a.ej || {})[id]).filter(Boolean); const d = (a.rutina || [])[1]; return d ? d.ejercicios : []; }
+  move(d) { const L = this.list(); const n = this.state.ex + d; if (n < 0) return; if (n >= L.length) { this.setState({ fase: 'eval' }); return; } this.setState({ ex: n, set: 1, fase: 'serie' }); this.vib(15); }
+  serieLista = () => {
+    const L = this.list(), s = this.state, cur = L[s.ex]; if (!cur) return;
+    const p = parse(cur.dosis), hechas = s.hechas + 1, r = secs(cur.descanso);
+    this.vib(30);
+    if (s.set < p.sets) this.setState(r ? { set: s.set + 1, fase: 'descanso', rest: r, restTotal: r, hechas } : { set: s.set + 1, hechas });
+    else if (s.ex < L.length - 1) { const rr = r || 30; this.setState({ ex: s.ex + 1, set: 1, fase: 'descanso', rest: rr, restTotal: rr, hechas }); }
+    else this.setState({ fase: 'eval', hechas });
+  };
+  renderVals() {
+    if (typeof window !== 'undefined') window.__fitiaMovEnInst = this;
+    const a = this.props.app || {}; const s = this.state; const L = this.list();
+    const cur = L[s.ex] || { nombre: '', dosis: '' }; const p = parse(cur.dosis);
+    const unit = p.reps.replace(/^\d+\s*/, ''); const timed = /^(s|min)/.test(unit);
+    const nx = L[s.ex] || {}; const ok = s.rpe != null && s.dolor != null;
+    const low = s.rest <= 5;
+    return {
+      insetTop: a.insetTop || '54px', insetBottom: a.insetBottom || '34px', elapsed: mmss(s.t),
+      segs: L.map((e, i) => { const pp = parse(e.dosis); const done = ['eval', 'cuidado', 'ok'].includes(s.fase); return { w: done || i < s.ex ? '100%' : i === s.ex ? ((s.set - 1) / pp.sets * 100) + '%' : '0%' }; }),
+      isSerie: s.fase === 'serie', isRest: s.fase === 'descanso', isEval: s.fase === 'eval', isCuidado: s.fase === 'cuidado', isOk: s.fase === 'ok',
+      cur, exNum: '0' + (s.ex + 1), exPos: s.ex + 1, exTotal: L.length,
+      reps: (p.reps.match(/^\d+/) || [p.reps])[0], repsLabel: (timed ? (unit.startsWith('min') ? 'MINUTOS' : 'SEGUNDOS') : 'REPETICIONES') + (/lado/.test(p.reps) ? ' POR LADO' : ''),
+      setN: s.set, setTotal: p.sets, pips: Array.from({ length: p.sets }, (_, i) => ({ bg: i < s.set - 1 ? '#D4FF00' : i === s.set - 1 ? '#F2F0EB' : '#2A2A2E' })),
+      serieLista: this.serieLista, prev: () => this.move(-1), next: () => this.move(1), noPrev: s.ex === 0, prevFg: s.ex === 0 ? '#5A5A60' : '#F2F0EB',
+      dragX: s.dx + 'px', dragT: s.drag ? 'none' : 'transform 250ms cubic-bezier(.2,.8,.2,1)',
+      pd: e => { if (e.target.closest('button')) return; this.x0 = e.clientX; this.setState({ drag: true }); this.pm = ev => this.setState({ dx: Math.max(-140, Math.min(140, ev.clientX - this.x0)) }); window.addEventListener('pointermove', this.pm); },
+      pu: e => { window.removeEventListener('pointermove', this.pm); if (this.x0 == null) return; const dx = e.clientX - this.x0; this.x0 = null; this.setState({ drag: false, dx: 0 }); if (dx < -70) this.move(1); else if (dx > 70) this.move(-1); },
+      pc: () => { window.removeEventListener('pointermove', this.pm); this.x0 = null; this.setState({ drag: false, dx: 0 }); },
+      restTitle: low ? '¡Prepárate!' : 'Descansa', restTxt: mmss(s.rest), restAria: `Quedan ${s.rest} segundos`, ringOff: (753.98 * (1 - (s.restTotal ? s.rest / s.restTotal : 0))).toFixed(2), ringColor: low ? '#FF4D1A' : '#D4FF00',
+      restAnim: s.buzz ? 'fitia-shake 300ms' : 'fitia-in 300ms', vibTxt: a.vibrar === false ? 'VIBRACIÓN APAGADA' : 'VIBRA AL TERMINAR',
+      nextLabel: `${nx.nombre || ''} · serie ${s.set}/${parse(nx.dosis || '').sets}`,
+      plus15: () => this.setState(st => ({ rest: st.rest + 15, restTotal: Math.max(st.restTotal, st.rest + 15) })), skipRest: () => this.setState({ fase: 'serie', rest: 0 }),
+      hechas: s.hechas, rpe: s.rpe, dolor: s.dolor,
+      rpeOpts: Array.from({ length: 10 }, (_, i) => { const n = i + 1, on = s.rpe === n; return { n, on, bg: on ? '#D4FF00' : '#1A1A1D', fg: on ? '#0B0B0C' : '#F2F0EB', bd: on ? '#D4FF00' : '#2A2A2E', pick: () => { this.setState({ rpe: n }); this.vib(10); } }; }),
+      dolOpts: Array.from({ length: 11 }, (_, n) => { const on = s.dolor === n; return { n, on, bg: on ? dC(n) : '#1A1A1D', fg: on ? '#0B0B0C' : '#F2F0EB', bd: on ? dC(n) : '#2A2A2E', pick: () => { this.setState({ dolor: n }); this.vib(10); } }; }),
+      rpeTxt: s.rpe == null ? 'Elige 1–10' : `${s.rpe} · ${RPE[s.rpe]}`, rpeC: s.rpe == null ? '#9A9AA0' : '#D4FF00',
+      dolTxt: s.dolor == null ? 'Elige 0–10' : `${s.dolor} · ${DOL[s.dolor]}`, dolC: s.dolor == null ? '#9A9AA0' : dC(s.dolor),
+      saveBg: ok ? '#D4FF00' : '#2A2A2E', saveFg: ok ? '#0B0B0C' : '#9A9AA0', saveSh: ok ? '#7E9900' : '#1A1A1D', shake: s.tried && !ok ? 'fitia-shake 300ms' : 'none',
+      save: () => { if (!ok) { this.setState({ tried: true }); setTimeout(() => this.setState({ tried: false }), 320); this.vib([60, 40, 60]); return; } a.completarSesion && a.completarSesion({ rpe: s.rpe, dolor: s.dolor }); this.setState({ fase: s.dolor > 5 ? 'cuidado' : 'ok' }); },
+      movil: ['gato', 'rodilla', 'nino'].map((id, i) => { const e = (a.ej || {})[id] || {}; return { nombre: e.nombre, dosis: e.dosis, num: '0' + (i + 1), go: () => a.go('ejercicio', id) }; }),
+      paused: s.paused, pausar: () => this.setState({ paused: true }), reanudar: () => this.setState({ paused: false }), terminar: () => this.setState({ paused: false, fase: 'eval' }),
+      goHoy: () => a.go('hoy'), goLumbar: () => a.go('lumbar')
+    };
+  }
+}
+</script>
+</body>
+</html>

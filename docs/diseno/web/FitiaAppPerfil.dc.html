@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"></helmet>
+<div data-screen-label="Perfil" style="display:flex;flex-direction:column;gap:20px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <span style="width:88px;height:88px;flex:none;border-radius:4px;background:#F2F0EB;color:#0B0B0C;font-family:Anton,sans-serif;font-size:40px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)">{{ ini }}</span>
+    <div style="flex:1;min-width:200px"><div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#D4FF00">PERFIL · PLAN {{ planUp }}</div><h1 style="margin-top:6px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(40px,5vw,64px);line-height:.9;text-transform:uppercase">{{ nombreFull }}</h1><div style="margin-top:6px;color:#9A9AA0">{{ gym }}</div></div>
+  </header>
+
+  <sc-if value="{{ deleted }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:18px 20px;border:1px solid #FF3B3B;border-radius:4px;background:rgba(255,59,59,.06)">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF3B3B" stroke-width="2" stroke-linecap="square" style="flex:none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg>
+      <div style="flex:1;min-width:220px"><div style="font-weight:700">Solicitud de borrado registrada.</div><div style="font-size:15px;color:#9A9AA0">Borraremos todos tus datos en máximo 15 días hábiles, como indica la Ley 1581 de 2012. Te avisaremos a {{ correo }}.</div></div>
+      <button onClick="{{ undoDelete }}" style="min-height:44px;padding:0 16px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">Cancelar solicitud</button>
+    </div>
+  </sc-if>
+
+  <div style="display:grid;grid-template-columns:{{ cols }};gap:20px;align-items:start">
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Secciones del perfil" style="position:sticky;top:40px;display:flex;flex-direction:column;gap:2px">
+        <sc-for list="{{ secciones }}" as="x" hint-placeholder-count="5"><button onClick="{{ x.go }}" style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;border:0;border-radius:4px;background:transparent;color:#F2F0EB;font-size:15px;font-weight:600;text-align:left;cursor:pointer" style-hover="background:#1A1A1D"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">{{ x.n }}</span>{{ x.l }}</button></sc-for>
+      </nav>
+    </sc-if>
+    <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+      <section id="pf-datos" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:20px">
+        <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Tus datos</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Nombre</span><input value="{{ nombre }}" onChange="{{ onNombre }}" style="min-height:52px;padding:0 14px;background:#0B0B0C;border:2px solid #2A2A2E;border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Apellido</span><input value="{{ apellido }}" onChange="{{ onApellido }}" style="min-height:52px;padding:0 14px;background:#0B0B0C;border:2px solid #2A2A2E;border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Correo</span><input type="email" value="{{ correo }}" onChange="{{ onCorreo }}" style="min-height:52px;padding:0 14px;background:#0B0B0C;border:2px solid {{ eCorreo }};border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Celular</span><input inputmode="numeric" value="{{ celular }}" onChange="{{ onCel }}" style="min-height:52px;padding:0 14px;background:#0B0B0C;border:2px solid #2A2A2E;border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:16px" style-focus="outline:none;border-color:#D4FF00"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Peso (kg)</span><input inputmode="decimal" value="{{ peso }}" onChange="{{ onPeso }}" style="min-height:52px;padding:0 14px;background:#0B0B0C;border:2px solid #2A2A2E;border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:16px" style-focus="outline:none;border-color:#D4FF00"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Estatura (cm)</span><input inputmode="numeric" value="{{ est }}" onChange="{{ onEst }}" style="min-height:52px;padding:0 14px;background:#0B0B0C;border:2px solid #2A2A2E;border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:16px" style-focus="outline:none;border-color:#D4FF00"></label>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><button onClick="{{ saveDatos }}" style="min-height:52px;padding:0 24px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">Guardar cambios</button><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9A9AA0">IMC CON ESTOS DATOS: <strong style="color:#D4FF00">{{ imc }}</strong></span></div>
+      </section>
+
+      <section id="pf-molestias" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:20px">
+        <div><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Molestias y tiempo</h2><p style="margin-top:6px;font-size:15px;color:#9A9AA0">Si cambias algo, la IA ajusta tu próxima rutina sin gastar cupo.</p></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ molestias }}" as="x" hint-placeholder-count="4"><button onClick="{{ x.toggle }}" aria-pressed="{{ x.on }}" style="min-height:48px;padding:0 16px;border:2px solid {{ x.bd }};border-radius:2px;background:{{ x.bg }};color:{{ x.fg }};font-size:15px;font-weight:600;cursor:pointer" style-active="transform:translateY(2px)">{{ x.check }}{{ x.l }}</button></sc-for></div>
+        <sc-if value="{{ showSev }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Qué tan fuerte es la molestia lumbar</span><div style="display:flex;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden;width:max-content;max-width:100%"><sc-for list="{{ sev }}" as="x" hint-placeholder-count="3"><button onClick="{{ x.pick }}" aria-pressed="{{ x.on }}" style="min-height:48px;padding:0 16px;border:0;background:{{ x.bg }};color:{{ x.fg }};font-size:15px;font-weight:600;cursor:pointer">{{ x.l }}</button></sc-for></div></div>
+        </sc-if>
+        <div style="display:flex;gap:24px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Días por semana</span><div style="display:flex;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden"><sc-for list="{{ dias }}" as="x" hint-placeholder-count="5"><button onClick="{{ x.pick }}" style="width:48px;min-height:48px;border:0;background:{{ x.bg }};color:{{ x.fg }};font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;cursor:pointer">{{ x.n }}</button></sc-for></div></div>
+          <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Minutos por sesión</span><div style="display:flex;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden"><sc-for list="{{ mins }}" as="x" hint-placeholder-count="4"><button onClick="{{ x.pick }}" style="width:56px;min-height:48px;border:0;background:{{ x.bg }};color:{{ x.fg }};font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;cursor:pointer">{{ x.n }}</button></sc-for></div></div>
+        </div>
+        <button onClick="{{ saveMol }}" style="align-self:flex-start;min-height:48px;padding:0 20px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C" style-active="transform:translateY(2px)">Actualizar y ajustar rutina</button>
+      </section>
+
+      <section id="pf-seguridad" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:20px">
+        <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Cambiar contraseña</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Actual</span><input type="password" autocomplete="current-password" value="{{ pw0 }}" onChange="{{ onPw0 }}" style="min-height:52px;padding:0 14px;background:#0B0B0C;border:2px solid {{ ePw0 }};border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Nueva</span><input type="password" autocomplete="new-password" value="{{ pw1 }}" onChange="{{ onPw1 }}" placeholder="Mínimo 8 caracteres" style="min-height:52px;padding:0 14px;background:#0B0B0C;border:2px solid {{ ePw1 }};border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Repite la nueva</span><input type="password" autocomplete="new-password" value="{{ pw2 }}" onChange="{{ onPw2 }}" style="min-height:52px;padding:0 14px;background:#0B0B0C;border:2px solid {{ ePw2 }};border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00"></label>
+        </div>
+        <sc-if value="{{ pwMsgOn }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:14px;color:#FF3B3B">{{ pwMsg }}</span></sc-if>
+        <button onClick="{{ savePw }}" style="align-self:flex-start;min-height:48px;padding:0 20px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C" style-active="transform:translateY(2px)">Cambiar contraseña</button>
+      </section>
+
+      <section id="pf-plan" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:clamp(20px,3vw,28px);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+        <div><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Plan {{ planUp }}</h2><p style="margin-top:6px;font-size:15px;color:#9A9AA0">{{ planTxt }}</p></div>
+        <button onClick="{{ goPlanes }}" style="min-height:48px;padding:0 20px;border:2px solid #D4FF00;border-radius:4px;background:transparent;color:#D4FF00;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#D4FF00;color:#0B0B0C">{{ planCta }}</button>
+      </section>
+
+      <section id="pf-privacidad" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
+        <div><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Tus datos, tus reglas</h2><p style="margin-top:6px;font-size:15px;color:#9A9AA0">Por la Ley 1581 de 2012 puedes conocer, descargar, corregir o borrar tu información cuando quieras.</p></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px">
+          <div style="border:1px solid #2A2A2E;border-radius:4px;padding:18px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M12 3v12M6 10l6 6 6-6M4 21h16"></path></svg><span style="font-weight:700">Descargar mis datos</span></div>
+            <p style="font-size:14px;color:#9A9AA0">Perfil, medidas, rutinas y sesiones en un archivo JSON.</p>
+            <button onClick="{{ download }}" style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">{{ dlLabel }}</button>
+          </div>
+          <div style="border:1px solid #3A2018;border-radius:4px;padding:18px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF3B3B" stroke-width="2" stroke-linecap="square"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg><span style="font-weight:700">Borrar mis datos</span></div>
+            <p style="font-size:14px;color:#9A9AA0">Eliminamos tu cuenta y todo tu historial. No se puede deshacer.</p>
+            <button onClick="{{ openDel }}" style="align-self:flex-start;min-height:44px;padding:0 16px;border:2px solid #FF3B3B;border-radius:4px;background:transparent;color:#FF3B3B;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#FF3B3B;color:#0B0B0C">Borrar mis datos</button>
+          </div>
+        </div>
+      </section>
+
+      <button onClick="{{ logout }}" style="align-self:flex-start;min-height:44px;padding:0 12px;border:0;border-radius:4px;background:transparent;color:#9A9AA0;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#1A1A1D;color:#F2F0EB">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <sc-if value="{{ delOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeDel }}" style="position:fixed;inset:0;z-index:80;background:rgba(11,11,12,.88);display:flex;align-items:center;justify-content:center;padding:20px">
+      <div onClick="{{ stop }}" role="dialog" aria-modal="true" aria-labelledby="del-t" style="width:100%;max-width:460px;background:#1A1A1D;border:1px solid #FF3B3B;border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:16px;box-shadow:0 24px 48px -12px rgba(0,0,0,.9)">
+        <h2 id="del-t" style="font-family:Anton,sans-serif;font-weight:400;font-size:36px;line-height:1;text-transform:uppercase">¿Borrar todo?</h2>
+        <p style="color:#9A9AA0">Se borran tu perfil, tus 60 días de progreso y tus rutinas. Para confirmar, escribe <strong style="font-family:'JetBrains Mono',monospace;color:#F2F0EB">BORRAR</strong>.</p>
+        <input value="{{ delText }}" onChange="{{ onDel }}" aria-label="Escribe BORRAR para confirmar" placeholder="BORRAR" style="min-height:52px;padding:0 14px;background:#0B0B0C;border:2px solid #2A2A2E;border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:18px;text-transform:uppercase" style-focus="outline:none;border-color:#FF3B3B">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onClick="{{ closeDel }}" style="flex:1;min-height:52px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">Cancelar</button>
+          <button onClick="{{ confirmDel }}" disabled="{{ delDisabled }}" style="flex:1;min-height:52px;border:0;border-radius:4px;background:{{ delBg }};color:{{ delFg }};font-size:16px;font-weight:600;cursor:{{ delCur }}">Borrar definitivamente</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const MOL = ['Lumbar', 'Rodilla', 'Hipertensión', 'Ninguna'];
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    const u = (p.app && p.app.user) || {};
+    this.state = { nombre: u.nombre || 'Laura', apellido: u.apellido || 'Gómez', correo: u.correo || '', celular: u.celular || '', peso: String(u.peso || 78), est: String(u.estatura || 165), mol: u.molestias || ['Lumbar'], sev: u.severidad || 'Moderada', dias: u.dias || 3, min: u.minutos || 45, pw0: '', pw1: '', pw2: '', pwTried: false, dl: 'idle', delOpen: false, delText: '', deleted: false };
+  }
+  componentWillUnmount() { clearTimeout(this.to); }
+  scroll(id) { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 24, behavior: 'smooth' }); }
+  renderVals() {
+    const a = this.props.app || {}; const s = this.state; const m = a.mobile;
+    const imc = parseFloat(s.peso.replace(',', '.')) / Math.pow(parseFloat(s.est) / 100, 2);
+    const okMail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.correo);
+    const pwErr = !s.pw0 ? 'Escribe tu contraseña actual.' : s.pw1.length < 8 ? 'La nueva debe tener mínimo 8 caracteres.' : s.pw1 !== s.pw2 ? 'Las contraseñas nuevas no coinciden.' : '';
+    const sel = (on) => ({ bg: on ? '#D4FF00' : 'transparent', fg: on ? '#0B0B0C' : '#F2F0EB' });
+    const delOk = s.delText.trim().toUpperCase() === 'BORRAR';
+    return {
+      ini: (s.nombre[0] || '') + (s.apellido[0] || ''), nombreFull: `${s.nombre} ${s.apellido}`, gym: (a.user || {}).gym, planUp: a.plan === 'pro' ? 'PRO' : 'FREE',
+      cols: m ? 'minmax(0,1fr)' : '200px minmax(0,1fr)', desktop: !m,
+      secciones: [['pf-datos', 'Tus datos'], ['pf-molestias', 'Molestias y tiempo'], ['pf-seguridad', 'Contraseña'], ['pf-plan', 'Plan'], ['pf-privacidad', 'Privacidad']].map(([id, l], i) => ({ l, n: '0' + (i + 1), go: () => this.scroll(id) })),
+      nombre: s.nombre, apellido: s.apellido, correo: s.correo, celular: s.celular, peso: s.peso, est: s.est,
+      onNombre: e => this.setState({ nombre: e.target.value }), onApellido: e => this.setState({ apellido: e.target.value }), onCorreo: e => this.setState({ correo: e.target.value }), onCel: e => this.setState({ celular: e.target.value }), onPeso: e => this.setState({ peso: e.target.value }), onEst: e => this.setState({ est: e.target.value }),
+      eCorreo: okMail ? '#2A2A2E' : '#FF3B3B',
+      imc: isFinite(imc) ? imc.toFixed(2).replace('.', ',') : '--',
+      saveDatos: () => { if (!okMail) { a.toast('err', 'Revisa tu correo', 'Le falta la @ o el dominio.'); return; } a.updateUser({ nombre: s.nombre, apellido: s.apellido, correo: s.correo, celular: s.celular }); a.toast('ok', 'Datos guardados', 'Tu perfil está al día.'); },
+      molestias: MOL.map(l => { const on = s.mol.includes(l); return { l, on, check: on ? '✓ ' : '', bg: on ? '#D4FF00' : 'transparent', fg: on ? '#0B0B0C' : '#F2F0EB', bd: on ? '#D4FF00' : '#2A2A2E', toggle: () => this.setState(st => { if (l === 'Ninguna') return { mol: ['Ninguna'] }; const rest = st.mol.filter(x => x !== 'Ninguna'); const nx = on ? rest.filter(x => x !== l) : [...rest, l]; return { mol: nx.length ? nx : ['Ninguna'] }; }) }; }),
+      showSev: s.mol.includes('Lumbar'),
+      sev: ['Leve', 'Moderada', 'Fuerte'].map(l => ({ l, on: s.sev === l, ...sel(s.sev === l), pick: () => this.setState({ sev: l }) })),
+      dias: [2, 3, 4, 5, 6].map(n => ({ n, ...sel(s.dias === n), pick: () => this.setState({ dias: n }) })),
+      mins: [30, 45, 60, 90].map(n => ({ n, ...sel(s.min === n), pick: () => this.setState({ min: n }) })),
+      saveMol: () => { a.updateUser({ molestias: s.mol, severidad: s.sev, dias: s.dias, minutos: s.min }); a.toast('ia', 'Listo, ajustamos tu rutina', `${s.dias} días de ${s.min} min · sin gastar cupo.`); },
+      pw0: s.pw0, pw1: s.pw1, pw2: s.pw2,
+      onPw0: e => this.setState({ pw0: e.target.value }), onPw1: e => this.setState({ pw1: e.target.value }), onPw2: e => this.setState({ pw2: e.target.value }),
+      ePw0: s.pwTried && !s.pw0 ? '#FF3B3B' : '#2A2A2E', ePw1: s.pwTried && s.pw1.length < 8 ? '#FF3B3B' : '#2A2A2E', ePw2: s.pwTried && s.pw1 !== s.pw2 ? '#FF3B3B' : '#2A2A2E',
+      pwMsgOn: s.pwTried && !!pwErr, pwMsg: pwErr,
+      savePw: () => { if (pwErr) { this.setState({ pwTried: true }); return; } this.setState({ pw0: '', pw1: '', pw2: '', pwTried: false }); a.toast('ok', 'Contraseña cambiada', 'Úsala la próxima vez que ingreses.'); },
+      planTxt: a.plan === 'pro' ? '10 rutinas IA al mes, sin anuncios.' : `2 rutinas IA al mes, con publicidad. Te quedan ${a.cupo ?? 1}.`,
+      planCta: a.plan === 'pro' ? 'Gestionar plan' : 'Pásate a Pro', goPlanes: () => a.go('planes'),
+      dlLabel: s.dl === 'prep' ? 'Preparando archivo…' : s.dl === 'listo' ? 'Descargar otra vez' : 'Descargar JSON',
+      download: () => {
+        if (s.dl === 'prep') return;
+        this.setState({ dl: 'prep' });
+        this.to = setTimeout(() => {
+          try {
+            const data = { perfil: { ...(a.user || {}), nombre: s.nombre, apellido: s.apellido, correo: s.correo }, plan: a.plan, pesos: (a.data || {}).pesos, semanas: (a.data || {}).semanas, rutina: (a.rutina || []).map(d => ({ dia: d.n, titulo: d.title, ejercicios: d.ids })) };
+            const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+            const el = document.createElement('a'); el.href = url; el.download = 'fitia-mis-datos.json'; document.body.appendChild(el); el.click(); el.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+          } catch (e) {}
+          this.setState({ dl: 'listo' }); a.toast('ok', 'Tus datos están listos', 'Descargamos fitia-mis-datos.json');
+        }, 1200);
+      },
+      delOpen: s.delOpen, delText: s.delText, onDel: e => this.setState({ delText: e.target.value }),
+      openDel: () => this.setState({ delOpen: true, delText: '' }), closeDel: () => this.setState({ delOpen: false }), stop: e => e.stopPropagation(),
+      delDisabled: !delOk, delBg: delOk ? '#FF3B3B' : '#2A2A2E', delFg: delOk ? '#0B0B0C' : '#9A9AA0', delCur: delOk ? 'pointer' : 'not-allowed',
+      confirmDel: () => { if (!delOk) return; this.setState({ delOpen: false, deleted: true }); window.scrollTo(0, 0); a.toast('warn', 'Solicitud registrada', 'Borraremos tus datos en máximo 15 días hábiles.'); },
+      deleted: s.deleted, undoDelete: () => { this.setState({ deleted: false }); a.toast('ok', 'Cancelamos la solicitud', 'Tus datos siguen aquí.'); },
+      logout: () => a.toast('ok', 'Sesión cerrada (demo)', 'En la app real volverías al sitio web.')
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+</helmet>
+<div style="position:fixed;top:0;left:0;right:0;z-index:100;height:{{ h }};background:{{ bg }};border-bottom:1px solid {{ bd }};backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:height 260ms cubic-bezier(.2,.8,.2,1),background 260ms,border-color 260ms">
+  <div style="height:100%;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <a href="FitIA%20Inicio.dc.html" aria-label="FitIA, inicio" style="display:flex;align-items:center;gap:10px;color:#F2F0EB;text-decoration:none;min-height:44px" style-focus="outline:2px solid #D4FF00;outline-offset:4px">
+      <svg viewBox="0 0 48 36" style="display:block;width:{{ logoW }};height:auto;color:#D4FF00;transition:width 260ms"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path></svg>
+      <span style="font-family:Anton,sans-serif;font-size:{{ wordSize }};line-height:1;letter-spacing:.01em;transition:font-size 260ms">FIT<span style="color:#D4FF00">IA</span></span>
+    </a>
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Principal" style="display:flex;align-items:center;gap:4px">
+        <sc-for list="{{ links }}" as="l" hint-placeholder-count="4">
+          <a href="{{ l.href }}" style="display:flex;align-items:center;min-height:44px;padding:0 14px;color:{{ l.fg }};font-family:'Inter Tight',sans-serif;font-size:15px;font-weight:600;text-decoration:none;box-shadow:inset 0 -3px 0 {{ l.line }};transition:color 120ms,box-shadow 120ms" style-hover="color:#F2F0EB;box-shadow:inset 0 -3px 0 #D4FF00" style-focus="outline:2px solid #D4FF00;outline-offset:2px">{{ l.label }}</a>
+        </sc-for>
+      </nav>
+      <div style="display:flex;align-items:center;gap:8px">
+        <a href="FitIA%20Ingresar.dc.html" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:4px;color:#F2F0EB;font-family:'Inter Tight',sans-serif;font-size:15px;font-weight:600;text-decoration:none" style-hover="background:#2A2A2E" style-focus="outline:2px solid #D4FF00;outline-offset:2px">Ingresar</a>
+        <a href="FitIA%20Ingresar.dc.html#registro" style="display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:'Inter Tight',sans-serif;font-size:15px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms,background 120ms" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">Empieza gratis</a>
+      </div>
+    </sc-if>
+    <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:8px">
+        <a href="FitIA%20Ingresar.dc.html#registro" style="display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:'Inter Tight',sans-serif;font-size:14px;font-weight:600;text-decoration:none;box-shadow:0 3px 0 #7E9900" style-active="transform:translateY(2px);box-shadow:0 1px 0 #7E9900">Empieza gratis</a>
+        <button onClick="{{ toggle }}" aria-label="Menú" aria-expanded="{{ open }}" style="width:44px;height:44px;border:2px solid #2A2A2E;border-radius:4px;background:transparent;color:#F2F0EB;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(2px)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="{{ menuIcon }}"></path></svg></button>
+      </div>
+    </sc-if>
+  </div>
+</div>
+<sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:0;right:0;bottom:0;top:{{ h }};z-index:99;background:#0B0B0C;overflow:auto;display:flex;flex-direction:column;padding:24px clamp(16px,4vw,56px) 0">
+    <nav aria-label="Menú móvil" style="display:flex;flex-direction:column">
+      <sc-for list="{{ links }}" as="l" hint-placeholder-count="4">
+        <a href="{{ l.href }}" onClick="{{ close }}" style="display:flex;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid #2A2A2E;color:{{ l.mfg }};text-decoration:none" style-active="transform:translateX(4px)"><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">{{ l.n }}</span><span style="font-family:Anton,sans-serif;font-size:44px;line-height:1;text-transform:uppercase">{{ l.label }}</span></a>
+      </sc-for>
+    </nav>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:32px">
+      <a href="FitIA%20Ingresar.dc.html#registro" style="display:flex;align-items:center;justify-content:center;min-height:56px;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:'Inter Tight',sans-serif;font-size:17px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 #7E9900">Empieza gratis</a>
+      <a href="FitIA%20Ingresar.dc.html" style="display:flex;align-items:center;justify-content:center;min-height:56px;border:2px solid #F2F0EB;border-radius:4px;color:#F2F0EB;font-family:'Inter Tight',sans-serif;font-size:17px;font-weight:600;text-decoration:none">Ingresar</a>
+    </div>
+    <div style="margin:auto -56px 0;padding-top:40px"><div style="height:20px;background:repeating-linear-gradient(-45deg,#D4FF00 0 14px,#0B0B0C 14px 28px)"></div></div>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;inicio&quot;,&quot;como&quot;,&quot;imc&quot;,&quot;planes&quot;,&quot;nosotros&quot;,&quot;ingresar&quot;],&quot;default&quot;:&quot;inicio&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const LINKS = [
+  { id: 'como', label: 'Cómo funciona', href: 'FitIA%20Inicio.dc.html#como' },
+  { id: 'imc', label: 'Calculadora IMC', href: 'FitIA%20Calculadora%20IMC.dc.html' },
+  { id: 'planes', label: 'Planes', href: 'FitIA%20Planes.dc.html' },
+  { id: 'nosotros', label: 'Sobre nosotros', href: 'FitIA%20Sobre%20nosotros.dc.html' }
+];
+const EASE = 'cubic-bezier(.2,.8,.2,1)';
+class Component extends DCLogic {
+  state = { scrolled: false, mobile: false, open: false };
+  componentDidMount() {
+    this.onScroll = () => { const s = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) > 40; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+    this.onResize = () => { const m = window.innerWidth < 900; if (m !== this.state.mobile) this.setState({ mobile: m, open: false }); };
+    document.addEventListener('scroll', this.onScroll, { capture: true, passive: true });
+    window.addEventListener('resize', this.onResize);
+    this.onResize(); this.onScroll();
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return;
+    this.io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target; el.style.opacity = '1'; el.style.transform = 'none'; this.io.unobserve(el);
+    }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    const scan = () => document.querySelectorAll('[data-reveal]:not([data-rv])').forEach(el => {
+      el.setAttribute('data-rv', '1');
+      el.style.opacity = '0';
+      el.style.transform = 'translate3d(-48px,40px,0)';
+      el.style.transition = `opacity 700ms ${EASE}, transform 700ms ${EASE}`;
+      el.style.transitionDelay = (el.getAttribute('data-reveal') || 0) + 'ms';
+      requestAnimationFrame(() => this.io && this.io.observe(el));
+    });
+    scan();
+    this.mo = new MutationObserver(() => { clearTimeout(this.st); this.st = setTimeout(scan, 60); });
+    this.mo.observe(document.body, { childList: true, subtree: true });
+  }
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.onScroll, { capture: true }); window.removeEventListener('resize', this.onResize);
+    this.io && this.io.disconnect(); this.mo && this.mo.disconnect(); document.body.style.overflow = '';
+  }
+  setOpen(v) { document.body.style.overflow = v ? 'hidden' : ''; this.setState({ open: v }); }
+  renderVals() {
+    const s = this.state, a = this.props.active;
+    const h = s.scrolled ? '64px' : '88px';
+    return {
+      h, bg: s.scrolled || s.open ? 'rgba(11,11,12,.94)' : 'rgba(11,11,12,0)', bd: s.scrolled ? '#2A2A2E' : 'transparent',
+      logoW: s.scrolled ? '32px' : '40px', wordSize: s.scrolled ? '24px' : '30px',
+      desktop: !s.mobile, mobile: s.mobile, open: s.open,
+      toggle: () => this.setOpen(!s.open), close: () => this.setOpen(false),
+      menuIcon: s.open ? 'M6 6l12 12M18 6L6 18' : 'M3 6h18M3 12h18M3 18h18',
+      links: LINKS.map((l, i) => ({ ...l, n: '0' + (i + 1), fg: a === l.id ? '#F2F0EB' : '#9A9AA0', mfg: a === l.id ? '#D4FF00' : '#F2F0EB', line: a === l.id ? '#D4FF00' : 'transparent' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

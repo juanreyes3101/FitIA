@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"></helmet>
+<div data-screen-label="Onboarding" style="position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden">
+  <div aria-hidden="true" style="position:fixed;right:-2vw;bottom:-4vw;font-family:Anton,sans-serif;font-size:clamp(240px,34vw,520px);line-height:.8;color:transparent;-webkit-text-stroke:2px #1A1A1D;pointer-events:none">{{ bigNum }}</div>
+  <header style="position:sticky;top:0;z-index:5;background:rgba(11,11,12,.94);border-bottom:1px solid #2A2A2E">
+    <div style="max-width:960px;margin:0 auto;padding:12px clamp(16px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <div style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 48 36" width="30" height="23" style="display:block;color:#D4FF00"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path></svg><span style="font-family:Anton,sans-serif;font-size:24px;line-height:1">FIT<span style="color:#D4FF00">IA</span></span></div>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700">PASO {{ pasoN }} DE 4</span>
+      <button onClick="{{ salir }}" style="min-height:44px;padding:0 12px;border:0;border-radius:4px;background:transparent;color:#9A9AA0;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#1A1A1D;color:#F2F0EB">Luego</button>
+    </div>
+    <div style="max-width:960px;margin:0 auto;padding:0 clamp(16px,4vw,40px) 14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px">
+      <sc-for list="{{ segs }}" as="s" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:6px;background:#2A2A2E"><div style="height:100%;width:{{ s.w }};background:#D4FF00;transition:width 500ms cubic-bezier(.2,.8,.2,1)"></div></div><span style="font-size:12px;font-weight:600;color:{{ s.fg }}">{{ s.l }}</span></div>
+      </sc-for>
+    </div>
+  </header>
+
+  <main style="position:relative;flex:1;width:100%;max-width:960px;margin:0 auto;padding:40px clamp(16px,4vw,40px) 140px">
+    <sc-if value="{{ p0 }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:28px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+        <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#D4FF00">PASO 01 · TÚ</div><h1 style="margin-top:8px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,6vw,88px);line-height:.9;text-transform:uppercase">Primero,<br>cuéntanos de ti.</h1></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">¿Cómo te llamas?</span><input value="{{ nombre }}" onChange="{{ onNombre }}" autocomplete="given-name" placeholder="Tu nombre" style="min-height:56px;padding:0 16px;background:#0B0B0C;border:2px solid {{ eNombre }};border-radius:4px;color:#F2F0EB;font-size:18px" style-focus="outline:none;border-color:#D4FF00"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Edad</span><input inputmode="numeric" value="{{ edad }}" onChange="{{ onEdad }}" placeholder="28" style="min-height:56px;padding:0 16px;background:#0B0B0C;border:2px solid {{ eEdad }};border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:20px" style-focus="outline:none;border-color:#D4FF00"><sc-if value="{{ edadErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#FF3B3B">FitIA es para personas de 14 a 90 años.</span></sc-if></label>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:14px;font-weight:600">Sexo <span style="color:#9A9AA0;font-weight:400">· lo usamos para ajustar cargas</span></span><div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ sexos }}" as="x" hint-placeholder-count="3"><button onClick="{{ x.pick }}" aria-pressed="{{ x.on }}" style="min-height:52px;padding:0 20px;border:2px solid {{ x.bd }};border-radius:2px;background:{{ x.bg }};color:{{ x.fg }};font-size:16px;font-weight:600;cursor:pointer" style-hover="border-color:#F2F0EB" style-active="transform:translateY(2px)">{{ x.l }}</button></sc-for></div></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ p1 }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:28px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+        <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#D4FF00">PASO 02 · MEDIDAS</div><h1 style="margin-top:8px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,6vw,88px);line-height:.9;text-transform:uppercase">¿Cuánto pesas<br>y mides?</h1></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <sc-for list="{{ medidas }}" as="x" hint-placeholder-count="2">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-size:14px;font-weight:600">{{ x.l }}</span>
+                <div style="display:flex;align-items:stretch;min-height:64px;border:2px solid {{ x.bd }};border-radius:4px;overflow:hidden">
+                  <button onClick="{{ x.minus }}" aria-label="Restar" style="width:60px;flex:none;border:0;border-right:1px solid #2A2A2E;background:transparent;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:26px;cursor:pointer" style-hover="background:#1A1A1D" style-active="background:#2A2A2E">−</button>
+                  <input inputmode="decimal" value="{{ x.v }}" onChange="{{ x.on }}" aria-label="{{ x.l }}" style="flex:1;min-width:0;border:0;background:transparent;color:#F2F0EB;text-align:center;font-family:'JetBrains Mono',monospace;font-size:32px;font-weight:700" style-focus="outline:none;background:#1A1A1D">
+                  <span style="display:flex;align-items:center;padding-right:14px;font-family:'JetBrains Mono',monospace;color:#9A9AA0">{{ x.u }}</span>
+                  <button onClick="{{ x.plus }}" aria-label="Sumar" style="width:60px;flex:none;border:0;border-left:1px solid #2A2A2E;background:transparent;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:26px;cursor:pointer" style-hover="background:#1A1A1D" style-active="background:#2A2A2E">+</button>
+                </div>
+                <sc-if value="{{ x.err }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#FF3B3B">{{ x.msg }}</span></sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div aria-live="polite" style="position:relative;overflow:hidden;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:18px;box-shadow:8px 8px 0 #2A2A2E">
+            <div aria-hidden="true" style="position:absolute;right:-8px;top:-24px;font-family:Anton,sans-serif;font-size:140px;line-height:1;color:#212125">IMC</div>
+            <div style="position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#9A9AA0">TU IMC, EN VIVO</div><div style="font-family:'JetBrains Mono',monospace;font-size:72px;font-weight:700;line-height:1;letter-spacing:-.04em;color:#D4FF00">{{ imcTxt }}</div></div><span style="font-size:12px;font-weight:700;letter-spacing:.08em;padding:6px 10px;border-radius:2px;background:{{ catBg }};color:#0B0B0C">{{ catL }}</span></div>
+            <div style="position:relative;padding-top:6px"><div style="display:flex;gap:3px"><sc-for list="{{ imcSegs }}" as="g" hint-placeholder-count="4"><div style="flex:{{ g.flex }};height:14px;background:{{ g.bg }};transition:background 250ms"></div></sc-for></div><div style="position:absolute;top:0;left:{{ marker }};width:4px;height:26px;margin-left:-2px;background:#F2F0EB;box-shadow:0 0 0 2px #1A1A1D;transition:left 400ms cubic-bezier(.2,.8,.2,1)"></div><div style="margin-top:8px;display:flex;justify-content:space-between;font-size:12px;color:#9A9AA0"><span>Bajo</span><span>Normal</span><span>Sobrepeso</span><span>Obesidad</span></div></div>
+            <p style="position:relative;font-size:15px">{{ catMsg }} <span style="color:#9A9AA0">Es una referencia, no un juicio.</span></p>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ p2 }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:28px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+        <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#D4FF00">PASO 03 · OBJETIVO</div><h1 style="margin-top:8px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,6vw,88px);line-height:.9;text-transform:uppercase">¿Cómo te mueves<br>y qué buscas?</h1></div>
+        <div style="display:flex;flex-direction:column;gap:12px"><span style="font-size:14px;font-weight:600">Nivel de actividad hoy</span>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:8px"><sc-for list="{{ acts }}" as="x" hint-placeholder-count="4"><button onClick="{{ x.pick }}" aria-pressed="{{ x.on }}" style="min-height:104px;padding:16px;border:2px solid {{ x.bd }};border-radius:4px;background:{{ x.bg }};color:{{ x.fg }};text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:8px;cursor:pointer;transition:background 120ms,border-color 120ms" style-hover="border-color:#F2F0EB" style-active="transform:translateY(2px)" style-focus="outline:2px solid #F2F0EB;outline-offset:2px"><span style="font-family:Anton,sans-serif;font-size:26px;line-height:1;text-transform:uppercase">{{ x.l }}</span><span style="font-size:14px;line-height:1.35;color:{{ x.sub }}">{{ x.d }}</span></button></sc-for></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px"><span style="font-size:14px;font-weight:600">Tu objetivo principal</span>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:8px"><sc-for list="{{ objs }}" as="x" hint-placeholder-count="5"><button onClick="{{ x.pick }}" aria-pressed="{{ x.on }}" style="min-height:104px;padding:16px;border:2px solid {{ x.bd }};border-radius:4px;background:{{ x.bg }};color:{{ x.fg }};text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:8px;cursor:pointer;transition:background 120ms,border-color 120ms" style-hover="border-color:#F2F0EB" style-active="transform:translateY(2px)" style-focus="outline:2px solid #F2F0EB;outline-offset:2px"><span style="font-family:Anton,sans-serif;font-size:24px;line-height:1;text-transform:uppercase">{{ x.l }}</span><span style="font-size:14px;line-height:1.35;color:{{ x.sub }}">{{ x.d }}</span></button></sc-for></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ p3 }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:28px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+        <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#D4FF00">PASO 04 · MOLESTIAS Y TIEMPO</div><h1 style="margin-top:8px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,6vw,88px);line-height:.9;text-transform:uppercase">¿Algo te<br>molesta?</h1><p style="margin-top:12px;color:#9A9AA0;font-size:17px">Elige todas las que apliquen. Así la IA saca lo que te puede lastimar.</p></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:8px"><sc-for list="{{ mols }}" as="x" hint-placeholder-count="4"><button onClick="{{ x.toggle }}" aria-pressed="{{ x.on }}" style="min-height:88px;padding:16px;border:2px solid {{ x.bd }};border-radius:4px;background:{{ x.bg }};color:{{ x.fg }};text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:6px;cursor:pointer" style-hover="border-color:#F2F0EB" style-active="transform:translateY(2px)" style-focus="outline:2px solid #F2F0EB;outline-offset:2px"><span style="font-family:Anton,sans-serif;font-size:26px;line-height:1;text-transform:uppercase">{{ x.check }}{{ x.l }}</span><span style="font-size:14px;color:{{ x.sub }}">{{ x.d }}</span></button></sc-for></div>
+        <sc-for list="{{ sevRows }}" as="r" hint-placeholder-count="1">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px">
+            <span style="font-weight:600">{{ r.l }}: ¿qué tan fuerte?</span>
+            <div style="display:flex;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden"><sc-for list="{{ r.opts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="min-height:44px;padding:0 14px;border:0;background:{{ o.bg }};color:{{ o.fg }};font-size:14px;font-weight:600;cursor:pointer">{{ o.l }}</button></sc-for></div>
+          </div>
+        </sc-for>
+        <sc-if value="{{ medWarn }}" hint-placeholder-val="{{ false }}"><div role="note" style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border:1px solid #FFB020;border-radius:4px;background:rgba(255,176,32,.06)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFB020" stroke-width="2" stroke-linecap="square" style="flex:none"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v1"></path></svg><p style="font-size:15px">Te recomendamos hablar con un médico antes de empezar. Igual armamos una rutina suave y de bajo impacto.</p></div></sc-if>
+        <div style="display:flex;gap:24px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Días por semana</span><div style="display:flex;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden"><sc-for list="{{ dias }}" as="x" hint-placeholder-count="5"><button onClick="{{ x.pick }}" aria-pressed="{{ x.on }}" style="width:52px;min-height:52px;border:0;background:{{ x.bg }};color:{{ x.fg }};font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;cursor:pointer">{{ x.n }}</button></sc-for></div></div>
+          <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Minutos por sesión</span><div style="display:flex;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden"><sc-for list="{{ mins }}" as="x" hint-placeholder-count="4"><button onClick="{{ x.pick }}" aria-pressed="{{ x.on }}" style="width:60px;min-height:52px;border:0;background:{{ x.bg }};color:{{ x.fg }};font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;cursor:pointer">{{ x.n }}</button></sc-for></div></div>
+        </div>
+      </div>
+    </sc-if>
+  </main>
+
+  <footer style="position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(11,11,12,.96);border-top:1px solid #2A2A2E">
+    <div style="max-width:960px;margin:0 auto;padding:14px clamp(16px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <button onClick="{{ atras }}" disabled="{{ noAtras }}" style="min-height:52px;padding:0 20px;border:2px solid {{ atrasBd }};border-radius:4px;background:transparent;color:{{ atrasFg }};font-size:16px;font-weight:600;cursor:pointer" style-active="transform:translateY(2px)">Atrás</button>
+      <sc-if value="{{ stepErr }}" hint-placeholder-val="{{ false }}"><span role="alert" style="flex:1;font-size:14px;color:#FF3B3B;text-align:center">{{ stepErrMsg }}</span></sc-if>
+      <button onClick="{{ siguiente }}" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">{{ sigLabel }}<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"></path></svg></button>
+    </div>
+  </footer>
+
+  <sc-if value="{{ gen }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="Armando tu rutina" style="position:fixed;inset:0;z-index:50;background:#0B0B0C;display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto">
+      <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;opacity:.08;background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.8%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url%28%23n%29%27/%3E%3C/svg%3E)"></div>
+      <div style="position:relative;width:100%;max-width:600px;display:flex;flex-direction:column;gap:24px">
+        <span style="width:88px;height:88px;background:#D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="2" stroke-linecap="square" style="animation:fitia-pulse 1s ease-in-out infinite"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg></span>
+        <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,7vw,88px);line-height:.88;text-transform:uppercase">{{ genTitle }}</h2>
+        <div style="position:relative;height:10px;background:#1A1A1D;overflow:hidden"><div style="height:100%;width:{{ genW }};background:#D4FF00;transition:width 600ms cubic-bezier(.2,.8,.2,1)"></div><sc-if value="{{ genRun }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:0;bottom:0;width:30%;background:linear-gradient(90deg,transparent,rgba(242,240,235,.35),transparent);animation:fitia-scan 1.2s linear infinite"></div></sc-if></div>
+        <ul style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ genItems }}" as="g" hint-placeholder-count="5">
+            <li style="display:flex;align-items:center;gap:12px;font-size:17px;color:{{ g.fg }};transition:color 200ms">
+              <span style="width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center"><sc-if value="{{ g.done }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2.5" stroke-linecap="square"><path d="M4 12l5 5L20 6"></path></svg></sc-if><sc-if value="{{ g.now }}" hint-placeholder-val="{{ false }}"><span style="width:16px;height:16px;border:2px solid #D4FF00;border-right-color:transparent;animation:fitia-spin 700ms linear infinite"></span></sc-if><sc-if value="{{ g.wait }}" hint-placeholder-val="{{ true }}"><span style="width:8px;height:8px;background:#2A2A2E"></span></sc-if></span>{{ g.t }}
+            </li>
+          </sc-for>
+        </ul>
+        <sc-if value="{{ genFail }}" hint-placeholder-val="{{ false }}"><div role="alert" style="display:flex;gap:12px;align-items:flex-start;padding:16px;border:1px solid #FFB020;border-radius:4px;background:rgba(255,176,32,.08)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFB020" stroke-width="2" stroke-linecap="square" style="flex:none"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v1"></path></svg><div><div style="font-weight:700">La IA no respondió, usamos una rutina base segura.</div><div style="font-size:15px;color:#9A9AA0">Está pensada para molestia lumbar. La personalizamos apenas la IA vuelva, sin gastar cupo.</div></div></div></sc-if>
+        <sc-if value="{{ genDone }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:12px;flex-wrap:wrap;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+            <button onClick="{{ verRutina }}" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 28px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:17px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">Ver mi rutina</button>
+            <button onClick="{{ irInicio }}" style="min-height:56px;padding:0 22px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">Ir al inicio</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ACT = [['Sedentaria', 'Casi no me muevo. Trabajo o estudio sentada.'], ['Algo activa', 'Camino o subo escaleras a diario.'], ['Activa', 'Hago ejercicio 1 o 2 veces por semana.'], ['Muy activa', 'Entreno 3 o más veces por semana.']];
+const OBJ = [['Bajar de peso', 'Cardio y fuerza para quemar grasa.'], ['Ganar fuerza', 'Levantar más, con buena técnica.'], ['Tonificar', 'Más firmeza muscular.'], ['Más energía', 'Sentirme mejor en el día.'], ['Movilidad', 'Moverme sin rigidez ni dolor.']];
+const MOL = [['Lumbar', 'Espalda baja'], ['Rodilla', 'Una o ambas'], ['Hipertensión', 'Presión alta'], ['Ninguna', 'Estoy al 100']];
+const SEGS = [{ flex: 3.5, c: '#FFB020', max: 18.5, l: 'BAJO PESO' }, { flex: 6.5, c: '#3DDC84', max: 25, l: 'NORMAL' }, { flex: 5, c: '#FFB020', max: 30, l: 'SOBREPESO' }, { flex: 10, c: '#FF4D1A', max: 999, l: 'OBESIDAD' }];
+const MSG = ['Tu rutina buscará ganar fuerza y masa, sin afán.', 'Estás en rango. Vamos por fuerza y constancia.', 'Arrancamos con cardio de bajo impacto y fuerza. Paso a paso.', 'Empezamos suave, cuidando rodillas y espalda.'];
+const num = v => parseFloat(String(v).replace(',', '.'));
+const pick = (on) => ({ bg: on ? '#D4FF00' : 'transparent', fg: on ? '#0B0B0C' : '#F2F0EB', bd: on ? '#D4FF00' : '#2A2A2E', sub: on ? '#0B0B0C' : '#9A9AA0' });
+class Component extends DCLogic {
+  state = { paso: 0, nombre: 'Laura', edad: '28', sexo: 'Mujer', peso: '78', est: '165', act: 'Sedentaria', obj: 'Bajar de peso', mol: ['Lumbar'], sev: { Lumbar: 'Moderada' }, dias: 3, min: 45, tried: false, gen: false, step: 0 };
+  componentDidMount() { const q = (this.props.app || {}).q || {}; if (q.paso === 'cierre') this.start(); else if (q.paso) this.setState({ paso: Math.max(0, Math.min(3, (+q.paso || 1) - 1)) }); }
+  componentWillUnmount() { clearInterval(this.iv); }
+  valid(p = this.state.paso) {
+    const s = this.state;
+    if (p === 0) return s.nombre.trim() && num(s.edad) >= 14 && num(s.edad) <= 90 ? '' : 'Completa tu nombre y una edad válida.';
+    if (p === 1) return num(s.peso) >= 30 && num(s.peso) <= 250 && num(s.est) >= 120 && num(s.est) <= 220 ? '' : 'Revisa peso y estatura.';
+    if (p === 2) return s.act && s.obj ? '' : 'Elige tu nivel y tu objetivo.';
+    return s.mol.length && s.mol.every(m => m === 'Ninguna' || s.sev[m]) ? '' : 'Dinos qué tan fuerte es cada molestia.';
+  }
+  items() {
+    const s = this.state; const imc = num(s.peso) / Math.pow(num(s.est) / 100, 2);
+    const ml = s.mol.filter(m => m !== 'Ninguna');
+    return [`Calculando tu IMC: ${imc.toFixed(2).replace('.', ',')}`, ml.length ? `Quitando ejercicios que cargan: ${ml.join(', ').toLowerCase()}` : 'Eligiendo ejercicios para tu nivel', `Ajustando a ${s.dias} días de ${s.min} minutos`, `Enfocando en: ${s.obj.toLowerCase()}`, 'Revisando que todo sea seguro para ti'];
+  }
+  start() {
+    this.setState({ gen: true, step: 0 });
+    clearInterval(this.iv);
+    this.iv = setInterval(() => { const n = this.state.step + 1; this.setState({ step: n }); if (n >= 5) clearInterval(this.iv); }, 700);
+  }
+  renderVals() {
+    const a = this.props.app || {}; const s = this.state; const err = this.valid();
+    const p = num(s.peso), e = num(s.est); const okP = p >= 30 && p <= 250, okE = e >= 120 && e <= 220;
+    const imc = okP && okE ? p / Math.pow(e / 100, 2) : null;
+    const ci = imc == null ? -1 : SEGS.findIndex(g => imc < g.max);
+    const fail = a.estado === 'error';
+    const items = this.items(); const done = s.step >= 5;
+    const bump = (k, d) => () => { const v = num(s[k]); if (!isNaN(v)) this.setState({ [k]: String(Math.round(v + d)) }); };
+    const finish = r => () => { a.setRutinaTipo(fail ? 'base' : 'ia'); a.updateUser({ nombre: s.nombre.trim(), edad: +s.edad, peso: p, estatura: e, molestias: s.mol, severidad: s.sev.Lumbar || 'Leve', actividad: s.act, objetivo: s.obj, dias: s.dias, minutos: s.min }); a.go(r); };
+    return {
+      bigNum: '0' + (s.paso + 1), pasoN: s.paso + 1,
+      segs: ['Tú', 'Medidas', 'Objetivo', 'Molestias'].map((l, i) => ({ l, w: i <= s.paso ? '100%' : '0%', fg: i <= s.paso ? '#F2F0EB' : '#9A9AA0' })),
+      p0: s.paso === 0, p1: s.paso === 1, p2: s.paso === 2, p3: s.paso === 3,
+      salir: () => a.go('dashboard'),
+      nombre: s.nombre, onNombre: ev => this.setState({ nombre: ev.target.value }), eNombre: s.tried && !s.nombre.trim() ? '#FF3B3B' : '#2A2A2E',
+      edad: s.edad, onEdad: ev => this.setState({ edad: ev.target.value.replace(/\D/g, '').slice(0, 2) }),
+      edadErr: s.edad !== '' && (num(s.edad) < 14 || num(s.edad) > 90), eEdad: s.edad !== '' && (num(s.edad) < 14 || num(s.edad) > 90) ? '#FF3B3B' : '#2A2A2E',
+      sexos: ['Mujer', 'Hombre', 'Prefiero no decir'].map(l => ({ l, on: s.sexo === l, ...pick(s.sexo === l), pick: () => this.setState({ sexo: l }) })),
+      medidas: [
+        { l: 'Peso', u: 'kg', v: s.peso, on: ev => this.setState({ peso: ev.target.value }), minus: bump('peso', -1), plus: bump('peso', 1), bd: okP ? '#2A2A2E' : '#FF3B3B', err: !okP, msg: 'Escribe un peso entre 30 y 250 kg.' },
+        { l: 'Estatura', u: 'cm', v: s.est, on: ev => this.setState({ est: ev.target.value }), minus: bump('est', -1), plus: bump('est', 1), bd: okE ? '#2A2A2E' : '#FF3B3B', err: !okE, msg: 'Escribe una estatura entre 120 y 220 cm.' }
+      ],
+      imcTxt: imc == null ? '--,--' : imc.toFixed(2).replace('.', ','), catL: ci < 0 ? 'REVISA' : SEGS[ci].l, catBg: ci < 0 ? '#9A9AA0' : SEGS[ci].c,
+      catMsg: ci < 0 ? 'Completa peso y estatura.' : MSG[ci],
+      imcSegs: SEGS.map((g, i) => ({ flex: g.flex, bg: i === ci ? g.c : '#2A2A2E' })),
+      marker: (imc == null ? 0 : Math.max(0, Math.min(100, (imc - 15) / 25 * 100))) + '%',
+      acts: ACT.map(([l, d]) => ({ l, d, on: s.act === l, ...pick(s.act === l), pick: () => this.setState({ act: l }) })),
+      objs: OBJ.map(([l, d]) => ({ l, d, on: s.obj === l, ...pick(s.obj === l), pick: () => this.setState({ obj: l }) })),
+      mols: MOL.map(([l, d]) => { const on = s.mol.includes(l); return { l, d, on, check: on ? '✓ ' : '', ...pick(on), toggle: () => this.setState(st => { if (l === 'Ninguna') return { mol: ['Ninguna'] }; const rest = st.mol.filter(x => x !== 'Ninguna'); const nx = on ? rest.filter(x => x !== l) : [...rest, l]; return { mol: nx.length ? nx : ['Ninguna'] }; }) }; }),
+      sevRows: s.mol.filter(m => m !== 'Ninguna').map(m => ({ l: m, opts: (m === 'Hipertensión' ? ['Controlada', 'Sin control'] : ['Leve', 'Moderada', 'Fuerte']).map(o => { const on = s.sev[m] === o; return { l: o, on, bg: on ? '#D4FF00' : 'transparent', fg: on ? '#0B0B0C' : '#F2F0EB', pick: () => this.setState(st => ({ sev: { ...st.sev, [m]: o } })) }; }) })),
+      medWarn: Object.entries(s.sev).some(([k, v]) => s.mol.includes(k) && (v === 'Fuerte' || v === 'Sin control')),
+      dias: [2, 3, 4, 5, 6].map(n => ({ n, on: s.dias === n, bg: s.dias === n ? '#D4FF00' : 'transparent', fg: s.dias === n ? '#0B0B0C' : '#F2F0EB', pick: () => this.setState({ dias: n }) })),
+      mins: [30, 45, 60, 90].map(n => ({ n, on: s.min === n, bg: s.min === n ? '#D4FF00' : 'transparent', fg: s.min === n ? '#0B0B0C' : '#F2F0EB', pick: () => this.setState({ min: n }) })),
+      noAtras: s.paso === 0, atrasBd: s.paso === 0 ? '#2A2A2E' : '#F2F0EB', atrasFg: s.paso === 0 ? '#5A5A60' : '#F2F0EB',
+      atras: () => s.paso > 0 && this.setState({ paso: s.paso - 1, tried: false }),
+      stepErr: s.tried && !!err, stepErrMsg: err,
+      sigLabel: s.paso === 3 ? 'Armar mi rutina' : 'Siguiente',
+      siguiente: () => { if (err) { this.setState({ tried: true }); return; } if (s.paso < 3) { this.setState({ paso: s.paso + 1, tried: false }); window.scrollTo(0, 0); } else this.start(); },
+      gen: s.gen, genRun: !done,
+      genTitle: !done ? 'La IA está armando tu rutina…' : fail ? 'Rutina base lista.' : `¡Tu rutina está lista, ${s.nombre.trim() || 'parce'}!`,
+      genW: Math.min(100, s.step / 5 * 100) + '%',
+      genItems: items.map((t, i) => ({ t, done: i < s.step, now: i === s.step, wait: i > s.step, fg: i <= s.step ? '#F2F0EB' : '#9A9AA0' })),
+      genFail: done && fail, genDone: done,
+      verRutina: finish('rutina'), irInicio: finish('dashboard')
+    };
+  }
+}
+</script>
+</body>
+</html>

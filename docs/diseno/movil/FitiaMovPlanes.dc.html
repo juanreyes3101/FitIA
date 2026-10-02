@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Planes (hoja inferior)" style="padding:4px 16px 20px;display:flex;flex-direction:column;gap:14px;color:#F2F0EB">
+  <div role="note" style="padding:10px 12px;border:2px dashed #FFB020;border-radius:4px;font-size:14px;font-weight:700;color:#FFB020">⚠ Modo demostración: no se realizan cobros reales.</div>
+
+  <sc-if value="{{ pElegir }}" hint-placeholder-val="{{ true }}">
+    <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:.9;text-transform:uppercase">Pásate a<br><span style="color:#D4FF00">FitIA Pro</span></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden"><sc-for list="{{ periodos }}" as="x" hint-placeholder-count="2"><button onClick="{{ x.pick }}" aria-pressed="{{ x.on }}" style="min-height:64px;border:0;background:{{ x.bg }};color:{{ x.fg }};cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700">{{ x.p }}</span><span style="font-size:13px;font-weight:700">{{ x.l }}</span></button></sc-for></div>
+    <ul style="display:flex;flex-direction:column;gap:8px;font-size:16px"><li>✓ <strong>10</strong> rutinas IA al mes (Free: 2)</li><li>✓ Sin publicidad</li><li>✓ Todo lo de Free, que ya es completo</li></ul>
+    <button onClick="{{ toPago }}" style="min-height:64px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:Anton,sans-serif;font-size:26px;cursor:pointer;box-shadow:0 5px 0 #7E9900" style-active="transform:translateY(3px);box-shadow:0 2px 0 #7E9900">CONTINUAR · {{ precio }}</button>
+    <button onClick="{{ cerrar }}" style="min-height:48px;border:0;background:transparent;color:#9A9AA0;font-size:16px;font-weight:600;cursor:pointer">Seguir con Free</button>
+  </sc-if>
+
+  <sc-if value="{{ pPago }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;justify-content:space-between;align-items:baseline"><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:32px;text-transform:uppercase">Pagar</h2><span style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:#D4FF00">{{ precio }}</span></div>
+    <div role="tablist" style="display:grid;grid-template-columns:repeat(3,1fr);border:2px solid #2A2A2E;border-radius:4px;overflow:hidden"><sc-for list="{{ metodos }}" as="x" hint-placeholder-count="3"><button role="tab" aria-selected="{{ x.on }}" onClick="{{ x.pick }}" style="min-height:56px;border:0;background:{{ x.bg }};color:{{ x.fg }};font-size:16px;font-weight:700;cursor:pointer">{{ x.l }}</button></sc-for></div>
+    <sc-if value="{{ mT }}" hint-placeholder-val="{{ true }}">
+      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">Número de tarjeta</span><input inputmode="numeric" autocomplete="cc-number" value="{{ num }}" onChange="{{ onNum }}" placeholder="4242 4242 4242 4242" style="min-height:60px;padding:0 14px;background:#0B0B0C;border:2px solid {{ eNum }};border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:20px" style-focus="outline:none;border-color:#D4FF00"><span style="font-size:13px;color:{{ hC }}">{{ hint }}</span></label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">Vence</span><input inputmode="numeric" value="{{ vence }}" onChange="{{ onVence }}" placeholder="MM/AA" style="min-height:60px;padding:0 14px;background:#0B0B0C;border:2px solid {{ eV }};border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:20px" style-focus="outline:none;border-color:#D4FF00"></label>
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">CVV</span><input inputmode="numeric" value="{{ cvv }}" onChange="{{ onCvv }}" placeholder="123" style="min-height:60px;padding:0 14px;background:#0B0B0C;border:2px solid {{ eC }};border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:20px" style-focus="outline:none;border-color:#D4FF00"></label>
+      </div>
+    </sc-if>
+    <sc-if value="{{ mP }}" hint-placeholder-val="{{ false }}">
+      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">Banco</span><select value="{{ banco }}" onChange="{{ onBanco }}" style="min-height:60px;padding:0 14px;background:#0B0B0C;border:2px solid {{ eB }};border-radius:4px;color:#F2F0EB;font-size:17px"><option value="">Elige tu banco</option><option>Bancolombia</option><option>Davivienda</option><option>Banco de Bogotá</option><option>BBVA Colombia</option><option>Banco Caja Social</option></select></label>
+    </sc-if>
+    <sc-if value="{{ mN }}" hint-placeholder-val="{{ false }}">
+      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">Celular Nequi</span><input inputmode="numeric" value="{{ cel }}" onChange="{{ onCel }}" placeholder="310 555 0142" style="min-height:60px;padding:0 14px;background:#0B0B0C;border:2px solid {{ eN }};border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:20px" style-focus="outline:none;border-color:#D4FF00"><span style="font-size:13px;color:#9A9AA0">Te llegaría una notificación en Nequi para aceptar.</span></label>
+    </sc-if>
+    <button onClick="{{ pagar }}" style="min-height:64px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:Anton,sans-serif;font-size:26px;cursor:pointer;box-shadow:0 5px 0 #7E9900" style-active="transform:translateY(3px);box-shadow:0 2px 0 #7E9900">PAGAR {{ precio }}</button>
+    <span style="font-size:13px;color:#9A9AA0;text-align:center">Prueba: tarjeta terminada en <strong style="font-family:'JetBrains Mono',monospace;color:#F2F0EB">0000</strong> = rechazo.</span>
+  </sc-if>
+
+  <sc-if value="{{ pProc }}" hint-placeholder-val="{{ false }}"><div style="min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px"><span style="width:52px;height:52px;border:4px solid #D4FF00;border-right-color:transparent;animation:fitia-spin 800ms linear infinite"></span><span style="font-family:Anton,sans-serif;font-size:30px">PROCESANDO…</span></div></sc-if>
+
+  <sc-if value="{{ pOk }}" hint-placeholder-val="{{ false }}">
+    <span style="width:72px;height:72px;background:#3DDC84;border-radius:4px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="3" stroke-linecap="square"><path d="M4 12l5 5L20 6"></path></svg></span>
+    <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:.86;text-transform:uppercase">¡Ya eres<br><span style="color:#D4FF00">Pro!</span></h2>
+    <p style="font-size:16px;color:#9A9AA0">Ref. FIT-260930-4821 · {{ precio }} (simulado)</p>
+    <button onClick="{{ cerrar }}" style="min-height:64px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:Anton,sans-serif;font-size:26px;cursor:pointer;box-shadow:0 5px 0 #7E9900">LISTO</button>
+  </sc-if>
+  <sc-if value="{{ pNo }}" hint-placeholder-val="{{ false }}">
+    <span style="width:72px;height:72px;background:#FF3B3B;border-radius:4px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="3" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"></path></svg></span>
+    <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:44px;line-height:.9;text-transform:uppercase">Pago rechazado</h2>
+    <p style="font-size:16px">El banco no autorizó el pago. <span style="color:#9A9AA0">No se cobró nada y sigues en Free.</span></p>
+    <button onClick="{{ toPago }}" style="min-height:64px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 5px 0 #7E9900">Intentar otra vez</button>
+    <button onClick="{{ usarNequi }}" style="min-height:56px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:16px;font-weight:700;cursor:pointer">Pagar con Nequi</button>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { paso: 'elegir', anual: false, m: 'tarjeta', num: '', vence: '', cvv: '', banco: '', cel: '', tried: false };
+  componentDidMount() { const q = (this.props.app || {}).q || {}; if (q.sheet === 'rechazo') this.setState({ paso: 'no' }); if (q.sheet === 'pago') this.setState({ paso: 'pago' }); if (q.sheet === 'exito') this.setState({ paso: 'ok' }); }
+  componentWillUnmount() { clearTimeout(this.to); }
+  renderVals() {
+    const a = this.props.app || {}; const s = this.state; const d = s.num.replace(/\D/g, '');
+    const okN = d.length >= 15, okV = /^(0[1-9]|1[0-2])\/\d{2}$/.test(s.vence), okC = /^\d{3,4}$/.test(s.cvv), okB = !!s.banco, okCel = /^3\d{9}$/.test(s.cel.replace(/\D/g, ''));
+    const valid = s.m === 'tarjeta' ? okN && okV && okC : s.m === 'pse' ? okB : okCel;
+    const bd = ok => s.tried && !ok ? '#FF3B3B' : '#2A2A2E';
+    const precio = s.anual ? '$199.000' : '$19.900';
+    return {
+      pElegir: s.paso === 'elegir', pPago: s.paso === 'pago', pProc: s.paso === 'proc', pOk: s.paso === 'ok', pNo: s.paso === 'no',
+      precio, periodos: [[false, '$19.900', 'Mensual'], [true, '$199.000', 'Anual · −17%']].map(([an, p, l]) => ({ p, l, on: s.anual === an, bg: s.anual === an ? '#D4FF00' : 'transparent', fg: s.anual === an ? '#0B0B0C' : '#F2F0EB', pick: () => this.setState({ anual: an }) })),
+      toPago: () => this.setState({ paso: 'pago', tried: false }), cerrar: () => a.closePlanes(), usarNequi: () => this.setState({ paso: 'pago', m: 'nequi', tried: false }),
+      metodos: [['tarjeta', 'Tarjeta'], ['pse', 'PSE'], ['nequi', 'Nequi']].map(([id, l]) => ({ l, on: s.m === id, bg: s.m === id ? '#D4FF00' : 'transparent', fg: s.m === id ? '#0B0B0C' : '#F2F0EB', pick: () => this.setState({ m: id, tried: false }) })),
+      mT: s.m === 'tarjeta', mP: s.m === 'pse', mN: s.m === 'nequi',
+      num: s.num, onNum: e => this.setState({ num: e.target.value.replace(/\D/g, '').slice(0, 16).replace(/(\d{4})(?=\d)/g, '$1 ') }),
+      vence: s.vence, onVence: e => { let v = e.target.value.replace(/\D/g, '').slice(0, 4); if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2); this.setState({ vence: v }); },
+      cvv: s.cvv, onCvv: e => this.setState({ cvv: e.target.value.replace(/\D/g, '').slice(0, 4) }),
+      banco: s.banco, onBanco: e => this.setState({ banco: e.target.value }), cel: s.cel, onCel: e => this.setState({ cel: e.target.value.replace(/\D/g, '').slice(0, 10) }),
+      eNum: bd(okN), eV: bd(okV), eC: bd(okC), eB: bd(okB), eN: bd(okCel),
+      hint: s.tried && !okN ? 'Escribe los 16 números.' : d.endsWith('0000') && okN ? 'Esta tarjeta de prueba simula un rechazo.' : 'Visa, Mastercard o Amex.', hC: s.tried && !okN ? '#FF3B3B' : d.endsWith('0000') && okN ? '#FFB020' : '#9A9AA0',
+      pagar: () => { if (!valid) { this.setState({ tried: true }); try { navigator.vibrate && navigator.vibrate([60, 40, 60]); } catch (e) {} return; } this.setState({ paso: 'proc' }); this.to = setTimeout(() => { if (s.m === 'tarjeta' && d.endsWith('0000')) this.setState({ paso: 'no' }); else { this.setState({ paso: 'ok' }); a.setPlan('pro'); } }, 1600); }
+    };
+  }
+}
+</script>
+</body>
+</html>

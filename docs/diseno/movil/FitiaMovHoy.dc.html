@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Hoy" style="padding:12px 16px 24px;display:flex;flex-direction:column;gap:12px;background:{{ c.bg }};color:{{ c.fg }};animation:fitia-in 350ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:4px 0 6px">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.06em;color:{{ c.mut }}">MIÉ 30 SEP</div>
+      <h1 style="margin-top:4px;font-family:Anton,sans-serif;font-weight:400;font-size:44px;line-height:.92;text-transform:uppercase">Hola, {{ nombre }}</h1>
+    </div>
+    <button onClick="{{ goPerfil }}" aria-label="Perfil" style="width:48px;height:48px;flex:none;border:0;border-radius:4px;background:{{ c.inv }};color:{{ c.invFg }};font-family:Anton,sans-serif;font-size:20px;cursor:pointer" style-active="transform:translateY(2px)">{{ ini }}</button>
+  </header>
+
+  <article style="position:relative;overflow:hidden;border-radius:4px;background:#D4FF00;color:#0B0B0C;padding:20px 18px 18px;display:flex;flex-direction:column;gap:14px;box-shadow:0 0 0 1px {{ c.cardBd }}">
+    <div aria-hidden="true" style="position:absolute;right:-14px;top:-34px;font-family:Anton,sans-serif;font-size:200px;line-height:1;color:rgba(11,11,12,.09);pointer-events:none">02</div>
+    <div style="position:relative;display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:12px;font-weight:700;letter-spacing:.08em;padding:5px 8px;border-radius:2px;background:#0B0B0C;color:#D4FF00">ENTRENO DE HOY</span><span style="font-size:12px;font-weight:700;letter-spacing:.06em;padding:4px 7px;border-radius:2px;border:1.5px solid #0B0B0C">✓ CUIDA TU ESPALDA</span></div>
+    <h2 style="position:relative;font-family:Anton,sans-serif;font-weight:400;font-size:52px;line-height:.86;text-transform:uppercase">Día {{ hoy.n }}<br>{{ hoy.title }}</h2>
+    <div style="position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px solid #0B0B0C;border-bottom:2px solid #0B0B0C">
+      <div style="padding:10px 0"><div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;line-height:1">45</div><div style="font-size:12px;font-weight:700;letter-spacing:.06em">MIN</div></div>
+      <div style="padding:10px 0 10px 10px;border-left:2px solid #0B0B0C"><div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;line-height:1">{{ hoyCount }}</div><div style="font-size:12px;font-weight:700;letter-spacing:.06em">EJERCICIOS</div></div>
+      <div style="padding:10px 0 10px 10px;border-left:2px solid #0B0B0C"><div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;line-height:1">{{ hoySeries }}</div><div style="font-size:12px;font-weight:700;letter-spacing:.06em">SERIES</div></div>
+    </div>
+    <sc-if value="{{ pend }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ empezar }}" style="position:relative;display:flex;align-items:center;justify-content:center;gap:12px;min-height:72px;border:0;border-radius:4px;background:#0B0B0C;color:#D4FF00;font-family:Anton,sans-serif;font-size:36px;letter-spacing:.02em;cursor:pointer;box-shadow:0 5px 0 #3A4700;transition:transform 90ms,box-shadow 90ms" style-active="transform:translateY(3px);box-shadow:0 2px 0 #3A4700"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"></path></svg>EMPEZAR</button>
+      <button onClick="{{ goRutina }}" style="position:relative;min-height:48px;border:0;background:transparent;color:#0B0B0C;font-size:16px;font-weight:700;text-decoration:underline;text-underline-offset:4px;cursor:pointer">Ver los 5 ejercicios</button>
+    </sc-if>
+    <sc-if value="{{ hecho }}" hint-placeholder-val="{{ false }}">
+      <div style="position:relative;display:flex;gap:12px;align-items:center;padding:14px;background:#0B0B0C;color:#F2F0EB;border-radius:4px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3DDC84" stroke-width="3" stroke-linecap="square"><path d="M4 12l5 5L20 6"></path></svg><div><div style="font-weight:700">¡Hoy ya cumpliste!</div><div style="font-size:15px;color:#9A9AA0">Esfuerzo {{ rpe }}/10 · dolor {{ dolor }}/10</div></div></div>
+    </sc-if>
+  </article>
+
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+    <div style="background:{{ c.card }};border:1px solid {{ c.bd }};border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:{{ c.mut }}">RACHA</span>
+      <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;line-height:.9;letter-spacing:-.04em;color:{{ c.acc }}">8</span><span style="font-family:Anton,sans-serif;font-size:18px;line-height:1">SEMANAS</span></div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px"><sc-for list="{{ semana }}" as="d" hint-placeholder-count="7"><div style="display:flex;flex-direction:column;align-items:center;gap:3px"><span style="width:100%;aspect-ratio:1;border-radius:2px;background:{{ d.bg }};border:2px {{ d.bs }} {{ d.bd }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:{{ d.lc }}">{{ d.l }}</span></div></sc-for></div>
+    </div>
+    <button onClick="{{ goImc }}" style="text-align:left;background:{{ c.card }};border:1px solid {{ c.bd }};border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px;color:{{ c.fg }};cursor:pointer" style-active="transform:translateY(2px)">
+      <span style="display:flex;justify-content:space-between;width:100%;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:{{ c.mut }}">IMC<span>›</span></span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:700;line-height:.9;letter-spacing:-.04em;color:{{ c.acc }}">28,65</span>
+      <span style="width:100%;display:flex;gap:2px"><span style="flex:3.5;height:8px;background:{{ c.track }}"></span><span style="flex:6.5;height:8px;background:{{ c.track }}"></span><span style="flex:5;height:8px;background:#FFB020"></span><span style="flex:10;height:8px;background:{{ c.track }}"></span></span>
+      <span style="font-size:12px;font-weight:700;letter-spacing:.06em;padding:4px 7px;border-radius:2px;background:#FFB020;color:#0B0B0C">SOBREPESO</span>
+    </button>
+  </div>
+
+  <div style="background:{{ c.card }};border:1px solid {{ c.bd }};border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:2px">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:{{ c.mut }};margin-bottom:6px">RESUMEN</span>
+    <sc-for list="{{ resumen }}" as="x" hint-placeholder-count="3">
+      <button onClick="{{ x.go }}" style="display:flex;align-items:center;gap:12px;min-height:56px;border:0;border-top:1px solid {{ c.bd }};background:transparent;color:{{ c.fg }};text-align:left;cursor:pointer;padding:0" style-active="opacity:.7">
+        <span style="width:40px;height:40px;flex:none;border:2px solid {{ x.ic }};border-radius:4px;display:flex;align-items:center;justify-content:center;color:{{ x.ic }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="{{ x.d }}"></path></svg></span>
+        <span style="flex:1;min-width:0;font-size:16px;font-weight:600">{{ x.l }}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;color:{{ x.vc }}">{{ x.v }}</span>
+      </button>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{ isFree }}" hint-placeholder-val="{{ true }}">
+    <aside aria-label="Publicidad" style="position:relative;background:{{ c.ad }};color:#0B0B0C;border-radius:4px;padding:22px 14px 14px;display:flex;align-items:center;gap:12px">
+      <span style="position:absolute;left:10px;top:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;color:#5C5C62">PUBLICIDAD</span>
+      <div style="width:64px;height:48px;flex:none;border-radius:2px;overflow:hidden;background:#D9D6CF"><image-slot id="mov-ad" shape="rect" placeholder="Logo"></image-slot></div>
+      <div style="flex:1;min-width:0;font-size:14px;line-height:1.35"><strong>Deportes El Campeón</strong> · 10 % con tu app FitIA</div>
+      <button onClick="{{ openPlanes }}" style="min-height:44px;padding:0 10px;border:0;background:transparent;color:#0B0B0C;font-size:13px;font-weight:700;text-decoration:underline;cursor:pointer">Sin anuncios</button>
+    </aside>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const a = this.props.app || {}; const t = a.t || {}; const light = a.tema === 'claro';
+    const hoy = (a.rutina || [])[1] || { n: 2, title: 'Fuerza tren inferior', ejercicios: [] };
+    const series = hoy.ejercicios.reduce((s, e) => { const m = String(e.dosis).match(/^(\d+)\s*×/); return s + (m ? +m[1] : 1); }, 0);
+    const ds = ['hecho', 'libre', a.sesionHoy ? 'hecho' : 'hoy', 'libre', 'plan', 'libre', 'libre'];
+    const S = { hecho: ['#D4FF00', '#D4FF00', 'solid'], hoy: ['transparent', light ? '#0B0B0C' : '#D4FF00', 'solid'], plan: ['transparent', t.mut, 'dashed'], libre: [t.track, t.track, 'solid'] };
+    const cupo = a.cupo ?? 1;
+    return {
+      c: { bg: t.bg, card: t.card, bd: t.bd, fg: t.fg, mut: t.mut, acc: light ? '#0B0B0C' : '#D4FF00', inv: t.inv, invFg: t.invFg, track: t.track, cardBd: light ? '#0B0B0C' : 'transparent', ad: light ? '#E6E3DC' : '#F2F0EB' },
+      nombre: (a.user || {}).nombre || 'Laura', ini: (a.user || {}).iniciales || 'LG',
+      hoy, hoyCount: hoy.ejercicios.length || 5, hoySeries: series || 15,
+      pend: !a.sesionHoy, hecho: !!a.sesionHoy, rpe: a.ultima ? a.ultima.rpe : '–', dolor: a.ultima ? a.ultima.dolor : '–',
+      semana: ['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((l, i) => { const [bg, bd, bs] = S[ds[i]]; return { l, bg, bd, bs, lc: ds[i] === 'hoy' ? t.fg : t.mut }; }),
+      resumen: [
+        { l: 'Peso actual', v: '78,0 kg', vc: '#3DDC84', ic: t.fg, d: 'M3 20h18M4 16l5-5 4 3 7-7M15 7h5v5', go: () => a.go('progreso') },
+        { l: cupo === 1 ? 'Te queda 1 rutina IA' : `Rutinas IA: ${cupo}`, v: `${cupo}/${a.cupoMax || 2}`, vc: cupo <= 1 ? '#FFB020' : t.fg, ic: '#FFB020', d: 'M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z', go: () => a.openPlanes() },
+        { l: 'Espalda en 10 min', v: '›', vc: t.mut, ic: '#3DDC84', d: 'M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z', go: () => a.go('lumbar') }
+      ],
+      isFree: a.isFree !== false,
+      empezar: () => a.go('entreno'), goRutina: () => a.go('rutina'), goImc: () => a.go('imc'), goPerfil: () => a.go('perfil'), openPlanes: () => a.openPlanes()
+    };
+  }
+}
+</script>
+</body>
+</html>

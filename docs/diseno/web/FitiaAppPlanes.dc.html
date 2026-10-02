@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"></helmet>
+<div data-screen-label="Planes y pago" style="display:flex;flex-direction:column;gap:20px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+  <div role="note" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border:2px dashed #FFB020;border-radius:4px;background:rgba(255,176,32,.08)">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFB020" stroke-width="2" stroke-linecap="square" style="flex:none"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v1"></path></svg>
+    <span style="font-size:15px;font-weight:700;color:#FFB020;letter-spacing:.02em">Modo demostración: no se realizan cobros reales.</span>
+  </div>
+
+  <sc-if value="{{ isPlanes }}" hint-placeholder-val="{{ true }}">
+    <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#D4FF00">PLANES · TU PLAN: {{ planUp }}</div><h1 style="margin-top:8px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(40px,5vw,72px);line-height:.9;text-transform:uppercase">Free ya es<br>completo.</h1></div>
+      <div role="group" aria-label="Periodo" style="display:flex;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden">
+        <button onClick="{{ setMes }}" aria-pressed="{{ mesOn }}" style="min-height:48px;padding:0 18px;border:0;background:{{ mBg }};color:{{ mFg }};font-size:15px;font-weight:600;cursor:pointer">Mensual</button>
+        <button onClick="{{ setAnio }}" aria-pressed="{{ anual }}" style="min-height:48px;padding:0 18px;border:0;background:{{ aBg }};color:{{ aFg }};font-size:15px;font-weight:600;cursor:pointer">Anual · −17%</button>
+      </div>
+    </header>
+    <div style="display:grid;grid-template-columns:{{ c2 }};gap:16px;align-items:stretch">
+      <div style="position:relative;background:#1A1A1D;border:{{ freeBd }};border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font-family:Anton,sans-serif;font-size:36px;line-height:1">FITIA FREE</span><sc-if value="{{ isFree }}" hint-placeholder-val="{{ true }}"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;padding:5px 8px;border-radius:2px;background:#F2F0EB;color:#0B0B0C">TU PLAN</span></sc-if></div>
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:52px;font-weight:700;line-height:1;letter-spacing:-.04em">$0</span><span style="color:#9A9AA0">para siempre</span></div>
+        <ul style="display:flex;flex-direction:column;gap:10px;flex:1">
+          <li style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg><span><strong style="font-family:'JetBrains Mono',monospace">2</strong> rutinas IA al mes</span></li>
+          <li style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg>Ajuste por molestias, IMC y progreso</li>
+          <li style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg>Modo entreno con cronómetro</li>
+          <li style="display:flex;gap:10px;color:#9A9AA0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A9AA0" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 7h16v10H4z"></path><path d="M8 11h4"></path></svg>Con publicidad</li>
+        </ul>
+        <sc-if value="{{ isPro }}" hint-placeholder-val="{{ false }}"><button onClick="{{ volverFree }}" style="min-height:52px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">Volver a Free (demo)</button></sc-if>
+      </div>
+      <div style="position:relative;overflow:hidden;background:#1A1A1D;border:2px solid #D4FF00;border-radius:4px;padding:56px 28px 28px;display:flex;flex-direction:column;gap:20px;box-shadow:8px 8px 0 #D4FF00">
+        <div style="position:absolute;left:0;right:0;top:0;height:28px;background:repeating-linear-gradient(-45deg,#D4FF00 0 14px,#0B0B0C 14px 28px)"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font-family:Anton,sans-serif;font-size:36px;line-height:1;color:#D4FF00">FITIA PRO</span><sc-if value="{{ isPro }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;padding:5px 8px;border-radius:2px;background:#D4FF00;color:#0B0B0C">TU PLAN</span></sc-if></div>
+        <div><div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:52px;font-weight:700;line-height:1;letter-spacing:-.04em">{{ precio }}</span><span style="color:#9A9AA0">{{ per }}</span></div><div style="margin-top:6px;font-size:14px;color:#D4FF00">{{ nota }}</div></div>
+        <ul style="display:flex;flex-direction:column;gap:10px;flex:1">
+          <li style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg><span><strong style="font-family:'JetBrains Mono',monospace">10</strong> rutinas IA al mes</span></li>
+          <li style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg>Sin publicidad</li>
+          <li style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg>Todo lo de Free</li>
+        </ul>
+        <sc-if value="{{ isFree }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toCheckout }}" style="min-height:56px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:17px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">Pasarme a Pro</button></sc-if>
+        <sc-if value="{{ isPro }}" hint-placeholder-val="{{ false }}"><div style="padding:12px 14px;border:1px solid #3DDC84;border-radius:4px;color:#3DDC84;font-weight:600">Activo · próximo cobro simulado: 30 oct 2026</div></sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCheckout }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ toPlanes }}" style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px 0 4px;border:0;border-radius:4px;background:transparent;color:#F2F0EB;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#1A1A1D"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M15 6l-6 6 6 6"></path></svg>Planes</button>
+    <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(40px,5vw,64px);line-height:.9;text-transform:uppercase">Pagar FitIA Pro</h1>
+    <div style="display:grid;grid-template-columns:{{ cCheckout }};gap:20px;align-items:start">
+      <form onSubmit="{{ pagar }}" novalidate="" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:20px">
+        <div role="tablist" aria-label="Medio de pago" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:2px solid #2A2A2E;border-radius:4px;overflow:hidden">
+          <sc-for list="{{ metodos }}" as="x" hint-placeholder-count="3"><button type="button" role="tab" aria-selected="{{ x.on }}" onClick="{{ x.pick }}" style="min-height:52px;border:0;background:{{ x.bg }};color:{{ x.fg }};font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-focus="outline:2px solid #F2F0EB;outline-offset:-4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="{{ x.icon }}"></path></svg>{{ x.l }}</button></sc-for>
+        </div>
+
+        <sc-if value="{{ mTarjeta }}" hint-placeholder-val="{{ true }}">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Número de tarjeta</span><input inputmode="numeric" autocomplete="cc-number" value="{{ num }}" onChange="{{ onNum }}" placeholder="4242 4242 4242 4242" style="min-height:52px;padding:0 16px;background:#0B0B0C;border:2px solid {{ eNum }};border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:18px;letter-spacing:.04em" style-focus="outline:none;border-color:#D4FF00"><span style="font-size:13px;color:{{ hNumC }}">{{ hNum }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Nombre como aparece en la tarjeta</span><input autocomplete="cc-name" value="{{ nom }}" onChange="{{ onNom }}" placeholder="LAURA GOMEZ" style="min-height:52px;padding:0 16px;background:#0B0B0C;border:2px solid {{ eNom }};border-radius:4px;color:#F2F0EB;font-size:16px;text-transform:uppercase" style-focus="outline:none;border-color:#D4FF00"></label>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Vence</span><input inputmode="numeric" autocomplete="cc-exp" value="{{ vence }}" onChange="{{ onVence }}" placeholder="MM/AA" style="min-height:52px;padding:0 16px;background:#0B0B0C;border:2px solid {{ eVence }};border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:18px" style-focus="outline:none;border-color:#D4FF00"></label>
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">CVV</span><input inputmode="numeric" autocomplete="cc-csc" value="{{ cvv }}" onChange="{{ onCvv }}" placeholder="123" style="min-height:52px;padding:0 16px;background:#0B0B0C;border:2px solid {{ eCvv }};border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:18px" style-focus="outline:none;border-color:#D4FF00"></label>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ mPse }}" hint-placeholder-val="{{ false }}">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Banco</span><select value="{{ banco }}" onChange="{{ onBanco }}" style="min-height:52px;padding:0 16px;background:#0B0B0C;border:2px solid {{ eBanco }};border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00"><option value="">Elige tu banco</option><option>Bancolombia</option><option>Davivienda</option><option>Banco de Bogotá</option><option>BBVA Colombia</option><option>Banco Caja Social</option><option>Banco Popular</option><option>Nequi</option><option>Daviplata</option></select></label>
+          <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Tipo de persona</span><div style="display:flex;gap:8px"><sc-for list="{{ personas }}" as="p" hint-placeholder-count="2"><button type="button" onClick="{{ p.pick }}" aria-pressed="{{ p.on }}" style="min-height:48px;padding:0 16px;border:2px solid {{ p.bd }};border-radius:2px;background:{{ p.bg }};color:{{ p.fg }};font-size:15px;font-weight:600;cursor:pointer">{{ p.l }}</button></sc-for></div></div>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Número de documento</span><input inputmode="numeric" value="{{ doc }}" onChange="{{ onDoc }}" placeholder="1012345678" style="min-height:52px;padding:0 16px;background:#0B0B0C;border:2px solid {{ eDoc }};border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:18px" style-focus="outline:none;border-color:#D4FF00"></label>
+          <p style="font-size:14px;color:#9A9AA0">Te llevaríamos a la página de tu banco para aprobar el pago. En la demo, se aprueba al instante.</p>
+        </sc-if>
+
+        <sc-if value="{{ mNequi }}" hint-placeholder-val="{{ false }}">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Celular registrado en Nequi</span><div style="display:flex;align-items:stretch;border:2px solid {{ eCel }};border-radius:4px;overflow:hidden"><span style="display:flex;align-items:center;padding:0 12px;background:#2A2A2E;font-family:'JetBrains Mono',monospace">+57</span><input inputmode="numeric" autocomplete="tel-national" value="{{ cel }}" onChange="{{ onCel }}" placeholder="310 555 0142" style="flex:1;min-width:0;min-height:48px;padding:0 14px;border:0;background:#0B0B0C;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:18px" style-focus="outline:none;background:#141416"></div></label>
+          <p style="font-size:14px;color:#9A9AA0">Te llegaría una notificación en la app Nequi para aceptar el pago.</p>
+        </sc-if>
+
+        <sc-if value="{{ formErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size:14px;color:#FF3B3B">Revisa los campos en rojo para continuar.</div></sc-if>
+        <button type="submit" style="display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:17px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M6 11V8a6 6 0 0 1 12 0v3M4 11h16v10H4z"></path></svg>Pagar {{ precio }} (simulado)</button>
+        <p style="font-size:13px;color:#9A9AA0">Prueba: una tarjeta terminada en <span style="font-family:'JetBrains Mono',monospace;color:#F2F0EB">0000</span> simula un pago rechazado.</p>
+      </form>
+      <aside style="background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#9A9AA0">RESUMEN</span>
+        <div style="display:flex;justify-content:space-between;gap:12px"><span>FitIA Pro · {{ periodo }}</span><span style="font-family:'JetBrains Mono',monospace">{{ precio }}</span></div>
+        <div style="display:flex;justify-content:space-between;gap:12px;color:#9A9AA0;font-size:14px"><span>IVA incluido</span><span style="font-family:'JetBrains Mono',monospace">{{ iva }}</span></div>
+        <div style="height:1px;background:#2A2A2E"></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span style="font-family:Anton,sans-serif;font-size:24px">TOTAL</span><span style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:#D4FF00">{{ precio }}</span></div>
+        <p style="font-size:13px;color:#9A9AA0">Cancela cuando quieras desde tu perfil. Vuelves a Free sin perder tu historial.</p>
+      </aside>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isProc }}" hint-placeholder-val="{{ false }}">
+    <div aria-busy="true" style="min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center">
+      <span style="width:56px;height:56px;border:4px solid #D4FF00;border-right-color:transparent;animation:fitia-spin 800ms linear infinite"></span>
+      <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:1;text-transform:uppercase">Procesando tu pago…</h2>
+      <p style="color:#9A9AA0">No cierres esta pantalla. (Demo: no se cobra nada.)</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isExito }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:640px;display:flex;flex-direction:column;gap:20px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+      <span style="width:80px;height:80px;background:#3DDC84;border-radius:4px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="3" stroke-linecap="square"><path d="M4 12l5 5L20 6"></path></svg></span>
+      <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,88px);line-height:.88;text-transform:uppercase">¡Ya eres<br><span style="color:#D4FF00">Pro!</span></h1>
+      <p style="font-size:18px">Tienes 10 rutinas IA este mes y ya no verás anuncios.</p>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:8px;font-family:'JetBrains Mono',monospace;font-size:14px">
+        <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#9A9AA0">REFERENCIA</span><span>FIT-260930-4821</span></div>
+        <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#9A9AA0">MEDIO</span><span>{{ medioUp }}</span></div>
+        <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#9A9AA0">VALOR</span><span>{{ precio }} (simulado)</span></div>
+      </div>
+      <button onClick="{{ goDash }}" style="align-self:flex-start;min-height:56px;padding:0 28px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:17px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900">Ir al inicio</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isRech }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:640px;display:flex;flex-direction:column;gap:20px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+      <span style="width:80px;height:80px;background:#FF3B3B;border-radius:4px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="3" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"></path></svg></span>
+      <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,80px);line-height:.9;text-transform:uppercase">Tu pago fue<br>rechazado</h1>
+      <p style="font-size:18px">El banco no autorizó la transacción. <span style="color:#9A9AA0">Simulación: la tarjeta termina en 0000.</span> No se hizo ningún cobro y sigues en Free.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button onClick="{{ retry }}" style="min-height:56px;padding:0 24px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:17px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900">Intentar otra vez</button>
+        <button onClick="{{ otroMedio }}" style="min-height:56px;padding:0 22px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">Usar PSE o Nequi</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const MET = [['tarjeta', 'Tarjeta', 'M3 6h18v12H3zM3 10h18M7 15h4'], ['pse', 'PSE', 'M4 10l8-5 8 5M6 10v8M10 10v8M14 10v8M18 10v8M3 20h18'], ['nequi', 'Nequi', 'M7 2h10v20H7zM11 18h2']];
+class Component extends DCLogic {
+  state = { paso: 'planes', anual: false, metodo: 'tarjeta', num: '', nom: '', vence: '', cvv: '', banco: '', persona: 'Natural', doc: '', cel: '', tried: false };
+  componentDidMount() { const q = (this.props.app || {}).q || {}; if (['checkout', 'exito', 'rechazo', 'procesando'].includes(q.paso)) this.setState({ paso: q.paso, num: q.paso === 'checkout' ? '' : '4242 4242 4242 0000' }); }
+  componentWillUnmount() { clearTimeout(this.to); }
+  renderVals() {
+    const a = this.props.app || {}; const s = this.state; const m = a.mobile;
+    const dig = s.num.replace(/\D/g, '');
+    const okNum = dig.length >= 15, okNom = s.nom.trim().length > 2, okV = /^(0[1-9]|1[0-2])\/\d{2}$/.test(s.vence), okC = /^\d{3,4}$/.test(s.cvv);
+    const okB = !!s.banco, okD = /^\d{6,10}$/.test(s.doc), okCel = /^3\d{9}$/.test(s.cel.replace(/\D/g, ''));
+    const valid = s.metodo === 'tarjeta' ? okNum && okNom && okV && okC : s.metodo === 'pse' ? okB && okD : okCel;
+    const bd = ok => s.tried && !ok ? '#FF3B3B' : '#2A2A2E';
+    const precio = s.anual ? '$199.000' : '$19.900';
+    const tot = s.anual ? 199000 : 19900;
+    return {
+      isPlanes: s.paso === 'planes', isCheckout: s.paso === 'checkout', isProc: s.paso === 'procesando', isExito: s.paso === 'exito', isRech: s.paso === 'rechazo',
+      isFree: a.plan !== 'pro', isPro: a.plan === 'pro', planUp: a.plan === 'pro' ? 'PRO' : 'FREE',
+      freeBd: a.plan === 'pro' ? '1px solid #2A2A2E' : '2px solid #F2F0EB',
+      anual: s.anual, mesOn: !s.anual, setMes: () => this.setState({ anual: false }), setAnio: () => this.setState({ anual: true }),
+      mBg: s.anual ? 'transparent' : '#D4FF00', mFg: s.anual ? '#F2F0EB' : '#0B0B0C', aBg: s.anual ? '#D4FF00' : 'transparent', aFg: s.anual ? '#0B0B0C' : '#F2F0EB',
+      precio, per: s.anual ? '/año' : '/mes', nota: s.anual ? 'Equivale a $16.583 al mes · ahorras $39.800' : 'Cancela cuando quieras', periodo: s.anual ? 'anual' : 'mensual',
+      iva: '$' + Math.round(tot - tot / 1.19).toLocaleString('es-CO'),
+      c2: m ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))', cCheckout: m ? 'minmax(0,1fr)' : 'minmax(0,1.4fr) minmax(0,1fr)',
+      toCheckout: () => this.setState({ paso: 'checkout', tried: false }), toPlanes: () => this.setState({ paso: 'planes' }),
+      volverFree: () => { a.setPlan('free'); a.toast('ok', 'Volviste a Free', 'Tu historial sigue intacto.'); },
+      metodos: MET.map(([id, l, icon]) => ({ l, icon, on: s.metodo === id, bg: s.metodo === id ? '#D4FF00' : 'transparent', fg: s.metodo === id ? '#0B0B0C' : '#F2F0EB', pick: () => this.setState({ metodo: id, tried: false }) })),
+      mTarjeta: s.metodo === 'tarjeta', mPse: s.metodo === 'pse', mNequi: s.metodo === 'nequi',
+      num: s.num, onNum: e => this.setState({ num: e.target.value.replace(/\D/g, '').slice(0, 16).replace(/(\d{4})(?=\d)/g, '$1 ') }),
+      nom: s.nom, onNom: e => this.setState({ nom: e.target.value }),
+      vence: s.vence, onVence: e => { let v = e.target.value.replace(/\D/g, '').slice(0, 4); if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2); this.setState({ vence: v }); },
+      cvv: s.cvv, onCvv: e => this.setState({ cvv: e.target.value.replace(/\D/g, '').slice(0, 4) }),
+      banco: s.banco, onBanco: e => this.setState({ banco: e.target.value }),
+      doc: s.doc, onDoc: e => this.setState({ doc: e.target.value.replace(/\D/g, '').slice(0, 10) }),
+      cel: s.cel, onCel: e => this.setState({ cel: e.target.value.replace(/\D/g, '').slice(0, 10).replace(/^(\d{3})(\d{0,3})(\d{0,4}).*/, (x, p, q, r) => [p, q, r].filter(Boolean).join(' ')) }),
+      personas: ['Natural', 'Jurídica'].map(l => ({ l, on: s.persona === l, bg: s.persona === l ? '#F2F0EB' : 'transparent', fg: s.persona === l ? '#0B0B0C' : '#F2F0EB', bd: s.persona === l ? '#F2F0EB' : '#2A2A2E', pick: () => this.setState({ persona: l }) })),
+      eNum: bd(okNum), eNom: bd(okNom), eVence: bd(okV), eCvv: bd(okC), eBanco: bd(okB), eDoc: bd(okD), eCel: bd(okCel),
+      hNum: s.tried && !okNum ? 'Escribe los 16 números de la tarjeta.' : dig.endsWith('0000') && dig.length >= 15 ? 'Ojo: esta tarjeta de prueba simula un rechazo.' : 'Visa, Mastercard o Amex.',
+      hNumC: s.tried && !okNum ? '#FF3B3B' : dig.endsWith('0000') && dig.length >= 15 ? '#FFB020' : '#9A9AA0',
+      formErr: s.tried && !valid,
+      pagar: e => {
+        e.preventDefault();
+        if (!valid) { this.setState({ tried: true }); return; }
+        this.setState({ paso: 'procesando' });
+        this.to = setTimeout(() => {
+          if (s.metodo === 'tarjeta' && dig.endsWith('0000')) { this.setState({ paso: 'rechazo' }); a.toast('err', 'Pago rechazado', 'No se hizo ningún cobro.'); }
+          else { this.setState({ paso: 'exito' }); a.setPlan('pro'); a.toast('ok', '¡Bienvenida a Pro!', '10 rutinas IA y cero anuncios.'); }
+        }, 1800);
+      },
+      medioUp: s.metodo === 'tarjeta' ? 'TARJETA ···· ' + (dig.slice(-4) || '4242') : s.metodo === 'pse' ? 'PSE · ' + (s.banco || 'BANCO').toUpperCase() : 'NEQUI',
+      retry: () => this.setState({ paso: 'checkout', tried: false }), otroMedio: () => this.setState({ paso: 'checkout', metodo: 'pse', tried: false }),
+      goDash: () => a.go('dashboard')
+    };
+  }
+}
+</script>
+</body>
+</html>

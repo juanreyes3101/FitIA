@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<script src="./fitia-data.js"></script>
+<script src="./image-slot.js"></script>
+<style>*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;background:#0B0B0C;color:#F2F0EB;font-family:'Inter Tight',system-ui,sans-serif;font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased;overscroll-behavior:none}body{overflow-x:clip}a{color:#D4FF00}a:hover{color:#E1FF4D}h1,h2,h3,p,ul,ol{margin:0}ul,ol{padding:0;list-style:none}button,input,select{font-family:inherit}input::placeholder{color:#7A7A80}::-webkit-scrollbar{display:none}@keyframes fitia-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}@keyframes fitia-in{from{opacity:0;transform:translate3d(-20px,18px,0)}to{opacity:1;transform:none}}@keyframes fitia-spin{to{transform:rotate(360deg)}}@keyframes fitia-pulse{0%,100%{opacity:1}50%{opacity:.3}}@keyframes fitia-scan{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}@keyframes fitia-up{from{transform:translateY(100%)}to{transform:none}}@keyframes fitia-down{from{transform:translateY(-130%)}to{transform:none}}@keyframes fitia-draw{from{stroke-dashoffset:64}to{stroke-dashoffset:0}}@keyframes fitia-loop{from{width:0}to{width:100%}}@keyframes fitia-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}@keyframes fitia-fade{from{opacity:0}to{opacity:1}}@media (prefers-reduced-motion:reduce){*{animation-duration:1ms!important;animation-iteration-count:1!important;transition:none!important}}</style>
+</helmet>
+
+<div style="position:fixed;left:0;right:0;top:0;z-index:40;height:{{ topH }};background:{{ statusBg }};color:{{ statusFg }};pointer-events:none">
+  <sc-if value="{{ isIos }}" hint-placeholder-val="{{ true }}">
+    <div style="height:100%;display:flex;align-items:center;justify-content:space-between;padding:4px 30px 0 34px">
+      <span style="font-weight:600;font-size:17px;letter-spacing:-.01em">9:41</span>
+      <span style="position:absolute;left:50%;top:11px;width:124px;height:36px;margin-left:-62px;background:#000;border-radius:20px"></span>
+      <span style="display:flex;align-items:center;gap:6px"><svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4"></rect><rect x="5" y="5" width="3" height="7"></rect><rect x="10" y="2.5" width="3" height="9.5"></rect><rect x="15" y="0" width="3" height="12"></rect></svg><svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.5c2.3 0 4.4.9 6 2.4l1.3-1.4A10.5 10.5 0 0 0 8 .5C5.2.5 2.6 1.6.7 3.5L2 4.9a8.5 8.5 0 0 1 6-2.4zm0 4c1.2 0 2.3.4 3.2 1.2l1.3-1.4A6.6 6.6 0 0 0 8 4.5c-1.7 0-3.3.7-4.5 1.8l1.3 1.4C5.7 6.9 6.8 6.5 8 6.5zm0 2.2L6.2 10.6 8 12.5l1.8-1.9z"></path></svg><svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="23" height="12" rx="3.5" stroke="currentColor" opacity=".4"></rect><rect x="2" y="2" width="17" height="9" rx="2" fill="currentColor"></rect><path d="M25 4.5v4c.8-.3 1.5-1.1 1.5-2s-.7-1.7-1.5-2z" fill="currentColor" opacity=".4"></path></svg></span>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isAndroid }}" hint-placeholder-val="{{ false }}">
+    <div style="height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 16px">
+      <span style="font-weight:500;font-size:14px">9:41</span>
+      <span style="position:absolute;left:50%;top:8px;width:14px;height:14px;margin-left:-7px;background:#000;border-radius:50%"></span>
+      <span style="display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 13.5L.5 4.5a11.5 11.5 0 0 1 15 0z"></path></svg><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M15 1v14H1z"></path></svg><svg width="9" height="14" viewBox="0 0 9 15" fill="currentColor"><path d="M3 0h3v1.5h2.5V15H.5V1.5H3z"></path></svg></span>
+    </div>
+  </sc-if>
+</div>
+
+<div style="min-height:100vh;padding-top:{{ topH }};padding-bottom:{{ contentPb }};background:{{ pageBg }}">
+  <sc-if value="{{ r.splash }}" hint-placeholder-val="{{ false }}"><dc-import name="FitiaMovOnboarding" app="{{ app }}" hint-size="100%,100vh"></dc-import></sc-if>
+  <sc-if value="{{ r.onboarding }}" hint-placeholder-val="{{ false }}"><dc-import name="FitiaMovOnboarding" app="{{ app }}" hint-size="100%,100vh"></dc-import></sc-if>
+  <sc-if value="{{ r.hoy }}" hint-placeholder-val="{{ true }}"><dc-import name="FitiaMovHoy" app="{{ app }}" hint-size="100%,800px"></dc-import></sc-if>
+  <sc-if value="{{ r.rutina }}" hint-placeholder-val="{{ false }}"><dc-import name="FitiaMovRutina" app="{{ app }}" hint-size="100%,800px"></dc-import></sc-if>
+  <sc-if value="{{ r.entreno }}" hint-placeholder-val="{{ false }}"><dc-import name="FitiaMovEntreno" app="{{ app }}" hint-size="100%,100vh"></dc-import></sc-if>
+  <sc-if value="{{ r.ejercicio }}" hint-placeholder-val="{{ false }}"><dc-import name="FitiaMovEjercicio" app="{{ app }}" hint-size="100%,800px"></dc-import></sc-if>
+  <sc-if value="{{ r.progreso }}" hint-placeholder-val="{{ false }}"><dc-import name="FitiaMovProgreso" app="{{ app }}" hint-size="100%,800px"></dc-import></sc-if>
+  <sc-if value="{{ r.lumbar }}" hint-placeholder-val="{{ false }}"><dc-import name="FitiaMovLumbar" app="{{ app }}" hint-size="100%,800px"></dc-import></sc-if>
+  <sc-if value="{{ r.imc }}" hint-placeholder-val="{{ false }}"><dc-import name="FitiaMovIMC" app="{{ app }}" hint-size="100%,800px"></dc-import></sc-if>
+  <sc-if value="{{ r.perfil }}" hint-placeholder-val="{{ false }}"><dc-import name="FitiaMovPerfil" app="{{ app }}" hint-size="100%,800px"></dc-import></sc-if>
+
+  <sc-if value="{{ r.push }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Notificación push" style="position:fixed;inset:0;z-index:35;overflow:hidden;background:#141416">
+      <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.3) brightness(.55)"><image-slot id="mov-lock-wallpaper" shape="rect" placeholder="Fondo de pantalla del celular"></image-slot></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.2),rgba(11,11,12,.75));pointer-events:none"></div>
+      <div style="position:relative;padding-top:{{ lockPt }};display:flex;flex-direction:column;align-items:center;pointer-events:none">
+        <span style="font-size:{{ lockDateSize }};font-weight:600;color:#F2F0EB">{{ lockDate }}</span>
+        <span style="font-size:{{ lockClockSize }};font-weight:{{ lockClockW }};line-height:1;letter-spacing:-.03em;color:#F2F0EB">9:41</span>
+      </div>
+      <div style="position:absolute;left:12px;right:12px;bottom:{{ lockNotifBottom }};display:flex;flex-direction:column;gap:8px">
+        <sc-if value="{{ isIos }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ openFromPush }}" style="width:100%;text-align:left;border:0;cursor:pointer;padding:14px;border-radius:22px;background:rgba(48,48,52,.72);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);color:#F2F0EB;display:flex;gap:12px;align-items:flex-start;animation:fitia-down 500ms cubic-bezier(.2,.8,.2,1)">
+            <span style="width:38px;height:38px;flex:none;border-radius:9px;background:#D4FF00;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 48 36" width="26" height="20" style="color:#0B0B0C"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path></svg></span>
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="display:flex;justify-content:space-between;gap:8px;font-size:15px"><strong style="font-weight:600">FitIA</strong><span style="color:#C8C8CC;font-size:14px">ahora</span></span><span style="font-size:15px;font-weight:600;line-height:1.3">Laura, hoy toca Día 2: tren inferior 💪</span><span style="font-size:15px;line-height:1.3;color:#E4E4E8">45 min · 5 ejercicios · todos cuidan tu espalda. ¡Dale!</span></span>
+          </button>
+          <div style="padding:12px 14px;border-radius:22px;background:rgba(48,48,52,.5);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);color:#E4E4E8;font-size:14px;transform:scale(.94);opacity:.8">FitIA · ayer · ¡Racha de 8 semanas! Sigue así.</div>
+        </sc-if>
+        <sc-if value="{{ isAndroid }}" hint-placeholder-val="{{ false }}">
+          <div style="border-radius:24px;background:#2B2B2F;color:#F2F0EB;padding:16px;display:flex;flex-direction:column;gap:10px;animation:fitia-down 500ms cubic-bezier(.2,.8,.2,1)">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#C8C8CC"><span style="width:20px;height:20px;border-radius:50%;background:#D4FF00;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="3" stroke-linecap="square"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg></span>FitIA • ahora</div>
+            <div style="font-size:16px;font-weight:600;line-height:1.3">Laura, hoy toca Día 2: tren inferior 💪</div>
+            <div style="font-size:15px;color:#E4E4E8;line-height:1.35">45 min · 5 ejercicios · todos cuidan tu espalda. ¡Dale!</div>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <button onClick="{{ openFromPush }}" style="min-height:44px;padding:0 18px;border:0;border-radius:22px;background:#D4FF00;color:#0B0B0C;font-size:15px;font-weight:600;cursor:pointer">Empezar</button>
+              <button onClick="{{ snooze }}" style="min-height:44px;padding:0 18px;border:0;border-radius:22px;background:#3A3A3F;color:#F2F0EB;font-size:15px;font-weight:600;cursor:pointer">Más tarde</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+<sc-if value="{{ tabsOn }}" hint-placeholder-val="{{ true }}">
+  <nav aria-label="Principal" style="position:fixed;left:0;right:0;bottom:0;z-index:30;padding-bottom:{{ botInset }};background:{{ tabBg }};border-top:1px solid {{ tabBd }}">
+    <div style="height:68px;display:flex;align-items:stretch">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+        <button onClick="{{ t.go }}" aria-current="{{ t.cur }}" aria-label="{{ t.label }}" style="flex:1;border:0;background:transparent;color:{{ t.fg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:700;letter-spacing:.02em;cursor:pointer" style-active="transform:translateY(2px)">
+          <span style="width:52px;height:32px;border-radius:4px;background:{{ t.pill }};color:{{ t.ic }};display:flex;align-items:center;justify-content:center;transition:background 150ms"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="{{ t.icon }}"></path></svg></span>{{ t.label }}
+        </button>
+      </sc-for>
+    </div>
+  </nav>
+</sc-if>
+
+<sc-if value="{{ bannerOn }}" hint-placeholder-val="{{ false }}">
+  <button onClick="{{ openFromPush }}" style="position:fixed;left:8px;right:8px;top:{{ bannerTop }};z-index:90;border:0;text-align:left;cursor:pointer;padding:12px 14px;border-radius:{{ bannerR }};background:rgba(40,40,44,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:#F2F0EB;display:flex;gap:12px;align-items:center;box-shadow:0 12px 32px rgba(0,0,0,.5);animation:fitia-down 450ms cubic-bezier(.2,.8,.2,1)">
+    <span style="width:36px;height:36px;flex:none;border-radius:8px;background:#D4FF00;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="2.5" stroke-linecap="square"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg></span>
+    <span style="flex:1;min-width:0"><span style="display:flex;justify-content:space-between;font-size:13px;color:#C8C8CC"><strong style="color:#F2F0EB">FitIA</strong>ahora</span><span style="display:block;font-size:15px;font-weight:600;line-height:1.3">Laura, hoy toca Día 2: tren inferior 💪</span></span>
+  </button>
+</sc-if>
+
+<sc-if value="{{ sheetOn }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeSheet }}" style="position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);animation:fitia-fade 200ms"></div>
+  <div role="dialog" aria-modal="true" aria-label="Planes" style="position:fixed;left:0;right:0;bottom:0;z-index:71;max-height:92vh;overflow:auto;background:#141416;border-top:2px solid #D4FF00;border-radius:4px 4px 0 0;padding-bottom:{{ botInset }};animation:fitia-up 320ms cubic-bezier(.2,.8,.2,1)">
+    <div onPointerDown="{{ sheetDown }}" onPointerUp="{{ sheetUp }}" style="position:sticky;top:0;z-index:2;background:#141416;padding:10px 0 6px;display:flex;justify-content:center;touch-action:none;cursor:grab"><span style="width:44px;height:5px;background:#5A5A60;border-radius:2px"></span></div>
+    <dc-import name="FitiaMovPlanes" app="{{ app }}" hint-size="100%,600px"></dc-import>
+  </div>
+</sc-if>
+
+<div aria-live="polite" style="position:fixed;left:12px;right:12px;bottom:{{ toastBottom }};z-index:95;display:flex;flex-direction:column;gap:8px;pointer-events:none">
+  <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="0">
+    <div role="status" style="pointer-events:auto;display:flex;align-items:stretch;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;box-shadow:0 20px 40px -12px rgba(0,0,0,.9);animation:fitia-in 240ms cubic-bezier(.2,.8,.2,1)">
+      <div style="width:52px;flex:none;background:{{ t.bg }};display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="2" stroke-linecap="square"><path d="{{ t.d }}"></path></svg></div>
+      <div style="flex:1;padding:12px 14px;min-width:0"><div style="font-weight:700;color:#F2F0EB">{{ t.title }}</div><div style="font-size:15px;color:#9A9AA0">{{ t.msg }}</div></div>
+    </div>
+  </sc-for>
+</div>
+
+<div aria-hidden="true" style="position:fixed;left:0;right:0;bottom:0;z-index:96;height:{{ botInset }};display:flex;align-items:flex-end;justify-content:center;padding-bottom:{{ handlePb }};pointer-events:none"><span style="width:{{ handleW }};height:5px;border-radius:3px;background:{{ handleBg }}"></span></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+const IC = { hoy: 'M13 2L4 14h7l-1 8 9-12h-7z', rutina: 'M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12', progreso: 'M3 20h18M4 16l5-5 4 3 7-7M15 7h5v5', lumbar: 'M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z', perfil: 'M8 4h8v8H8zM4 21l2-5h12l2 5' };
+const TABS = [['hoy', 'Hoy'], ['rutina', 'Rutina'], ['progreso', 'Progreso'], ['lumbar', 'Lumbar'], ['perfil', 'Perfil']];
+const ROUTES = ['splash', 'onboarding', 'hoy', 'rutina', 'entreno', 'ejercicio', 'progreso', 'lumbar', 'imc', 'perfil', 'push'];
+const TOAST = { ok: ['#3DDC84', 'M4 12l5 5L20 6'], warn: ['#FFB020', 'M12 3l10 18H2zM12 10v5M12 18v1'], err: ['#FF3B3B', 'M6 6l12 12M18 6L6 18'], ia: ['#D4FF00', 'M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z'] };
+const DARK = { bg: '#0B0B0C', card: '#1A1A1D', bd: '#2A2A2E', fg: '#F2F0EB', mut: '#9A9AA0', accTxt: '#D4FF00', num: '#232327', btnSh: '#7E9900', inv: '#F2F0EB', invFg: '#0B0B0C', track: '#2A2A2E' };
+const LIGHT = { bg: '#F2F0EB', card: '#FFFFFF', bd: '#D9D6CF', fg: '#0B0B0C', mut: '#5C5C62', accTxt: '#0B0B0C', num: '#E6E3DC', btnSh: '#0B0B0C', inv: '#0B0B0C', invFg: '#F2F0EB', track: '#D9D6CF' };
+function parseHash() {
+  const h = (location.hash || '').replace(/^#\/?/, ''); const [path, qs] = h.split('?'); const [route, param] = (path || '').split('/'); const q = {};
+  (qs || '').split('&').forEach(p => { if (!p) return; const [k, v] = p.split('='); q[decodeURIComponent(k)] = decodeURIComponent(v || ''); });
+  return { route: ROUTES.includes(route) ? route : 'hoy', param: param ? decodeURIComponent(param) : null, q };
+}
+class Component extends DCLogic {
+  state = { route: 'hoy', param: null, q: {}, from: 'rutina', os: 'ios', tema: 'oscuro', plan: 'free', cupo: 1, rutinaTipo: 'ia', toasts: [], sesionHoy: false, ultima: null, userPatch: {}, sheet: false, banner: false, ready: !!window.FITIA_DATA, vibrar: true };
+  componentDidMount() {
+    this.onHash = () => {
+      const p = parseHash();
+      this.setState(s => ({ route: p.route, param: p.param, q: p.q, os: p.q.os === 'android' ? 'android' : (p.q.os === 'ios' ? 'ios' : s.os), tema: p.q.tema === 'claro' ? 'claro' : (p.q.tema === 'oscuro' ? 'oscuro' : s.tema), sheet: p.q.sheet ? true : s.sheet && false, plan: p.q.plan === 'pro' ? 'pro' : s.plan }));
+      if (p.q.banner) setTimeout(() => this.showBanner(), 600);
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('hashchange', this.onHash); this.onHash();
+    if (!this.state.ready) { const w = () => window.FITIA_DATA ? this.setState({ ready: true }) : (this.wt = setTimeout(w, 50)); w(); }
+  }
+  componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); clearTimeout(this.wt); clearTimeout(this.bt); }
+  go = (route, param) => {
+    if (route === 'ejercicio' && this.state.route !== 'ejercicio') this.setState({ from: this.state.route });
+    const keep = []; const q = this.state.q || {}; if (q.os) keep.push('os=' + q.os); if (q.tema && route !== 'entreno') keep.push('tema=' + this.state.tema);
+    const h = '#/' + route + (param ? '/' + encodeURIComponent(param) : '') + (keep.length ? '?' + keep.join('&') : '');
+    if (location.hash === h) this.onHash(); else location.hash = h;
+  };
+  toast = (tipo, title, msg) => { const id = Date.now() + Math.random(); const [bg, d] = TOAST[tipo] || TOAST.ok; this.setState(s => ({ toasts: [...s.toasts.slice(-1), { id, bg, d, title, msg }] })); setTimeout(() => this.setState(s => ({ toasts: s.toasts.filter(t => t.id !== id) })), 3800); };
+  showBanner = () => { clearTimeout(this.bt); this.setState({ banner: true }); try { navigator.vibrate && navigator.vibrate(80); } catch (e) {} this.bt = setTimeout(() => this.setState({ banner: false }), 5000); };
+  renderVals() {
+    const s = this.state; const D = window.FITIA_DATA || { EJ: {}, RUT: { ia: [], ia2: [], base: [] }, PESOS: [{ d: 0, v: 81, f: '' }, { d: 60, v: 78, f: '' }], SEM: [], USER: { nombre: 'Laura', apellido: 'Gómez' } };
+    const ios = s.os === 'ios'; const light = s.tema === 'claro' && s.route === 'hoy'; const t = light ? LIGHT : DARK;
+    const topH = ios ? '54px' : '32px', botInset = ios ? '34px' : '18px';
+    const route = s.route;
+    const user = { ...D.USER, ...s.userPatch }; user.iniciales = (user.nombre[0] || '') + (user.apellido[0] || '');
+    const rutina = (D.RUT[s.rutinaTipo] || []).map((d, i) => ({ ...d, ejercicios: d.ids.map(id => D.EJ[id]).filter(Boolean), estado: i === 0 ? 'hecho' : i === 1 ? (s.sesionHoy ? 'hecho' : 'hoy') : 'proximo' }));
+    const semanas = (D.SEM || []).map((w, i) => (i === D.SEM.length - 1 && s.sesionHoy) ? { ...w, n: w.n + 1 } : w);
+    const full = route === 'entreno' || route === 'splash' || route === 'onboarding' || route === 'push';
+    const tabsOn = !full;
+    const act = route === 'ejercicio' ? (s.from === 'lumbar' ? 'lumbar' : s.from === 'hoy' ? 'hoy' : 'rutina') : route === 'imc' ? 'hoy' : route;
+    const isFree = s.plan === 'free';
+    const app = {
+      os: s.os, ios, tema: s.tema, t, route, param: s.param, q: s.q || {}, from: s.from, plan: s.plan, isFree, cupo: s.cupo, cupoMax: isFree ? 2 : 10,
+      user, rutina, rutinaTipo: s.rutinaTipo, ej: D.EJ, data: { pesos: D.PESOS, semanas }, sesionHoy: s.sesionHoy, ultima: s.ultima, vibrar: s.vibrar,
+      insetTop: topH, insetBottom: botInset, tabH: tabsOn ? `calc(68px + ${botInset})` : botInset,
+      go: this.go, back: () => this.go(s.from && s.from !== 'ejercicio' ? s.from : 'rutina'), toast: this.toast,
+      openPlanes: () => this.setState({ sheet: true }), closePlanes: () => this.setState({ sheet: false }),
+      setPlan: p => this.setState({ plan: p, cupo: p === 'pro' ? 10 : Math.min(s.cupo, 1) }), usarCupo: () => this.setState(st => ({ cupo: Math.max(0, st.cupo - 1) })),
+      setRutinaTipo: x => this.setState({ rutinaTipo: x }), completarSesion: r => this.setState({ sesionHoy: true, ultima: r }),
+      updateUser: p => this.setState(st => ({ userPatch: { ...st.userPatch, ...p } })),
+      setTema: x => this.setState({ tema: x }), setVibrar: v => this.setState({ vibrar: v }), probarPush: () => setTimeout(this.showBanner, 400)
+    };
+    const r = {}; ROUTES.forEach(k => { r[k] = route === k; });
+    return {
+      app, r, isIos: ios, isAndroid: !ios, topH, botInset,
+      statusBg: full ? 'transparent' : t.bg, statusFg: full || !light ? '#F2F0EB' : '#0B0B0C',
+      pageBg: t.bg, contentPb: tabsOn ? `calc(84px + ${botInset})` : '0',
+      tabsOn, tabBg: light ? '#FFFFFF' : '#141416', tabBd: t.bd,
+      tabs: TABS.map(([id, label]) => { const on = act === id; return { label, icon: IC[id], cur: on, fg: on ? t.fg : t.mut, pill: on ? '#D4FF00' : 'transparent', ic: on ? '#0B0B0C' : t.mut, go: () => this.go(id) }; }),
+      handleW: ios ? '134px' : '108px', handleBg: full || !light ? '#F2F0EB' : '#0B0B0C', handlePb: ios ? '8px' : '6px',
+      lockPt: ios ? '72px' : '56px', lockDate: ios ? 'miércoles, 30 de septiembre' : 'Mié, 30 sep', lockDateSize: ios ? '20px' : '16px', lockClockSize: ios ? '96px' : '84px', lockClockW: ios ? 600 : 400, lockNotifBottom: ios ? '120px' : '96px',
+      openFromPush: () => { this.setState({ banner: false }); this.go('hoy'); }, snooze: () => this.toast('ok', 'Te recordamos en 1 hora', 'A las 10:41.'),
+      bannerOn: s.banner, bannerTop: ios ? '10px' : '36px', bannerR: ios ? '20px' : '16px',
+      sheetOn: s.sheet, closeSheet: () => this.setState({ sheet: false }),
+      sheetDown: e => { this.sy = e.clientY; }, sheetUp: e => { if (e.clientY - (this.sy || e.clientY) > 60) this.setState({ sheet: false }); },
+      toasts: s.toasts, toastBottom: tabsOn ? `calc(84px + ${botInset})` : `calc(16px + ${botInset})`
+    };
+  }
+}
+</script>
+</body>
+</html>

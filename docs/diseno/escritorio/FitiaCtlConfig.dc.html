@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Configuración" style="display:flex;flex-direction:column;gap:14px;max-width:1200px;animation:fitia-in 300ms cubic-bezier(.2,.8,.2,1)">
+  <header><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:#D4FF00">LOS CAMBIOS SE APLICAN EN VIVO AL MONITOREO</div><h1 style="margin-top:4px;font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:.95;text-transform:uppercase">Configuración</h1></header>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:start">
+    <section style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:12px">
+      <span style="font-family:Anton,sans-serif;font-size:20px">PROVEEDOR DE IA</span>
+      <div role="radiogroup" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <sc-for list="{{ provs }}" as="p" hint-placeholder-count="2"><button role="radio" aria-checked="{{ p.on }}" onClick="{{ p.pick }}" style="text-align:left;padding:12px;border:2px solid {{ p.bd }};border-radius:4px;background:{{ p.bg }};color:#F2F0EB;display:flex;flex-direction:column;gap:4px;cursor:pointer" style-hover="border-color:#F2F0EB"><span style="display:flex;justify-content:space-between;width:100%"><strong style="font-size:15px">{{ p.n }}</strong><span style="width:16px;height:16px;border:2px solid {{ p.bd }};display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;background:{{ p.dot }}"></span></span></span><span style="font-size:12px;color:#9A9AA0">{{ p.d }}</span></button></sc-for>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Clave de API</span><input type="password" value="••••••••••••••••c3Fa" readonly="" style="min-height:36px;padding:0 10px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;color:#9A9AA0;font-family:'JetBrains Mono',monospace"></label>
+      <div style="display:flex;gap:8px;align-items:center"><button onClick="{{ probar }}" style="min-height:34px;padding:0 12px;border:1px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:13px;font-weight:700;cursor:pointer" style-hover="background:#F2F0EB;color:#0B0B0C">{{ probarTxt }}</button><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ testC }}">{{ testRes }}</span></div>
+      <button role="switch" aria-checked="{{ fb }}" onClick="{{ toggleFb }}" style="display:flex;justify-content:space-between;align-items:center;min-height:40px;padding:0;border:0;background:transparent;color:#F2F0EB;font-size:14px;cursor:pointer">Fallback automático a Mock si la IA falla<span style="width:38px;height:20px;background:{{ fbSw }};position:relative"><span style="position:absolute;top:2px;left:{{ fbK }};width:16px;height:16px;background:#0B0B0C;transition:left 150ms"></span></span></button>
+    </section>
+
+    <section style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:14px">
+      <span style="font-family:Anton,sans-serif;font-size:20px">DETECTOR DE ANOMALÍAS</span>
+      <label style="display:flex;flex-direction:column;gap:6px"><span style="display:flex;justify-content:space-between;font-size:13px;font-weight:600">Umbral z-score <span style="font-family:'JetBrains Mono',monospace;color:#D4FF00">{{ zTxt }}σ</span></span><input type="range" min="2" max="5" step="0.1" value="{{ z }}" onChange="{{ onZ }}" style="width:100%;accent-color:#D4FF00"><span style="font-size:12px;color:#9A9AA0">Más bajo = detecta antes pero con más falsas alarmas.</span></label>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Ventana de la línea base</span><div style="display:flex;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;width:max-content"><sc-for list="{{ ventanas }}" as="v" hint-placeholder-count="3"><button onClick="{{ v.pick }}" style="min-height:34px;padding:0 14px;border:0;background:{{ v.bg }};color:{{ v.fg }};font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;cursor:pointer">{{ v.l }}</button></sc-for></div></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Muestras seguidas sobre el umbral</span><div style="display:flex;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;width:max-content"><sc-for list="{{ consecs }}" as="v" hint-placeholder-count="4"><button onClick="{{ v.pick }}" style="min-height:34px;width:44px;border:0;background:{{ v.bg }};color:{{ v.fg }};font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;cursor:pointer">{{ v.l }}</button></sc-for></div></div>
+      <div style="padding:10px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">z = (x − μ) / σ · alerta si z &gt; <span style="color:#D4FF00">{{ zTxt }}</span> durante <span style="color:#D4FF00">{{ consec }}</span> muestras · μ, σ sobre las últimas <span style="color:#D4FF00">{{ ventana }}</span> muestras normales</div>
+    </section>
+
+    <section style="grid-column:1 / -1;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span style="font-family:Anton,sans-serif;font-size:20px">POLÍTICAS DE REMEDIACIÓN</span><button role="switch" aria-checked="{{ auto }}" onClick="{{ toggleAuto }}" style="display:flex;align-items:center;gap:10px;border:0;background:transparent;color:{{ autoC }};font-size:13px;font-weight:700;cursor:pointer">{{ autoTxt }}<span style="width:38px;height:20px;background:{{ autoSw }};position:relative"><span style="position:absolute;top:2px;left:{{ autoK }};width:16px;height:16px;background:#0B0B0C;transition:left 150ms"></span></span></button></div>
+      <table>
+        <thead><tr><th style="text-align:left;padding:6px 8px;font-size:11px;letter-spacing:.06em;color:#9A9AA0">SERVICIO</th><th style="text-align:left;padding:6px 8px;font-size:11px;letter-spacing:.06em;color:#9A9AA0">ACCIÓN ANTE ANOMALÍA</th><th style="text-align:center;padding:6px 8px;font-size:11px;letter-spacing:.06em;color:#9A9AA0">MÍN.</th><th style="text-align:center;padding:6px 8px;font-size:11px;letter-spacing:.06em;color:#9A9AA0">MÁX.</th></tr></thead>
+        <tbody><sc-for list="{{ pols }}" as="p" hint-placeholder-count="4"><tr style="border-top:1px solid #2A2A2E"><td style="padding:8px;font-weight:700">{{ p.n }}</td><td style="padding:8px;font-size:13px;color:#C8C8CC">{{ p.acc }}</td>
+          <td style="padding:6px 8px"><div style="display:flex;align-items:center;justify-content:center;gap:4px"><button onClick="{{ p.minD }}" aria-label="Menos" style="width:26px;height:26px;border:1px solid #2A2A2E;background:transparent;color:#F2F0EB;cursor:pointer">−</button><span style="width:24px;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700">{{ p.mn }}</span><button onClick="{{ p.minU }}" aria-label="Más" style="width:26px;height:26px;border:1px solid #2A2A2E;background:transparent;color:#F2F0EB;cursor:pointer">+</button></div></td>
+          <td style="padding:6px 8px"><div style="display:flex;align-items:center;justify-content:center;gap:4px"><button onClick="{{ p.maxD }}" aria-label="Menos" style="width:26px;height:26px;border:1px solid #2A2A2E;background:transparent;color:#F2F0EB;cursor:pointer">−</button><span style="width:24px;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700">{{ p.mx }}</span><button onClick="{{ p.maxU }}" aria-label="Más" style="width:26px;height:26px;border:1px solid #2A2A2E;background:transparent;color:#F2F0EB;cursor:pointer">+</button></div></td></tr></sc-for></tbody>
+      </table>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;font-size:13px">
+        <label style="display:flex;align-items:center;gap:8px">Enfriamiento entre escalados<select value="{{ cooldown }}" onChange="{{ onCool }}" style="min-height:32px;padding:0 8px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace"><option value="5">5 s</option><option value="10">10 s</option><option value="20">20 s</option></select></label>
+        <button role="switch" aria-checked="{{ si }}" onClick="{{ toggleSi }}" style="display:flex;align-items:center;gap:8px;border:0;background:transparent;color:#F2F0EB;cursor:pointer">Reducir réplicas tras {{ calma }} s de calma<span style="width:38px;height:20px;background:{{ siSw }};position:relative"><span style="position:absolute;top:2px;left:{{ siK }};width:16px;height:16px;background:#0B0B0C;transition:left 150ms"></span></span></button>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ACC = { api: 'Escalar +1 réplica (horizontal)', ia: 'Cambiar a Mock y reintentar en 120 s', db: 'Reiniciar conexiones del pool', web: 'Escalar +1 réplica y purgar caché' };
+const NM = { api: 'API', ia: 'IA', db: 'Base de datos', web: 'Web' };
+class Component extends DCLogic {
+  state = { testing: false, test: null, fb: true };
+  componentWillUnmount() { clearTimeout(this.to); }
+  renderVals() {
+    const c = this.props.ctl || {}; const cfg = c.cfg || { pol: {} }; const set = c.setCfg || (() => {}); const s = this.state;
+    const sw = on => ({ sw: on ? '#3DDC84' : '#2A2A2E', k: on ? '20px' : '2px' });
+    const pol = (k, i, d) => { const p = { ...cfg.pol }; const v = [...p[k]]; v[i] = Math.max(1, Math.min(8, v[i] + d)); if (v[0] > v[1]) return; p[k] = v; set({ pol: p }); };
+    return {
+      provs: [['Gemini', 'Google Gemini · producción · costo por token'], ['Mock', 'Respuestas fijas · sin costo · pruebas y demos']].map(([n, d]) => { const on = cfg.provider === n; return { n, d, on, bd: on ? '#D4FF00' : '#2A2A2E', bg: on ? 'rgba(212,255,0,.06)' : 'transparent', dot: on ? '#D4FF00' : 'transparent', pick: () => { set({ provider: n }); c.toast('ia', 'Proveedor de IA: ' + n, n === 'Mock' ? 'Las rutinas usan plantillas seguras' : 'Conectado a Gemini'); } }; }),
+      probarTxt: s.testing ? 'Probando…' : 'Probar conexión', testRes: s.test || '', testC: s.test && s.test.startsWith('OK') ? '#3DDC84' : '#9A9AA0',
+      probar: () => { if (s.testing) return; this.setState({ testing: true, test: null }); this.to = setTimeout(() => this.setState({ testing: false, test: cfg.provider === 'Mock' ? 'OK · 34 ms · respuesta fija' : 'OK · 812 ms · gemini respondió' }), 900); },
+      fb: s.fb, toggleFb: () => this.setState({ fb: !s.fb }), fbSw: sw(s.fb).sw, fbK: sw(s.fb).k,
+      z: cfg.z, zTxt: Number(cfg.z).toFixed(1).replace('.', ','), onZ: e => set({ z: parseFloat(e.target.value) }),
+      ventana: cfg.ventana, consec: cfg.consec,
+      ventanas: [30, 60, 120].map(v => ({ l: v + ' s', bg: cfg.ventana === v ? '#D4FF00' : 'transparent', fg: cfg.ventana === v ? '#0B0B0C' : '#F2F0EB', pick: () => set({ ventana: v }) })),
+      consecs: [1, 2, 3, 5].map(v => ({ l: v, bg: cfg.consec === v ? '#D4FF00' : 'transparent', fg: cfg.consec === v ? '#0B0B0C' : '#F2F0EB', pick: () => set({ consec: v }) })),
+      auto: cfg.autoRemediar, toggleAuto: () => { set({ autoRemediar: !cfg.autoRemediar }); c.toast(cfg.autoRemediar ? 'warn' : 'ok', cfg.autoRemediar ? 'Remediación automática apagada' : 'Remediación automática encendida', cfg.autoRemediar ? 'Solo se enviarán alertas' : 'El ciclo MAPE-K actuará solo'); },
+      autoTxt: cfg.autoRemediar ? 'REMEDIACIÓN AUTOMÁTICA' : 'SOLO ALERTAR', autoC: cfg.autoRemediar ? '#3DDC84' : '#FFB020', autoSw: sw(cfg.autoRemediar).sw, autoK: sw(cfg.autoRemediar).k,
+      pols: ['api', 'ia', 'db', 'web'].map(k => ({ n: NM[k], acc: ACC[k], mn: (cfg.pol[k] || [1, 1])[0], mx: (cfg.pol[k] || [1, 1])[1], minD: () => pol(k, 0, -1), minU: () => pol(k, 0, 1), maxD: () => pol(k, 1, -1), maxU: () => pol(k, 1, 1) })),
+      cooldown: String(cfg.cooldown), onCool: e => set({ cooldown: +e.target.value }),
+      si: cfg.scaleIn, calma: cfg.calma, toggleSi: () => set({ scaleIn: !cfg.scaleIn }), siSw: sw(cfg.scaleIn).sw, siK: sw(cfg.scaleIn).k
+    };
+  }
+}
+</script>
+</body>
+</html>

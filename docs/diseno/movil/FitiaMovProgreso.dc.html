@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Progreso" style="padding:12px 16px 24px;display:flex;flex-direction:column;gap:14px;animation:fitia-in 350ms cubic-bezier(.2,.8,.2,1)">
+  <header><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:#D4FF00">60 DÍAS CON FITIA</div><h1 style="margin-top:4px;font-family:Anton,sans-serif;font-weight:400;font-size:44px;line-height:.92;text-transform:uppercase">Progreso</h1></header>
+  <div role="tablist" style="display:grid;grid-template-columns:repeat(3,1fr);border:2px solid #2A2A2E;border-radius:4px;overflow:hidden">
+    <sc-for list="{{ tabs }}" as="x" hint-placeholder-count="3"><button role="tab" aria-selected="{{ x.on }}" onClick="{{ x.pick }}" style="min-height:52px;border:0;background:{{ x.bg }};color:{{ x.fg }};font-size:16px;font-weight:700;cursor:pointer">{{ x.l }}</button></sc-for>
+  </div>
+
+  <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:8px">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#9A9AA0">{{ selLabel }}</div><div style="font-family:'JetBrains Mono',monospace;font-size:52px;font-weight:700;line-height:1;letter-spacing:-.04em;color:#D4FF00">{{ selVal }}<span style="font-size:18px;color:#9A9AA0;font-weight:400">{{ unit }}</span></div></div>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;padding:6px 8px;border-radius:2px;background:rgba(61,220,132,.14);color:#3DDC84">{{ delta }}</span>
+    </div>
+    <div onPointerDown="{{ touch }}" onPointerMove="{{ touch }}" onPointerLeave="{{ release }}" style="position:relative;height:200px;touch-action:none;cursor:crosshair">
+      <sc-if value="{{ isLine }}" hint-placeholder-val="{{ true }}">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none"><path d="{{ area }}" fill="rgba(212,255,0,.08)"></path><path d="{{ line }}" fill="none" stroke="#D4FF00" stroke-width="3" vector-effect="non-scaling-stroke"></path></svg>
+      </sc-if>
+      <sc-if value="{{ isBars }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;display:flex;align-items:flex-end;gap:5px;pointer-events:none"><div style="position:absolute;left:0;right:0;bottom:75%;border-top:1px dashed #D4FF00"></div><sc-for list="{{ bars }}" as="b" hint-placeholder-count="9"><div style="flex:1;height:{{ b.h }};background:{{ b.bg }};transition:background 120ms"></div></sc-for></div>
+      </sc-if>
+      <div style="position:absolute;top:0;bottom:0;left:{{ cx }};width:2px;margin-left:-1px;background:#F2F0EB;opacity:{{ cop }};pointer-events:none"></div>
+      <div style="position:absolute;left:{{ cx }};top:{{ cy }};width:16px;height:16px;margin:-8px 0 0 -8px;background:#0B0B0C;border:3px solid #D4FF00;opacity:{{ dotOp }};pointer-events:none"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0"><span>{{ x0 }}</span><span>TOCA Y DESLIZA</span><span>{{ x1 }}</span></div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:baseline"><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;text-transform:uppercase">Logros</h2><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9A9AA0">{{ logrosN }}/6</span></div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+    <sc-for list="{{ logros }}" as="x" hint-placeholder-count="6">
+      <div style="position:relative;overflow:hidden;min-height:132px;padding:14px;border-radius:4px;background:{{ x.bg }};border:{{ x.bd }};color:{{ x.fg }};display:flex;flex-direction:column;justify-content:space-between;gap:8px">
+        <span aria-hidden="true" style="position:absolute;right:-6px;bottom:-14px;font-family:Anton,sans-serif;font-size:72px;line-height:1;color:{{ x.numC }}">{{ x.big }}</span>
+        <span style="position:relative;width:36px;height:36px;border-radius:2px;background:{{ x.icBg }};color:{{ x.icFg }};display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="{{ x.d }}"></path></svg></span>
+        <span style="position:relative;font-family:Anton,sans-serif;font-size:20px;line-height:1.05;text-transform:uppercase">{{ x.l }}</span>
+        <sc-if value="{{ x.lock }}" hint-placeholder-val="{{ false }}"><span style="position:relative;display:flex;flex-direction:column;gap:4px"><span style="height:6px;background:#2A2A2E"><span style="display:block;height:100%;width:{{ x.p }};background:#9A9AA0"></span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">{{ x.pt }}</span></span></sc-if>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const H2 = 1.65 * 1.65; const f = (n, d = 1) => n.toFixed(d).replace('.', ',');
+const LOG = [['Primera sesión', 'M7 4l13 8-13 8z', '01', 1, 1], ['4 semanas seguidas', 'M13 2L4 14h7l-1 8 9-12h-7z', '4', 1, 1], ['8 semanas seguidas', 'M13 2L4 14h7l-1 8 9-12h-7z', '8', 1, 1], ['−3 kg', 'M4 12l5 5L20 6', '−3', 1, 1], ['25 sesiones', 'M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12', '25', 22, 25], ['IMC bajo 28', 'M3 20h18M4 16l5-5 4 3 7-7', '28', 0.65, 1.65]];
+class Component extends DCLogic {
+  state = { tab: 'peso', idx: null };
+  renderVals() {
+    const a = this.props.app || {}; const s = this.state;
+    const pesos = (a.data || {}).pesos || []; const sem = (a.data || {}).semanas || [];
+    const isBars = s.tab === 'adh';
+    const pts = isBars ? sem.map((w, i) => ({ x: (i + .5) / sem.length * 100, v: w.n, f: w.l })) : pesos.map(p => ({ x: p.d / 60 * 100, v: s.tab === 'imc' ? p.v / H2 : p.v, f: p.f }));
+    const [mn, mx] = s.tab === 'imc' ? [27.5, 30] : [77.5, 81.5];
+    const Y = v => (mx - v) / (mx - mn) * 100;
+    const line = isBars ? '' : pts.map((p, i) => (i ? 'L' : 'M') + p.x.toFixed(2) + ' ' + Y(p.v).toFixed(2)).join(' ');
+    const n = pts.length; const sel = s.idx == null ? n - 1 : Math.min(n - 1, s.idx); const P = pts[sel] || { x: 0, v: 0, f: '' };
+    const fmt = v => isBars ? String(v) : f(v, s.tab === 'imc' ? 2 : 1);
+    const touch = e => { const r = e.currentTarget.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width * 100; let bi = 0, bd = 1e9; pts.forEach((p, i) => { const d = Math.abs(p.x - x); if (d < bd) { bd = d; bi = i; } }); if (bi !== this.state.idx) { this.setState({ idx: bi }); try { a.vibrar !== false && navigator.vibrate && navigator.vibrate(5); } catch (er) {} } };
+    return {
+      tabs: [['peso', 'Peso'], ['imc', 'IMC'], ['adh', 'Adherencia']].map(([id, l]) => ({ l, on: s.tab === id, bg: s.tab === id ? '#D4FF00' : 'transparent', fg: s.tab === id ? '#0B0B0C' : '#F2F0EB', pick: () => this.setState({ tab: id, idx: null }) })),
+      isLine: !isBars, isBars, line, area: line + ' L100 100 L0 100 Z',
+      bars: sem.map((w, i) => ({ h: (w.n / 4 * 100) + '%', bg: i === sel ? '#F2F0EB' : w.n >= 3 ? '#D4FF00' : '#5A5A60' })),
+      selLabel: (isBars ? 'SESIONES · ' : '') + (P.f || '').toUpperCase(), selVal: fmt(P.v), unit: s.tab === 'peso' ? ' kg' : s.tab === 'adh' ? ' /3' : '',
+      delta: s.tab === 'peso' ? '−3,0 kg' : s.tab === 'imc' ? '−1,10' : '82 % META',
+      cx: P.x + '%', cy: isBars ? (100 - P.v / 4 * 100) + '%' : Y(P.v) + '%', cop: s.idx == null ? 0 : .5, dotOp: isBars ? 0 : 1,
+      touch, release: () => this.setState({ idx: null }),
+      x0: isBars ? 'S1' : '1 ago', x1: isBars ? 'HOY' : '30 sep',
+      logrosN: LOG.filter(l => l[3] >= l[4]).length,
+      logros: LOG.map(([l, d, big, v, m]) => { const on = v >= m; return { l, d, big, lock: !on, p: Math.min(100, v / m * 100) + '%', pt: l.startsWith('25') ? `${v} DE ${m}` : 'TE FALTAN 0,65', bg: on ? '#1A1A1D' : 'transparent', bd: on ? '1px solid #D4FF00' : '1px dashed #2A2A2E', fg: on ? '#F2F0EB' : '#9A9AA0', icBg: on ? '#D4FF00' : '#2A2A2E', icFg: on ? '#0B0B0C' : '#9A9AA0', numC: on ? 'rgba(212,255,0,.12)' : '#141416' }; })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Login administrador" style="height:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(420px,1fr);background:#0B0B0C">
+  <div style="position:relative;overflow:hidden;background:#141416;display:flex;flex-direction:column;justify-content:flex-end;padding:48px">
+    <div aria-hidden="true" style="position:absolute;inset:0;opacity:.08;background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.8%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url%28%23n%29%27/%3E%3C/svg%3E)"></div>
+    <div aria-hidden="true" style="position:absolute;right:-20px;top:20px;font-family:Anton,sans-serif;font-size:360px;line-height:.8;color:transparent;-webkit-text-stroke:2px #232327">24/7</div>
+    <div aria-hidden="true" style="position:absolute;left:-10%;right:-10%;top:52%;height:20px;transform:rotate(-7deg);background:repeating-linear-gradient(-45deg,#D4FF00 0 14px,#0B0B0C 14px 28px)"></div>
+    <div style="position:relative;display:flex;flex-direction:column;gap:14px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.08em;color:#D4FF00">ADMINISTRACIÓN Y MONITOREO</span>
+      <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:88px;line-height:.86;text-transform:uppercase">FitIA<br><span style="color:#D4FF00">Control</span></h1>
+      <p style="max-width:420px;color:#9A9AA0;font-size:15px">Usuarios, entrenadores, contenido y la salud de la plataforma en un solo lugar.</p>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:center;padding:40px">
+    <form onSubmit="{{ submit }}" novalidate="" style="width:100%;max-width:380px;display:flex;flex-direction:column;gap:16px;animation:{{ shake }}">
+      <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:36px;line-height:1;text-transform:uppercase">Ingreso</h2>
+      <p style="color:#9A9AA0;font-size:14px;margin-top:-8px">Solo administradores y entrenadores.</p>
+      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Correo institucional</span><input value="{{ email }}" onChange="{{ onEmail }}" autocomplete="username" style="min-height:44px;padding:0 12px;background:#0B0B0C;border:2px solid {{ bd }};border-radius:4px;color:#F2F0EB" style-focus="outline:none;border-color:#D4FF00"></label>
+      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Contraseña</span><input type="password" value="{{ pw }}" onChange="{{ onPw }}" autocomplete="current-password" style="min-height:44px;padding:0 12px;background:#0B0B0C;border:2px solid {{ bd }};border-radius:4px;color:#F2F0EB" style-focus="outline:none;border-color:#D4FF00"></label>
+      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Código de verificación (2FA)</span><input inputmode="numeric" value="{{ code }}" onChange="{{ onCode }}" placeholder="6 dígitos" style="min-height:44px;padding:0 12px;background:#0B0B0C;border:2px solid {{ bd }};border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:18px;letter-spacing:.3em" style-focus="outline:none;border-color:#D4FF00"></label>
+      <sc-if value="{{ err }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:10px 12px;border:1px solid #FF3B3B;border-radius:4px;background:rgba(255,59,59,.08);font-size:13px;color:#FF3B3B">Datos incorrectos. Te quedan {{ left }} intentos antes de bloquear la cuenta por 15 min.</div></sc-if>
+      <button type="submit" style="min-height:48px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 0 #7E9900;display:flex;align-items:center;justify-content:center;gap:10px" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">{{ btn }}</button>
+      <div style="padding:10px 12px;border:1px dashed #2A2A2E;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">DEMO · admin@fitia.co · fitia2026 · 123456</div>
+    </form>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { email: 'admin@fitia.co', pw: '', code: '', err: false, left: 3, busy: false };
+  componentWillUnmount() { clearTimeout(this.to); }
+  renderVals() {
+    const c = this.props.ctl || {}; const s = this.state;
+    return {
+      email: s.email, pw: s.pw, code: s.code, onEmail: e => this.setState({ email: e.target.value }), onPw: e => this.setState({ pw: e.target.value }), onCode: e => this.setState({ code: e.target.value.replace(/\D/g, '').slice(0, 6) }),
+      bd: s.err ? '#FF3B3B' : '#2A2A2E', err: s.err, left: s.left, shake: s.err ? 'fitia-in 200ms' : 'none', btn: s.busy ? 'Verificando…' : 'Ingresar',
+      submit: e => { e.preventDefault(); if (s.busy) return; const ok = s.email.trim() === 'admin@fitia.co' && s.pw === 'fitia2026' && s.code === '123456'; if (!ok) { this.setState({ err: true, left: Math.max(0, s.left - 1) }); return; } this.setState({ busy: true, err: false }); this.to = setTimeout(() => { this.setState({ busy: false }); c.login(); c.toast('ok', 'Bienvenido, Santiago', 'Sesión de administrador iniciada'); }, 700); }
+    };
+  }
+}
+</script>
+</body>
+</html>

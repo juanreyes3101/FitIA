@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>*{box-sizing:border-box}html,body{margin:0;background:#0B0B0C;color:#F2F0EB;font-family:'Inter Tight',system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}body{overflow-x:clip}a{color:#D4FF00}a:hover{color:#E1FF4D}h1,h2,h3,p{margin:0}button,input{font-family:inherit}@keyframes fitia-in{from{opacity:0;transform:translate3d(-24px,20px,0)}to{opacity:1;transform:none}}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
+</helmet>
+<dc-import name="FitiaNav" active="ingresar" hint-size="100%,1px"></dc-import>
+
+<main data-screen-label="Ingresar / Registro" style="min-height:100vh;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))">
+  <div style="position:relative;min-height:clamp(320px,50vw,100vh);overflow:hidden;isolation:isolate;background:#2A2A2E">
+    <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.4)"><image-slot id="login-foto" shape="rect" placeholder="Foto: principiante entrenando con luz dura"></image-slot></div>
+    <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;padding:clamp(20px,4vw,56px);pointer-events:none">
+      <div style="display:inline-block;background:#0B0B0C;padding:20px 24px 16px;border-radius:4px">
+        <div style="font-family:Anton,sans-serif;font-size:clamp(56px,7vw,112px);line-height:.85;text-transform:uppercase">Arranca<br><span style="color:#D4FF00">hoy.</span></div>
+      </div>
+      <div style="margin-top:16px;height:20px;background:repeating-linear-gradient(-45deg,#D4FF00 0 14px,#0B0B0C 14px 28px);margin-left:calc(-1 * clamp(20px,4vw,56px));margin-right:calc(-1 * clamp(20px,4vw,56px))"></div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:center;padding:clamp(40px,8vw,128px) clamp(16px,4vw,56px) 64px">
+    <div style="width:100%;max-width:460px;display:flex;flex-direction:column;gap:28px">
+      <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+        <div role="tablist" aria-label="Tipo de acceso" style="display:grid;grid-template-columns:1fr 1fr;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden">
+          <button role="tab" aria-selected="{{ isLogin }}" onClick="{{ toLogin }}" style="min-height:52px;border:0;background:{{ lBg }};color:{{ lFg }};font-size:16px;font-weight:600;cursor:pointer" style-focus="outline:2px solid #F2F0EB;outline-offset:-4px">Ingresar</button>
+          <button role="tab" aria-selected="{{ isReg }}" onClick="{{ toReg }}" style="min-height:52px;border:0;background:{{ rBg }};color:{{ rFg }};font-size:16px;font-weight:600;cursor:pointer" style-focus="outline:2px solid #F2F0EB;outline-offset:-4px">Crear cuenta</button>
+        </div>
+        <div>
+          <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,4.4vw,64px);line-height:.92;text-transform:uppercase">{{ title }}</h1>
+          <p style="margin-top:10px;color:#9A9AA0;font-size:17px">{{ subtitle }}</p>
+        </div>
+        <form onSubmit="{{ submit }}" novalidate="" style="display:flex;flex-direction:column;gap:20px">
+          <sc-if value="{{ isReg }}" hint-placeholder-val="{{ false }}">
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Nombre</span><input value="{{ nombre }}" onChange="{{ onNombre }}" autocomplete="given-name" placeholder="¿Cómo te decimos?" style="min-height:52px;padding:0 16px;background:#0B0B0C;border:2px solid {{ nBorder }};border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00;box-shadow:0 0 0 1px #D4FF00"><sc-if value="{{ nErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#FF3B3B">Escribe tu nombre.</span></sc-if></label>
+          </sc-if>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:600">Correo</span><input type="email" value="{{ email }}" onChange="{{ onEmail }}" autocomplete="email" placeholder="tucorreo@ejemplo.com" style="min-height:52px;padding:0 16px;background:#0B0B0C;border:2px solid {{ eBorder }};border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00;box-shadow:0 0 0 1px #D4FF00"><sc-if value="{{ eErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#FF3B3B">Revisa el correo: le falta la @ o el dominio.</span></sc-if></label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:600">Contraseña<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}"><a href="#" style="font-weight:600;color:#D4FF00;padding:8px 0;margin:-8px 0" style-hover="color:#F2F0EB">¿La olvidaste?</a></sc-if></span>
+            <div style="position:relative"><input type="{{ pwType }}" value="{{ pw }}" onChange="{{ onPw }}" autocomplete="{{ pwAuto }}" placeholder="{{ pwPh }}" style="width:100%;min-height:52px;padding:0 56px 0 16px;background:#0B0B0C;border:2px solid {{ pBorder }};border-radius:4px;color:#F2F0EB;font-size:16px" style-focus="outline:none;border-color:#D4FF00;box-shadow:0 0 0 1px #D4FF00"><button type="button" onClick="{{ togglePw }}" aria-label="{{ pwLabel }}" style="position:absolute;right:4px;top:4px;width:44px;height:44px;border:0;border-radius:2px;background:transparent;color:#9A9AA0;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="color:#F2F0EB;background:#1A1A1D"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="{{ eyeD }}"></path></svg></button></div>
+            <sc-if value="{{ isReg }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:4px"><sc-for list="{{ strength }}" as="s" hint-placeholder-count="4"><div style="flex:1;height:4px;background:{{ s.bg }};transition:background 200ms"></div></sc-for></div><span style="font-size:14px;color:{{ sColor }}">{{ sMsg }}</span></sc-if>
+            <sc-if value="{{ pErrLogin }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#FF3B3B">Escribe tu contraseña.</span></sc-if>
+          </label>
+          <sc-if value="{{ isReg }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:4px;padding:16px;border:1px solid {{ legalBorder }};border-radius:4px">
+              <sc-for list="{{ checks }}" as="c" hint-placeholder-count="3">
+                <button type="button" role="checkbox" aria-checked="{{ c.on }}" onClick="{{ c.toggle }}" style="display:flex;gap:12px;align-items:flex-start;min-height:44px;padding:10px 0;border:0;background:transparent;color:#F2F0EB;text-align:left;font-size:15px;line-height:1.45;cursor:pointer" style-focus="outline:2px solid #D4FF00;outline-offset:2px"><span style="width:24px;height:24px;flex:none;border:2px solid {{ c.bd }};background:{{ c.bg }};border-radius:2px;display:flex;align-items:center;justify-content:center;transition:background 120ms,border-color 120ms"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="3" stroke-linecap="square" style="opacity:{{ c.op }}"><path d="M4 12l5 5L20 6"></path></svg></span><span>{{ c.text }} <span style="color:{{ c.tagColor }};font-size:13px;font-weight:600">{{ c.tag }}</span></span></button>
+              </sc-for>
+              <sc-if value="{{ legalErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#FF3B3B;padding-top:4px">Para crear tu cuenta necesitamos que aceptes los términos y el tratamiento de datos.</span></sc-if>
+            </div>
+          </sc-if>
+          <button type="submit" style="display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:17px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms,background 120ms;opacity:{{ btnOp }}" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">{{ cta }}</button>
+        </form>
+        <p style="text-align:center;color:#9A9AA0;font-size:15px">{{ switchQ }} <button onClick="{{ switchMode }}" style="min-height:44px;padding:0 4px;border:0;background:transparent;color:#D4FF00;font-size:15px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:4px" style-hover="color:#F2F0EB">{{ switchA }}</button></p>
+      </sc-if>
+      <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:24px;animation:fitia-in 500ms cubic-bezier(.2,.8,.2,1)">
+          <span style="width:72px;height:72px;background:#D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="2.5" stroke-linecap="square"><path d="M4 12l5 5L20 6"></path></svg></span>
+          <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,5vw,72px);line-height:.9;text-transform:uppercase">{{ doneTitle }}</h1>
+          <p style="color:#9A9AA0;font-size:17px">{{ doneMsg }}</p>
+          <a href="FitIA%20Inicio.dc.html" style="display:flex;align-items:center;justify-content:center;min-height:56px;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:17px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 #7E9900" style-hover="background:#E1FF4D;color:#0B0B0C" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900">{{ doneCta }}</a>
+          <button onClick="{{ reset }}" style="align-self:center;min-height:44px;padding:0 12px;border:0;background:transparent;color:#9A9AA0;font-size:15px;cursor:pointer" style-hover="color:#F2F0EB">Volver al formulario</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const EYE = 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9v6M9 12h6';
+const EYE_OFF = 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM4 4l16 16';
+const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+class Component extends DCLogic {
+  state = { mode: 'login', nombre: '', email: '', pw: '', showPw: false, terms: false, datos: false, tips: false, tried: false, done: false };
+  componentDidMount() {
+    this.onHash = () => this.setState({ mode: location.hash === '#registro' ? 'reg' : 'login', tried: false, done: false });
+    this.onHash(); window.addEventListener('hashchange', this.onHash);
+  }
+  componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); }
+  setMode(m) { this.setState({ mode: m, tried: false }); try { history.replaceState(null, '', m === 'reg' ? '#registro' : '#'); } catch (e) {} }
+  renderVals() {
+    const s = this.state, reg = s.mode === 'reg';
+    const eBad = !emailOk(s.email), nBad = !s.nombre.trim(), legalBad = !(s.terms && s.datos);
+    const pwLen = s.pw.length;
+    const score = pwLen === 0 ? 0 : pwLen < 8 ? 1 : (/\d/.test(s.pw) && /[A-Za-z]/.test(s.pw) ? (pwLen >= 12 ? 4 : 3) : 2);
+    const pBad = reg ? pwLen < 8 : pwLen === 0;
+    const err = c => s.tried && c;
+    const ok = !eBad && !pBad && (!reg || (!nBad && !legalBad));
+    const chk = (key, text, tag, req) => ({ on: s[key], text, tag, tagColor: req ? (err(!s[key]) ? '#FF3B3B' : '#9A9AA0') : '#9A9AA0', bd: s[key] ? '#D4FF00' : (req && err(!s[key]) ? '#FF3B3B' : '#9A9AA0'), bg: s[key] ? '#D4FF00' : 'transparent', op: s[key] ? 1 : 0, toggle: () => this.setState({ [key]: !s[key] }) });
+    const first = s.nombre.trim().split(' ')[0];
+    return {
+      showForm: !s.done, done: s.done, isLogin: !reg, isReg: reg,
+      toLogin: () => this.setMode('login'), toReg: () => this.setMode('reg'),
+      switchMode: () => this.setMode(reg ? 'login' : 'reg'),
+      lBg: reg ? 'transparent' : '#D4FF00', lFg: reg ? '#F2F0EB' : '#0B0B0C', rBg: reg ? '#D4FF00' : 'transparent', rFg: reg ? '#0B0B0C' : '#F2F0EB',
+      title: reg ? 'Crea tu cuenta' : 'Qué bueno verte',
+      subtitle: reg ? 'Gratis, sin tarjeta. En 2 minutos tienes tu rutina.' : 'Ingresa y sigue con tu rutina.',
+      nombre: s.nombre, email: s.email, pw: s.pw,
+      onNombre: e => this.setState({ nombre: e.target.value }), onEmail: e => this.setState({ email: e.target.value }), onPw: e => this.setState({ pw: e.target.value }),
+      nErr: err(nBad), eErr: err(eBad), pErrLogin: !reg && err(pBad),
+      nBorder: err(nBad) ? '#FF3B3B' : '#2A2A2E', eBorder: err(eBad) ? '#FF3B3B' : (s.email && !eBad ? '#3DDC84' : '#2A2A2E'), pBorder: err(pBad) ? '#FF3B3B' : '#2A2A2E',
+      pwType: s.showPw ? 'text' : 'password', pwLabel: s.showPw ? 'Ocultar contraseña' : 'Mostrar contraseña', eyeD: s.showPw ? EYE_OFF : EYE,
+      togglePw: () => this.setState({ showPw: !s.showPw }),
+      pwAuto: reg ? 'new-password' : 'current-password', pwPh: reg ? 'Mínimo 8 caracteres' : 'Tu contraseña',
+      strength: [1, 2, 3, 4].map(i => ({ bg: i <= score ? (score <= 1 ? '#FF3B3B' : score === 2 ? '#FFB020' : '#3DDC84') : '#2A2A2E' })),
+      sColor: err(pBad) ? '#FF3B3B' : '#9A9AA0',
+      sMsg: pwLen === 0 ? 'Mínimo 8 caracteres. Mezcla letras y números.' : score <= 1 ? `Te faltan ${8 - pwLen} caracteres.` : score === 2 ? 'Bien. Agrégale un número para hacerla más fuerte.' : score === 3 ? 'Fuerte.' : 'Muy fuerte. ¡Así es!',
+      checks: [
+        chk('terms', 'Acepto los términos y condiciones de FitIA.', 'OBLIGATORIO', true),
+        chk('datos', 'Autorizo el tratamiento de mis datos personales (incluidos peso, estatura y molestias) según la Ley 1581 de 2012 y la política de datos de FitIA.', 'OBLIGATORIO', true),
+        chk('tips', 'Quiero recibir tips de entrenamiento por correo.', 'OPCIONAL', false)
+      ],
+      legalBorder: err(legalBad) ? '#FF3B3B' : '#2A2A2E', legalErr: reg && err(legalBad),
+      cta: reg ? 'Crear mi cuenta' : 'Ingresar', btnOp: s.tried && !ok ? 0.7 : 1,
+      switchQ: reg ? '¿Ya tienes cuenta?' : '¿Aún no tienes cuenta?', switchA: reg ? 'Ingresa' : 'Créala gratis',
+      submit: e => { e.preventDefault(); if (ok) this.setState({ done: true }); else this.setState({ tried: true }); },
+      doneTitle: reg ? `¡Ya eres del parche${first ? ', ' + first : ''}!` : '¡Listo, adentro!',
+      doneMsg: reg ? 'Te mandamos un correo para confirmar tu cuenta. Mientras tanto, cuéntanos de ti y la IA arma tu primera rutina.' : 'Tu rutina de hoy te está esperando.',
+      doneCta: reg ? 'Arma mi primera rutina' : 'Ver mi rutina de hoy',
+      reset: () => this.setState({ done: false, tried: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

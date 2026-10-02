@@ -1,0 +1,49 @@
+@startuml 04_despliegue_red
+title FitIA — Diagrama de despliegue y topología de red
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam node {
+  BackgroundColor #F7F7F7
+  BorderColor #222222
+}
+
+node "Celular del usuario\n(Android / iOS)" as CEL {
+  artifact "App FitIA\n(React Native + Expo)" as APP
+}
+node "PC del usuario\n(navegador)" as PC {
+  artifact "Web FitIA\n(React + Vite)" as WEB
+}
+node "PC del administrador\n(Windows)" as ADM {
+  artifact "FitIA Control.exe\n(Electron)" as EXE
+}
+
+cloud "Red local WiFi (demo)\no túnel gratuito HTTPS" as NET
+
+node "PC del equipo = servidor (costo $0)\nDocker Desktop o XAMPP · red WiFi local" as SRV {
+  node "Proxy inverso\nNginx :443" as NGX
+  node "API Flask (Gunicorn)\nréplicas 1..N :5000" as API {
+    component "Módulo Auth (JWT)" as AUTH
+    component "Módulo Rutinas + Validador" as RUT
+    component "Módulo Pagos simulados" as PAG
+    component "Módulo Reportes\n(Pandas · NumPy)" as REP
+    component "Middleware de métricas" as MID
+  }
+  node "Worker de monitoreo\n(APScheduler cada 60 s)" as WRK {
+    component "Ciclo MAPE-K\nlínea base + z-score\n+ remediación" as MAPE
+  }
+  database "MySQL 8\n:3306 (red interna)" as DB
+}
+
+cloud "Google Gemini API\n(capa gratuita, sin tarjeta)" as IA
+
+APP --> NET : HTTPS REST/JSON
+WEB --> NET : HTTPS REST/JSON
+EXE --> NET : HTTPS REST/JSON\n+ polling métricas
+NET --> NGX
+NGX --> API : HTTP balanceo\nround-robin
+API --> DB : TCP 3306\n(pool de conexiones)
+WRK --> DB : lee métricas /\nescribe anomalías
+API --> IA : HTTPS (API key\nen variable de entorno)
+MID ..> DB : INSERT metricas
+MAPE ..> NGX : escalado simulado\n(réplicas)
+@enduml

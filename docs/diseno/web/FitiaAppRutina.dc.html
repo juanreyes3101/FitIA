@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"></helmet>
+<div data-screen-label="Mi rutina" style="display:flex;flex-direction:column;gap:20px;animation:fitia-in 400ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#D4FF00">MI RUTINA · {{ origen }}</div>
+      <h1 style="margin-top:8px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(40px,5vw,72px);line-height:.9;text-transform:uppercase">3 días.<br>45 minutos.</h1>
+      <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+        <span style="font-size:12px;font-weight:700;letter-spacing:.06em;padding:6px 10px;border-radius:2px;border:1px solid #2A2A2E;color:#F2F0EB">BAJAR DE PESO</span>
+        <span style="font-size:12px;font-weight:700;letter-spacing:.06em;padding:6px 10px;border-radius:2px;border:1px solid #FF4D1A;color:#FF4D1A">LUMBAR · MODERADA</span>
+        <span style="font-size:12px;font-weight:700;letter-spacing:.06em;padding:6px 10px;border-radius:2px;border:1px solid #2A2A2E;color:#F2F0EB">PRINCIPIANTE</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-start;gap:8px">
+      <sc-if value="{{ canGen }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ gen }}" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 24px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms,background 120ms" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg>Generar nueva rutina con IA</button>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">{{ cupoTxt }}</span>
+      </sc-if>
+      <sc-if value="{{ noCupo }}" hint-placeholder-val="{{ false }}">
+        <button disabled="" aria-disabled="true" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 24px;border:0;border-radius:4px;background:#2A2A2E;color:#9A9AA0;font-size:16px;font-weight:600;cursor:not-allowed"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg>Generar nueva rutina con IA</button>
+        <span style="font-size:14px;color:#9A9AA0;max-width:320px">Ya usaste tus 2 rutinas IA de este mes. Se recargan el 1 de octubre. <button onClick="{{ goPlanes }}" style="min-height:44px;padding:0 2px;border:0;background:transparent;color:#D4FF00;font-size:14px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Pásate a Pro</button></span>
+      </sc-if>
+    </div>
+  </header>
+
+  <sc-if value="{{ showBase }}" hint-placeholder-val="{{ false }}">
+    <div role="alert" style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:16px 20px;background:rgba(255,176,32,.08);border:1px solid #FFB020;border-radius:4px">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB020" stroke-width="2" stroke-linecap="square" style="flex:none"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v1"></path></svg>
+      <div style="flex:1;min-width:220px"><div style="font-weight:700">La IA no respondió, usamos una rutina base segura.</div><div style="font-size:15px;color:#9A9AA0">Menos ejercicios, todos seguros para molestia lumbar. No gastaste cupo: puedes reintentar cuando quieras.</div></div>
+      <button onClick="{{ gen }}" style="min-height:44px;padding:0 16px;border:2px solid #FFB020;border-radius:4px;background:transparent;color:#FFB020;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#FFB020;color:#0B0B0C" style-active="transform:translateY(2px)">Reintentar</button>
+    </div>
+  </sc-if>
+  <sc-if value="{{ showNueva }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="display:flex;gap:14px;align-items:center;padding:14px 20px;background:rgba(212,255,0,.06);border:1px solid #D4FF00;border-radius:4px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg>
+      <div style="font-size:15px"><strong>Rutina nueva lista.</strong> <span style="color:#9A9AA0">Cambiamos el orden y sacamos la zancada para cuidar tu espalda.</span></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCarga }}" hint-placeholder-val="{{ false }}">
+    <div aria-busy="true" style="display:flex;flex-direction:column;gap:8px">
+      <div style="height:88px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+      <div style="height:76px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+      <div style="height:76px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+      <div style="height:76px;border-radius:4px;background:linear-gradient(90deg,#1A1A1D 0%,#26262A 50%,#1A1A1D 100%);background-size:200% 100%;animation:fitia-shimmer 1.4s linear infinite"></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isVacio }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;overflow:hidden;min-height:340px;background:#1A1A1D;border:1px dashed #2A2A2E;border-radius:4px;padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:16px">
+      <div aria-hidden="true" style="position:absolute;right:-16px;top:-50px;font-family:Anton,sans-serif;font-size:clamp(200px,24vw,320px);line-height:1;color:transparent;-webkit-text-stroke:2px #2A2A2E">00</div>
+      <h2 style="position:relative;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(36px,4vw,56px);line-height:.92;text-transform:uppercase">Tu semana está<br>en blanco</h2>
+      <p style="position:relative;max-width:420px;color:#9A9AA0;font-size:17px">Genera tu rutina y la verás aquí, día por día.</p>
+      <button onClick="{{ gen }}" style="position:relative;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900">Generar mi rutina con IA</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isNormal }}" hint-placeholder-val="{{ true }}">
+    <div role="tablist" aria-label="Días de la semana" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">
+      <sc-for list="{{ semana }}" as="d" hint-placeholder-count="7">
+        <button role="tab" aria-selected="{{ d.sel }}" onClick="{{ d.pick }}" disabled="{{ d.off }}" style="min-height:{{ cellH }};padding:8px 4px;border:2px solid {{ d.bd }};border-radius:4px;background:{{ d.bg }};color:{{ d.fg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:{{ d.cur }};transition:background 120ms" style-focus="outline:2px solid #F2F0EB;outline-offset:2px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700">{{ d.dow }}</span>
+          <span style="font-family:Anton,sans-serif;font-size:{{ dayNumSize }};line-height:1">{{ d.tag }}</span>
+          <span style="font-size:11px;font-weight:600;letter-spacing:.04em">{{ d.sub }}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <section style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden">
+      <div style="position:relative;overflow:hidden;padding:clamp(20px,3vw,32px);border-bottom:1px solid #2A2A2E;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+        <div aria-hidden="true" style="position:absolute;right:-8px;top:-34px;font-family:Anton,sans-serif;font-size:180px;line-height:1;color:#232327;pointer-events:none">{{ diaNum }}</div>
+        <div style="position:relative">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">DÍA {{ dia.n }} · {{ dia.dow }} {{ dia.fecha }}</span><span style="font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 8px;border-radius:2px;background:{{ estBg }};color:{{ estFg }}">{{ estLabel }}</span></div>
+          <h2 style="margin-top:6px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(32px,4vw,52px);line-height:.95;text-transform:uppercase">{{ dia.title }}</h2>
+          <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#9A9AA0">45 MIN · {{ diaCount }} EJERCICIOS · {{ diaSeguros }} SEGUROS PARA TU ESPALDA</div>
+        </div>
+        <sc-if value="{{ diaHoy }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ goEntreno }}" style="position:relative;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 22px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M7 4l13 8-13 8z"></path></svg>Empezar entreno</button>
+        </sc-if>
+      </div>
+      <ol>
+        <sc-for list="{{ ejercicios }}" as="e" hint-placeholder-count="5">
+          <li style="border-bottom:1px solid #2A2A2E">
+            <button onClick="{{ e.go }}" style="width:100%;display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:16px clamp(16px,3vw,32px);border:0;background:transparent;color:#F2F0EB;text-align:left;cursor:pointer;transition:background 120ms" style-hover="background:#202024" style-focus="outline:2px solid #D4FF00;outline-offset:-2px">
+              <span style="width:52px;height:52px;flex:none;border-radius:2px;background:{{ e.numBg }};color:{{ e.numFg }};font-family:Anton,sans-serif;font-size:24px;display:flex;align-items:center;justify-content:center">{{ e.num }}</span>
+              <span style="flex:1;min-width:180px;display:flex;flex-direction:column;gap:4px">
+                <span style="font-weight:600;font-size:17px">{{ e.nombre }}</span>
+                <span style="display:flex;gap:14px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:14px"><strong>{{ e.dosis }}</strong><span style="color:#9A9AA0">Descanso {{ e.descanso }}</span><span style="color:#9A9AA0">{{ e.tipo }}</span></span>
+              </span>
+              <sc-if value="{{ e.segura }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.06em;padding:6px 10px;border-radius:2px;background:rgba(61,220,132,.12);color:#3DDC84"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z"></path><path d="M9 12l2 2 4-4"></path></svg>SEGURO PARA TU ESPALDA</span></sc-if>
+              <sc-if value="{{ e.cuidado }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.06em;padding:5px 9px;border-radius:2px;border:1px solid #FFB020;color:#FFB020">CUIDA LA POSTURA</span></sc-if>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A9AA0" stroke-width="2" stroke-linecap="square" style="flex:none"><path d="M9 6l6 6-6 6"></path></svg>
+            </button>
+          </li>
+        </sc-for>
+      </ol>
+    </section>
+    <p style="font-size:14px;color:#9A9AA0">Toca un ejercicio para ver la técnica y por qué lo elegimos para ti.</p>
+  </sc-if>
+
+  <sc-if value="{{ generating }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="Generando rutina" style="position:fixed;inset:0;z-index:70;background:rgba(11,11,12,.94);display:flex;align-items:center;justify-content:center;padding:24px">
+      <div style="width:100%;max-width:520px;display:flex;flex-direction:column;gap:24px">
+        <span style="width:80px;height:80px;background:#D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="2" stroke-linecap="square" style="animation:fitia-pulse 1s ease-in-out infinite"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg></span>
+        <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(40px,6vw,64px);line-height:.92;text-transform:uppercase">La IA está armando<br>tu rutina…</h2>
+        <div style="position:relative;height:8px;background:#2A2A2E;overflow:hidden"><div style="height:100%;width:{{ genW }};background:#D4FF00;transition:width 500ms cubic-bezier(.2,.8,.2,1)"></div></div>
+        <ul style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ genItems }}" as="g" hint-placeholder-count="4">
+            <li style="display:flex;align-items:center;gap:12px;color:{{ g.fg }};font-size:16px;transition:color 200ms">
+              <span style="width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center">
+                <sc-if value="{{ g.done }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2.5" stroke-linecap="square"><path d="M4 12l5 5L20 6"></path></svg></sc-if>
+                <sc-if value="{{ g.now }}" hint-placeholder-val="{{ false }}"><span style="width:16px;height:16px;border:2px solid #D4FF00;border-right-color:transparent;animation:fitia-spin 700ms linear infinite"></span></sc-if>
+                <sc-if value="{{ g.wait }}" hint-placeholder-val="{{ true }}"><span style="width:8px;height:8px;background:#2A2A2E"></span></sc-if>
+              </span>{{ g.t }}
+            </li>
+          </sc-for>
+        </ul>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const DOW = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'];
+const GEN = ['Leyendo tu perfil: IMC 28,65 · lumbar moderada', 'Quitando ejercicios que cargan la espalda baja', 'Ajustando a 3 días de 45 minutos', 'Revisando que todo sea seguro para ti'];
+class Component extends DCLogic {
+  state = { dia: 1, generating: false, step: 0, notice: null };
+  componentDidMount() { const a = this.props.app || {}; if (a.rutinaTipo === 'base' || (a.estado === 'error')) this.setState({ notice: 'base' }); }
+  componentWillUnmount() { clearInterval(this.iv); }
+  gen = () => {
+    const a = this.props.app || {};
+    if (this.state.generating || (a.cupo ?? 1) <= 0 && this.state.notice !== 'base') return;
+    this.setState({ generating: true, step: 0 });
+    clearInterval(this.iv);
+    this.iv = setInterval(() => {
+      const st = this.state.step + 1;
+      if (st <= GEN.length) { this.setState({ step: st }); return; }
+      clearInterval(this.iv);
+      const fail = a.estado === 'error' && this.state.notice !== 'base';
+      if (fail) {
+        a.setRutinaTipo('base'); this.setState({ generating: false, notice: 'base' });
+        a.toast('warn', 'La IA no respondió', 'Usamos una rutina base segura. No gastaste cupo.');
+      } else {
+        if (this.state.notice !== 'base') a.usarCupo();
+        a.setRutinaTipo('ia2'); this.setState({ generating: false, notice: 'nueva', dia: 1 });
+        a.toast('ia', 'Rutina nueva lista', 'Ajustada a tu espalda y a 3 días de 45 min.');
+      }
+    }, 650);
+  };
+  renderVals() {
+    const a = this.props.app || {}; const est = a.estado || 'normal'; const m = a.mobile;
+    const rut = a.rutina || [];
+    const dia = rut[this.state.dia] || { n: 1, ejercicios: [], estado: 'proximo' };
+    const map = { 0: 0, 2: 1, 4: 2 };
+    const cupo = a.cupo ?? 1;
+    const EST = { hecho: ['HECHO', '#3DDC84', '#0B0B0C'], hoy: ['HOY', '#D4FF00', '#0B0B0C'], proximo: ['PRÓXIMO', '#2A2A2E', '#F2F0EB'] };
+    const [estLabel, estBg, estFg] = EST[dia.estado] || EST.proximo;
+    return {
+      origen: a.rutinaTipo === 'base' ? 'RUTINA BASE SEGURA' : a.rutinaTipo === 'ia2' ? 'GENERADA POR IA · 30 SEP' : 'GENERADA POR IA · 15 SEP',
+      isCarga: est === 'carga', isVacio: est === 'vacio', isNormal: est !== 'carga' && est !== 'vacio',
+      canGen: cupo > 0 || this.state.notice === 'base', noCupo: cupo <= 0 && this.state.notice !== 'base',
+      cupoTxt: cupo === 1 ? 'Te queda 1 rutina IA este mes' : `Te quedan ${cupo} rutinas IA este mes`,
+      showBase: this.state.notice === 'base', showNueva: this.state.notice === 'nueva',
+      gen: this.gen, goPlanes: () => a.go('planes'), goEntreno: () => a.go('entreno'),
+      cellH: m ? '72px' : '96px', dayNumSize: m ? '20px' : '28px',
+      semana: DOW.map((dow, i) => {
+        const idx = map[i]; const has = idx !== undefined; const d = has ? rut[idx] : null; const sel = has && idx === this.state.dia;
+        const sub = !has ? 'Libre' : d.estado === 'hecho' ? 'Hecho' : d.estado === 'hoy' ? 'Hoy' : 'Próximo';
+        return { dow: m ? dow.slice(0, 1) : dow, tag: has ? (m ? 'D' + d.n : 'DÍA ' + d.n) : '—', sub: m && has ? '' : sub, sel, off: !has, cur: has ? 'pointer' : 'default',
+          bg: sel ? '#D4FF00' : has ? '#1A1A1D' : 'transparent', fg: sel ? '#0B0B0C' : has ? '#F2F0EB' : '#9A9AA0', bd: sel ? '#D4FF00' : has ? (d.estado === 'hoy' ? '#D4FF00' : '#2A2A2E') : '#1A1A1D',
+          pick: () => has && this.setState({ dia: idx }) };
+      }),
+      dia, diaNum: '0' + dia.n, diaCount: dia.ejercicios.length, diaSeguros: dia.ejercicios.filter(e => e.segura).length,
+      diaHoy: dia.estado === 'hoy', estLabel, estBg, estFg,
+      ejercicios: dia.ejercicios.map((e, i) => ({ ...e, num: '0' + (i + 1), cuidado: !e.segura, numBg: e.segura ? '#2A2A2E' : 'rgba(255,176,32,.14)', numFg: e.segura ? '#F2F0EB' : '#FFB020', go: () => a.go('ejercicio', e.id) })),
+      generating: this.state.generating,
+      genW: (this.state.step / GEN.length * 100) + '%',
+      genItems: GEN.map((t, i) => ({ t, done: i < this.state.step, now: i === this.state.step, wait: i > this.state.step, fg: i <= this.state.step ? '#F2F0EB' : '#9A9AA0' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

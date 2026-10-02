@@ -1,0 +1,61 @@
+---
+title: FitIA — Arquitectura de componentes (cliente-servidor en capas)
+---
+flowchart TB
+    subgraph CLIENTES["Capa de presentación — 3 clientes, 1 sola API"]
+        direction LR
+        WEB["🌐 Web<br/>React + Vite + Tailwind<br/><i>usuarios + landing</i>"]
+        MOV["📱 App móvil<br/>React Native + Expo<br/><i>entrenar en el gym</i>"]
+        EXE["🖥️ Ejecutable .exe<br/>Electron + React<br/><i>admin + consola de monitoreo</i>"]
+    end
+
+    SHARED["📦 packages/shared<br/>tipos, cliente API, tokens de diseño"]
+    WEB -.usa.- SHARED
+    MOV -.usa.- SHARED
+    EXE -.usa.- SHARED
+
+    subgraph BACK["Capa de aplicación — API REST Flask (/api/v1)"]
+        direction TB
+        GW["Middleware: CORS · JWT · rate-limit · métricas"]
+        subgraph CTRL["Controladores (Blueprints)"]
+            direction LR
+            C1[auth]
+            C2[perfil / IMC]
+            C3[rutinas]
+            C4[sesiones / progreso]
+            C5[pagos]
+            C6[admin / reportes]
+            C7[monitoreo]
+        end
+        subgraph SERV["Servicios de dominio"]
+            direction LR
+            S1[ServicioRutinas]
+            S2["ValidadorSeguridad<br/>(reglas + contraindicaciones)"]
+            S3["AdaptadorIA<br/>Strategy: Gemini · Mock"]
+            S4["ServicioPagosSimulados<br/>(Luhn + reglas)"]
+            S5["ServicioReportes<br/>Pandas · NumPy"]
+        end
+        subgraph REPO["Acceso a datos (Repositorios · SQLAlchemy / PyMySQL)"]
+            R1[repos por agregado]
+        end
+        GW --> CTRL --> SERV --> REPO
+    end
+
+    subgraph AUTO["Módulo de monitoreo autónomo (worker)"]
+        direction LR
+        M1[Monitor] --> M2["Analizar<br/>línea base + z-score"] --> M3[Planificar] --> M4["Ejecutar<br/>remediación simulada"]
+    end
+
+    DB[("MySQL 8<br/>tablas · vistas · SP · triggers")]
+    IA{{"Google Gemini API<br/>capa gratuita"}}
+
+    CLIENTES ==HTTPS + JSON==> GW
+    REPO --> DB
+    S3 --> IA
+    AUTO <--> DB
+    EXE -. "GET /monitoreo/*" .-> C7
+
+    classDef cliente fill:#111,stroke:#C6FF00,color:#fff
+    classDef ext fill:#fff4e6,stroke:#ff5a1f
+    class WEB,MOV,EXE cliente
+    class IA ext

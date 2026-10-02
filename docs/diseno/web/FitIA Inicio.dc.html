@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>*{box-sizing:border-box}html{scroll-behavior:smooth}html,body{margin:0;background:#0B0B0C;color:#F2F0EB;font-family:'Inter Tight',system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}body{overflow-x:clip}a{color:#D4FF00}a:hover{color:#E1FF4D}h1,h2,h3,p{margin:0}button{font-family:inherit}@keyframes fitia-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
+</helmet>
+<dc-import name="FitiaNav" active="inicio" hint-size="100%,1px"></dc-import>
+
+<section data-screen-label="Hero" style="position:relative;min-height:100vh;padding:128px 0 120px;overflow:hidden;display:flex;align-items:center">
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:.08;background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.8%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url%28%23n%29%27/%3E%3C/svg%3E)"></div>
+  <div style="position:relative;width:100%;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:clamp(32px,4vw,64px);align-items:center">
+    <div data-reveal="0" style="display:flex;flex-direction:column;gap:28px">
+      <div style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:#D4FF00"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg>ENTRENAMIENTO CON IA · BOGOTÁ</div>
+      <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(64px,8.4vw,140px);line-height:.88;text-transform:uppercase;letter-spacing:.005em">Tu rutina.<br>Tu cuerpo.<br><span style="color:#D4FF00">Tu barrio.</span></h1>
+      <p style="max-width:520px;font-size:clamp(18px,1.5vw,21px);line-height:1.45;text-wrap:pretty">Rutinas creadas con inteligencia artificial según tu peso, tu estatura y tus molestias. Gratis.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="FitIA%20Ingresar.dc.html#registro" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 28px;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:17px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms,background 120ms" style-hover="background:#E1FF4D;color:#0B0B0C" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">Empieza gratis <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"></path></svg></a>
+        <a href="#imc" style="display:inline-flex;align-items:center;min-height:56px;padding:0 24px;border:2px solid #F2F0EB;border-radius:4px;color:#F2F0EB;font-size:17px;font-weight:600;text-decoration:none;transition:transform 90ms" style-hover="background:#F2F0EB;color:#0B0B0C" style-active="transform:translateY(2px)" style-focus="outline:2px solid #D4FF00;outline-offset:3px">Calcula tu IMC</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;padding-top:24px;border-top:1px solid #2A2A2E;max-width:520px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:clamp(40px,4vw,56px);font-weight:700;line-height:1;letter-spacing:-.04em;color:#D4FF00">+{{ count }}</span>
+        <span style="font-size:15px;line-height:1.3;color:#9A9AA0">rutinas generadas<br>en gimnasios de barrio</span>
+      </div>
+    </div>
+    <div data-reveal="150" style="position:relative;height:clamp(420px,72vh,760px)">
+      <div style="position:absolute;inset:0;clip-path:polygon(clamp(40px,6vw,92px) 0,100% 0,100% 100%,0 100%);isolation:isolate;background:#2A2A2E">
+        <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.4)"><image-slot id="hero-foto" shape="rect" placeholder="Foto: persona entrenando en gimnasio de barrio, luz dura"></image-slot></div>
+        <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+      </div>
+      <div style="position:absolute;left:clamp(0px,2vw,24px);bottom:32px;width:min(300px,80%);background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 24px 48px -12px rgba(0,0,0,.8);pointer-events:none">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 8px;border-radius:2px;background:#FF4D1A;color:#0B0B0C">EN VIVO</span><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">00:18:42</span></div>
+        <div style="font-family:Anton,sans-serif;font-size:24px;line-height:1">SENTADILLA · SERIE 3/4</div>
+        <div style="display:flex;gap:4px"><div style="flex:1;height:6px;background:#D4FF00"></div><div style="flex:1;height:6px;background:#D4FF00"></div><div style="flex:1;height:6px;background:#D4FF00"></div><div style="flex:1;height:6px;background:#2A2A2E"></div></div>
+        <div style="font-size:14px">¡Dale, que ya casi!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div aria-hidden="true" style="position:relative;z-index:2;margin:-56px -5% 0;transform:rotate(-3deg);background:#D4FF00;border-top:3px solid #0B0B0C;border-bottom:3px solid #0B0B0C;overflow:hidden;padding:14px 0">
+  <div style="display:flex;width:max-content;animation:fitia-marquee 26s linear infinite">
+    <div style="display:flex;align-items:center;gap:32px;padding-right:32px;font-family:Anton,sans-serif;font-size:clamp(36px,4vw,60px);line-height:1;color:#0B0B0C;white-space:nowrap">
+      <span>FUERZA</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>CONSTANCIA</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>BARRIO</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>SIN EXCUSAS</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>FUERZA</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>CONSTANCIA</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>BARRIO</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>SIN EXCUSAS</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg>
+    </div>
+    <div style="display:flex;align-items:center;gap:32px;padding-right:32px;font-family:Anton,sans-serif;font-size:clamp(36px,4vw,60px);line-height:1;color:#0B0B0C;white-space:nowrap">
+      <span>FUERZA</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>CONSTANCIA</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>BARRIO</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>SIN EXCUSAS</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>FUERZA</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>CONSTANCIA</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>BARRIO</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg><span>SIN EXCUSAS</span><svg width="28" height="28" viewBox="0 0 24 24" fill="#0B0B0C"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"></path></svg>
+    </div>
+  </div>
+</div>
+
+<section id="como" data-screen-label="Cómo funciona" style="position:relative;padding:160px 0 120px;scroll-margin-top:40px">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px)">
+    <div data-reveal="0" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">CÓMO FUNCIONA</div><h2 style="margin-top:12px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,96px);line-height:.9;text-transform:uppercase">Tres pasos.<br>Cero enredos.</h2></div>
+      <p style="max-width:380px;color:#9A9AA0;font-size:17px">De la puerta del gimnasio a tu primera serie, sin saber nada de entrenamiento.</p>
+    </div>
+    <div style="margin-top:64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(24px,3vw,40px)">
+      <div data-reveal="0" style="display:flex;flex-direction:column;gap:16px;padding-top:24px;border-top:2px solid #D4FF00">
+        <div style="font-family:Anton,sans-serif;font-size:clamp(120px,12vw,180px);line-height:.8;color:#D4FF00">01</div>
+        <h3 style="margin-top:12px;font-family:Anton,sans-serif;font-weight:400;font-size:36px;line-height:1;text-transform:uppercase">Cuéntanos de ti</h3>
+        <p style="color:#9A9AA0;font-size:17px;max-width:360px">Peso, estatura, tu objetivo y si algo te duele. Nada más.</p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#F2F0EB">≈ 2 MINUTOS</span>
+      </div>
+      <div data-reveal="120" style="display:flex;flex-direction:column;gap:16px;padding-top:24px;border-top:2px solid #2A2A2E">
+        <div style="font-family:Anton,sans-serif;font-size:clamp(120px,12vw,180px);line-height:.8;color:transparent;-webkit-text-stroke:2px #D4FF00">02</div>
+        <h3 style="margin-top:12px;font-family:Anton,sans-serif;font-weight:400;font-size:36px;line-height:1;text-transform:uppercase">La IA arma tu rutina</h3>
+        <p style="color:#9A9AA0;font-size:17px;max-width:360px">Ejercicios según tu nivel, las máquinas de tu gimnasio y tus molestias.</p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#F2F0EB">AL INSTANTE</span>
+      </div>
+      <div data-reveal="240" style="display:flex;flex-direction:column;gap:16px;padding-top:24px;border-top:2px solid #2A2A2E">
+        <div style="font-family:Anton,sans-serif;font-size:clamp(120px,12vw,180px);line-height:.8;color:transparent;-webkit-text-stroke:2px #D4FF00">03</div>
+        <h3 style="margin-top:12px;font-family:Anton,sans-serif;font-weight:400;font-size:36px;line-height:1;text-transform:uppercase">Entrena y mide tu progreso</h3>
+        <p style="color:#9A9AA0;font-size:17px;max-width:360px">Marca tus series, mira tu avance y la rutina se ajusta contigo.</p>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#F2F0EB">CADA SESIÓN</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="imc" data-screen-label="Calculadora IMC" style="position:relative;padding:180px 0 180px;scroll-margin-top:0">
+  <div style="position:absolute;left:0;right:0;top:90px;bottom:90px;background:#1A1A1D;transform:skewY(-7deg)"></div>
+  <div style="position:absolute;right:-1vw;top:120px;font-family:Anton,sans-serif;font-size:clamp(160px,26vw,420px);line-height:.8;color:#212125;pointer-events:none">IMC</div>
+  <div style="position:relative;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(32px,5vw,80px);align-items:center">
+    <div data-reveal="0" style="display:flex;flex-direction:column;gap:20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">CALCULADORA IMC</div>
+      <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,96px);line-height:.9;text-transform:uppercase">¿Cómo vas?<br>Mídete en<br>10 segundos.</h2>
+      <p style="max-width:440px;color:#9A9AA0;font-size:17px;text-wrap:pretty">Es el punto de partida de tu rutina. No es una nota ni un juicio: es un dato para arrancar bien.</p>
+      <a href="FitIA%20Calculadora%20IMC.dc.html" style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 4px;color:#D4FF00;font-weight:600;text-decoration:none;box-shadow:inset 0 -2px 0 #D4FF00" style-hover="color:#F2F0EB;box-shadow:inset 0 -2px 0 #F2F0EB" style-focus="outline:2px solid #D4FF00;outline-offset:3px">Qué mide el IMC y qué no →</a>
+    </div>
+    <div data-reveal="150"><dc-import name="FitiaIMC" hint-size="100%,560px"></dc-import></div>
+  </div>
+</section>
+
+<section data-screen-label="Cuidamos tu espalda" style="position:relative;padding:80px 0 120px">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px)">
+    <div data-reveal="0" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#FF4D1A;letter-spacing:.06em">MOLESTIA LUMBAR</div><h2 style="margin-top:12px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,96px);line-height:.9;text-transform:uppercase">Cuidamos<br>tu espalda.</h2></div>
+      <p style="max-width:440px;color:#9A9AA0;font-size:17px;text-wrap:pretty">Si nos cuentas que te duele la zona lumbar, la IA quita lo que la carga y suma ejercicios que la fortalecen.</p>
+    </div>
+    <div style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px">
+      <article data-reveal="0" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;transition:transform 150ms,box-shadow 150ms" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #D4FF00">
+        <div style="position:relative;height:220px;isolation:isolate;background:#2A2A2E">
+          <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="espalda-1" shape="rect" placeholder="Foto: puente de glúteo"></image-slot></div>
+          <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+          <span style="position:absolute;left:16px;top:16px;background:#0B0B0C;color:#3DDC84;font-size:12px;font-weight:700;letter-spacing:.06em;padding:6px 8px;border-radius:2px;pointer-events:none">BAJO IMPACTO</span>
+          <span style="position:absolute;right:12px;bottom:-12px;font-family:Anton,sans-serif;font-size:88px;line-height:1;color:#0B0B0C;pointer-events:none">01</span>
+        </div>
+        <div style="padding:24px;display:flex;flex-direction:column;gap:12px">
+          <h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Puente de glúteo</h3>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700">3×12 · PESO CORPORAL</div>
+          <p style="font-size:15px;color:#9A9AA0"><strong style="color:#F2F0EB">Por qué ayuda:</strong> activa glúteos para que la espalda baja no haga todo el trabajo.</p>
+        </div>
+      </article>
+      <article data-reveal="120" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;transition:transform 150ms,box-shadow 150ms" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #D4FF00">
+        <div style="position:relative;height:220px;isolation:isolate;background:#2A2A2E">
+          <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="espalda-2" shape="rect" placeholder="Foto: perro de caza (bird dog)"></image-slot></div>
+          <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+          <span style="position:absolute;left:16px;top:16px;background:#0B0B0C;color:#3DDC84;font-size:12px;font-weight:700;letter-spacing:.06em;padding:6px 8px;border-radius:2px;pointer-events:none">BAJO IMPACTO</span>
+          <span style="position:absolute;right:12px;bottom:-12px;font-family:Anton,sans-serif;font-size:88px;line-height:1;color:#0B0B0C;pointer-events:none">02</span>
+        </div>
+        <div style="padding:24px;display:flex;flex-direction:column;gap:12px">
+          <h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Perro de caza</h3>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700">3×10 · POR LADO</div>
+          <p style="font-size:15px;color:#9A9AA0"><strong style="color:#F2F0EB">Por qué ayuda:</strong> fortalece el core sin comprimir la columna. Estabilidad pura.</p>
+        </div>
+      </article>
+      <article data-reveal="240" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;transition:transform 150ms,box-shadow 150ms" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #D4FF00">
+        <div style="position:relative;height:220px;isolation:isolate;background:#2A2A2E">
+          <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="espalda-3" shape="rect" placeholder="Foto: gato-camello en colchoneta"></image-slot></div>
+          <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+          <span style="position:absolute;left:16px;top:16px;background:#0B0B0C;color:#3DDC84;font-size:12px;font-weight:700;letter-spacing:.06em;padding:6px 8px;border-radius:2px;pointer-events:none">MOVILIDAD</span>
+          <span style="position:absolute;right:12px;bottom:-12px;font-family:Anton,sans-serif;font-size:88px;line-height:1;color:#0B0B0C;pointer-events:none">03</span>
+        </div>
+        <div style="padding:24px;display:flex;flex-direction:column;gap:12px">
+          <h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Gato-camello</h3>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700">2×10 · LENTO</div>
+          <p style="font-size:15px;color:#9A9AA0"><strong style="color:#F2F0EB">Por qué ayuda:</strong> mueve la columna vértebra por vértebra. Ideal para calentar.</p>
+        </div>
+      </article>
+    </div>
+    <div data-reveal="0" style="margin-top:16px;display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border:1px solid #2A2A2E;border-radius:4px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFB020" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:1px"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v1"></path></svg>
+      <p style="font-size:15px;color:#9A9AA0"><strong style="color:#F2F0EB">FitIA no reemplaza al fisioterapeuta.</strong> Si el dolor es fuerte, no mejora en dos semanas o baja por la pierna, consulta a un profesional de la salud.</p>
+    </div>
+  </div>
+</section>
+
+<section id="planes" data-screen-label="Planes" style="position:relative;padding:120px 0;border-top:1px solid #2A2A2E;overflow:hidden">
+  <div style="position:absolute;left:-1vw;top:60px;font-family:Anton,sans-serif;font-size:clamp(160px,24vw,380px);line-height:.8;color:#141416;pointer-events:none">$0</div>
+  <div style="position:relative;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:clamp(32px,5vw,80px);align-items:start">
+    <div data-reveal="0" style="display:flex;flex-direction:column;gap:20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">PLANES</div>
+      <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,96px);line-height:.9;text-transform:uppercase">El gratis<br>es completo.<br><span style="color:#D4FF00">En serio.</span></h2>
+      <p style="max-width:420px;color:#9A9AA0;font-size:17px;text-wrap:pretty">Sin periodo de prueba, sin tarjeta, sin letra pequeña. Pro es para quien quiere más rutinas al mes y cero anuncios.</p>
+      <div role="group" aria-label="Periodo de pago" style="display:flex;width:max-content;border:2px solid #2A2A2E;border-radius:4px;overflow:hidden">
+        <button onClick="{{ setMensual }}" aria-pressed="{{ mensualOn }}" style="min-height:48px;padding:0 20px;border:0;background:{{ mBg }};color:{{ mFg }};font-size:15px;font-weight:600;cursor:pointer">Mensual</button>
+        <button onClick="{{ setAnual }}" aria-pressed="{{ anual }}" style="min-height:48px;padding:0 20px;border:0;background:{{ aBg }};color:{{ aFg }};font-size:15px;font-weight:600;cursor:pointer">Anual · −17%</button>
+      </div>
+      <a href="FitIA%20Planes.dc.html" style="align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;padding:0 4px;color:#D4FF00;font-weight:600;text-decoration:none;box-shadow:inset 0 -2px 0 #D4FF00" style-hover="color:#F2F0EB;box-shadow:inset 0 -2px 0 #F2F0EB">Ver la comparación completa →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px">
+      <div data-reveal="0" style="position:relative;background:#1A1A1D;border:2px solid #D4FF00;border-radius:4px;padding:52px 28px 28px;display:flex;flex-direction:column;gap:22px;overflow:hidden;box-shadow:8px 8px 0 #D4FF00">
+        <div style="position:absolute;left:0;right:0;top:0;height:28px;background:repeating-linear-gradient(-45deg,#D4FF00 0 14px,#0B0B0C 14px 28px)"></div>
+        <div style="position:absolute;right:16px;top:40px;transform:rotate(7deg);border:2px solid #D4FF00;color:#D4FF00;font-family:Anton,sans-serif;font-size:20px;line-height:1;padding:6px 10px">COMPLETO</div>
+        <div><div style="font-family:Anton,sans-serif;font-size:36px;line-height:1">FITIA FREE</div><div style="margin-top:6px;font-size:15px;color:#9A9AA0">Sin excusas, sin costo.</div></div>
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;line-height:1;letter-spacing:-.04em;color:#D4FF00">$0</span><span style="color:#9A9AA0;font-size:15px">para siempre</span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;flex:1;font-size:16px">
+          <div style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg><span><strong style="font-family:'JetBrains Mono',monospace">2</strong> rutinas IA al mes</span></div>
+          <div style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg>Ajuste por molestias (espalda, rodilla)</div>
+          <div style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg>IMC, peso y progreso</div>
+          <div style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg>Web y celular</div>
+          <div style="display:flex;gap:10px;color:#9A9AA0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A9AA0" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 7h16v10H4z"></path><path d="M8 11h4"></path></svg>Con publicidad</div>
+        </div>
+        <a href="FitIA%20Ingresar.dc.html#registro" style="display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms" style-hover="background:#E1FF4D;color:#0B0B0C" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">Empieza gratis</a>
+      </div>
+      <div data-reveal="120" style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:52px 28px 28px;display:flex;flex-direction:column;gap:22px">
+        <div><div style="font-family:Anton,sans-serif;font-size:36px;line-height:1">FITIA PRO</div><div style="margin-top:6px;font-size:15px;color:#9A9AA0">Más rutinas, cero anuncios.</div></div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;line-height:1;letter-spacing:-.04em">{{ proPrice }}</span><span style="color:#9A9AA0;font-size:15px">{{ proPer }}</span></div>
+          <span style="font-size:14px;color:#D4FF00;min-height:21px">{{ proNote }}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;flex:1;font-size:16px">
+          <div style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg>Todo lo de Free</div>
+          <div style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg><span><strong style="font-family:'JetBrains Mono',monospace">10</strong> rutinas IA al mes</span></div>
+          <div style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg>Sin publicidad</div>
+          <div style="display:flex;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" style="flex:none;margin-top:2px"><path d="M4 12l5 5L20 6"></path></svg>Historial completo y exportable</div>
+        </div>
+        <a href="FitIA%20Ingresar.dc.html#registro" style="display:flex;align-items:center;justify-content:center;min-height:52px;border:2px solid #F2F0EB;border-radius:4px;color:#F2F0EB;font-size:16px;font-weight:600;text-decoration:none;transition:transform 90ms" style-hover="background:#F2F0EB;color:#0B0B0C" style-active="transform:translateY(2px)" style-focus="outline:2px solid #D4FF00;outline-offset:3px">Pasarme a Pro</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Testimonios" style="position:relative;padding:120px 0;border-top:1px solid #2A2A2E">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px)">
+    <div data-reveal="0" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">TESTIMONIOS</div><h2 style="margin-top:12px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,96px);line-height:.9;text-transform:uppercase">Así suena<br>el barrio.</h2></div>
+      <span style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;padding:8px 10px;border-radius:2px;border:1px solid #FFB020;color:#FFB020">EJEMPLOS ILUSTRATIVOS · NO SON USUARIOS REALES</span>
+    </div>
+    <div style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px">
+      <figure data-reveal="0" style="margin:0;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="font-family:Anton,sans-serif;font-size:96px;line-height:.6;color:#D4FF00;height:48px">“</span><span style="font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 8px;border-radius:2px;background:rgba(255,176,32,.14);color:#FFB020">EJEMPLO</span></div>
+        <blockquote style="margin:0;font-size:19px;line-height:1.45;flex:1">Nunca había entrado a un gimnasio. La rutina empezó suave y a los dos meses ya hago sentadilla con peso.</blockquote>
+        <figcaption style="display:flex;align-items:center;gap:12px"><span style="width:48px;height:48px;flex:none;border-radius:2px;background:#D4FF00;color:#0B0B0C;font-family:Anton,sans-serif;font-size:22px;display:flex;align-items:center;justify-content:center">M</span><span><strong style="display:block">Marta, 47</strong><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">KENNEDY · PRINCIPIANTE</span></span></figcaption>
+      </figure>
+      <figure data-reveal="120" style="margin:0;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="font-family:Anton,sans-serif;font-size:96px;line-height:.6;color:#D4FF00;height:48px">“</span><span style="font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 8px;border-radius:2px;background:rgba(255,176,32,.14);color:#FFB020">EJEMPLO</span></div>
+        <blockquote style="margin:0;font-size:19px;line-height:1.45;flex:1">Tengo una molestia lumbar vieja. La app me cambió los ejercicios que me dolían. Eso nadie me lo había hecho.</blockquote>
+        <figcaption style="display:flex;align-items:center;gap:12px"><span style="width:48px;height:48px;flex:none;border-radius:2px;background:#F2F0EB;color:#0B0B0C;font-family:Anton,sans-serif;font-size:22px;display:flex;align-items:center;justify-content:center">J</span><span><strong style="display:block">Jhon, 33</strong><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">BOSA · ESPALDA</span></span></figcaption>
+      </figure>
+      <figure data-reveal="240" style="margin:0;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="font-family:Anton,sans-serif;font-size:96px;line-height:.6;color:#D4FF00;height:48px">“</span><span style="font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 8px;border-radius:2px;background:rgba(255,176,32,.14);color:#FFB020">EJEMPLO</span></div>
+        <blockquote style="margin:0;font-size:19px;line-height:1.45;flex:1">En mi gimnasio no hay entrenador fijo. Ahora llego sabiendo qué hacer y cuánto peso meter.</blockquote>
+        <figcaption style="display:flex;align-items:center;gap:12px"><span style="width:48px;height:48px;flex:none;border-radius:2px;background:#FF4D1A;color:#0B0B0C;font-family:Anton,sans-serif;font-size:22px;display:flex;align-items:center;justify-content:center">D</span><span><strong style="display:block">Daniela, 22</strong><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">SUBA · FUERZA</span></span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="app" data-screen-label="Web y celular" style="position:relative;padding:120px 0 160px;overflow:hidden;border-top:1px solid #2A2A2E">
+  <div style="position:relative;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(40px,5vw,80px);align-items:center">
+    <div data-reveal="0" style="display:flex;flex-direction:column;gap:24px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">DISPONIBLE EN WEB Y CELULAR</div>
+      <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,96px);line-height:.9;text-transform:uppercase">Entrena<br>donde estés.</h2>
+      <p style="max-width:440px;color:#9A9AA0;font-size:17px;text-wrap:pretty">Arma tu rutina en el computador y llévala en el celular al gimnasio. Tu progreso va contigo.</p>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;gap:12px;align-items:center"><span style="width:44px;height:44px;flex:none;border:1px solid #2A2A2E;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg></span>Liviana: funciona con pocos datos</div>
+        <div style="display:flex;gap:12px;align-items:center"><span style="width:44px;height:44px;flex:none;border:1px solid #2A2A2E;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M6 17V9h12v8l2 2H4z"></path><path d="M10 21h4M12 5v4"></path></svg></span>Recordatorios para no perder el ritmo</div>
+        <div style="display:flex;gap:12px;align-items:center"><span style="width:44px;height:44px;flex:none;border:1px solid #2A2A2E;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M3 20h18M4 16l5-5 4 3 7-7M15 7h5v5"></path></svg></span>Tu avance, semana a semana</div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="FitIA%20Ingresar.dc.html#registro" style="display:inline-flex;align-items:center;min-height:52px;padding:0 24px;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms" style-hover="background:#E1FF4D;color:#0B0B0C" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">Empieza en la web</a>
+        <a href="#" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 22px;border:2px solid #F2F0EB;border-radius:4px;color:#F2F0EB;font-size:16px;font-weight:600;text-decoration:none" style-hover="background:#F2F0EB;color:#0B0B0C" style-active="transform:translateY(2px)" style-focus="outline:2px solid #D4FF00;outline-offset:3px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 3v12M6 10l6 6 6-6M4 21h16"></path></svg>Descargar la app</a>
+      </div>
+    </div>
+    <div data-reveal="150" style="position:relative;min-height:640px;display:flex;align-items:center;justify-content:center">
+      <div style="position:absolute;left:-10%;right:-30%;top:22%;height:56%;background:#D4FF00;transform:skewY(-7deg)"></div>
+      <div style="position:absolute;left:-10%;right:-30%;top:calc(22% - 30px);height:20px;transform:skewY(-7deg);background:repeating-linear-gradient(-45deg,#D4FF00 0 14px,#0B0B0C 14px 28px)"></div>
+      <div style="position:relative;width:300px;height:620px;border-radius:44px;border:10px solid #1A1A1D;box-shadow:0 0 0 1px #2A2A2E,0 40px 80px -20px rgba(0,0,0,.9);background:#0B0B0C;overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 22px 0;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700"><span>9:41</span><span style="width:80px;height:22px;background:#000;border-radius:12px"></span><span>5G</span></div>
+        <div style="padding:20px 18px 0;flex:1;display:flex;flex-direction:column;gap:14px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.08em;color:#9A9AA0">HOLA, CAMILA</div>
+          <div style="font-family:Anton,sans-serif;font-size:34px;line-height:.95">RUTINA DE HOY:<br><span style="color:#D4FF00">PIERNA</span></div>
+          <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:Anton,sans-serif;font-size:18px">SENTADILLA GOBLET</span><span style="font-family:Anton,sans-serif;font-size:28px;line-height:1;color:#2A2A2E">01</span></div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700">4×12 · 10 kg · 60 s</div>
+            <div style="display:flex;gap:3px"><div style="flex:1;height:5px;background:#D4FF00"></div><div style="flex:1;height:5px;background:#D4FF00"></div><div style="flex:1;height:5px;background:#2A2A2E"></div><div style="flex:1;height:5px;background:#2A2A2E"></div></div>
+            <div style="min-height:40px;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 #7E9900">Serie lista</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px"><span style="width:36px;height:36px;background:#2A2A2E;border-radius:2px;font-family:Anton,sans-serif;font-size:16px;display:flex;align-items:center;justify-content:center;color:#9A9AA0">02</span><span style="flex:1;font-size:13px;font-weight:600">Puente de glúteo<br><span style="font-family:'JetBrains Mono',monospace;font-weight:400;color:#9A9AA0">3×12</span></span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:auto;padding-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:12px"><span style="font-weight:600">Semana</span><span style="font-family:'JetBrains Mono',monospace">3/4</span></div><div style="height:8px;background:#2A2A2E"><div style="height:100%;width:75%;background:#D4FF00"></div></div></div>
+        </div>
+        <div style="display:flex;align-items:center;border-top:1px solid #2A2A2E;background:#1A1A1D;height:62px;padding:0 6px">
+          <div style="flex:1;display:flex;justify-content:center;color:#9A9AA0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M3 11l9-7 9 7v10H3zM10 21v-6h4v6"></path></svg></div>
+          <div style="flex:1;display:flex;justify-content:center;color:#D4FF00"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"></path></svg></div>
+          <div style="flex:1;display:flex;justify-content:center"><span style="width:46px;height:46px;margin-top:-18px;border-radius:4px;background:#D4FF00;transform:rotate(-7deg);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 #7E9900"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="2" stroke-linecap="square"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg></span></div>
+          <div style="flex:1;display:flex;justify-content:center;color:#9A9AA0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M3 20h18M4 16l5-5 4 3 7-7M15 7h5v5"></path></svg></div>
+          <div style="flex:1;display:flex;justify-content:center;color:#9A9AA0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M8 4h8v8H8zM4 21l2-5h12l2 5"></path></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="CTA final" style="position:relative;overflow:hidden;background:#D4FF00;color:#0B0B0C;padding:100px 0 96px">
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:.1;background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.8%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url%28%23n%29%27/%3E%3C/svg%3E)"></div>
+  <div data-reveal="0" style="position:relative;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap">
+    <div><h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(80px,13vw,220px);line-height:.85;text-transform:uppercase">Arranca<br>hoy.</h2><p style="margin-top:20px;font-size:20px;font-weight:600">Gratis. Sin tarjeta. Sin excusas.</p></div>
+    <a href="FitIA%20Ingresar.dc.html#registro" style="display:inline-flex;align-items:center;gap:10px;min-height:60px;padding:0 32px;border-radius:4px;background:#0B0B0C;color:#D4FF00;font-size:18px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 #3A4700;transition:transform 90ms,box-shadow 90ms" style-hover="background:#1A1A1D;color:#D4FF00" style-active="transform:translateY(2px);box-shadow:0 2px 0 #3A4700" style-focus="outline:3px solid #0B0B0C;outline-offset:3px">Empieza gratis <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"></path></svg></a>
+  </div>
+</section>
+
+<dc-import name="FitiaFooter" hint-size="100%,560px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { count: 0, anual: false };
+  componentDidMount() {
+    const target = 1200, start = performance.now();
+    const step = n => { const k = Math.min(1, (n - start) / 1600), e = 1 - Math.pow(1 - k, 3); this.setState({ count: Math.round(target * e) }); if (k < 1) this.raf = requestAnimationFrame(step); };
+    this.to = setTimeout(() => { this.raf = requestAnimationFrame(step); }, 400);
+  }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); clearTimeout(this.to); }
+  renderVals() {
+    const a = this.state.anual;
+    return {
+      count: this.state.count.toLocaleString('es-CO'),
+      anual: a, mensualOn: !a,
+      setMensual: () => this.setState({ anual: false }), setAnual: () => this.setState({ anual: true }),
+      mBg: a ? 'transparent' : '#D4FF00', mFg: a ? '#F2F0EB' : '#0B0B0C',
+      aBg: a ? '#D4FF00' : 'transparent', aFg: a ? '#0B0B0C' : '#F2F0EB',
+      proPrice: a ? '$199.000' : '$19.900', proPer: a ? '/año' : '/mes',
+      proNote: a ? 'Equivale a $16.583 al mes · ahorras $39.800' : 'Cancela cuando quieras'
+    };
+  }
+}
+</script>
+</body>
+</html>

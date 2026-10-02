@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Calculadora IMC" style="padding:12px 16px 24px;display:flex;flex-direction:column;gap:16px;animation:fitia-in 350ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;align-items:center;gap:10px"><button onClick="{{ back }}" aria-label="Volver" style="width:48px;height:48px;flex:none;border:2px solid #2A2A2E;border-radius:4px;background:transparent;color:#F2F0EB;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M15 6l-6 6 6 6"></path></svg></button><h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:.92;text-transform:uppercase">Calculadora IMC</h1></header>
+
+  <div aria-live="polite" style="position:relative;overflow:hidden;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:18px;display:flex;flex-direction:column;gap:16px">
+    <div aria-hidden="true" style="position:absolute;right:-8px;top:-28px;font-family:Anton,sans-serif;font-size:150px;line-height:1;color:#212125">IMC</div>
+    <div style="position:relative;font-family:'JetBrains Mono',monospace;font-size:96px;font-weight:700;line-height:.9;letter-spacing:-.05em;color:#D4FF00">{{ imc }}</div>
+    <span style="position:relative;align-self:flex-start;font-size:14px;font-weight:700;letter-spacing:.08em;padding:7px 10px;border-radius:2px;background:{{ catBg }};color:#0B0B0C">{{ cat }}</span>
+    <div style="position:relative;padding-top:6px"><div style="display:flex;gap:3px"><sc-for list="{{ segs }}" as="g" hint-placeholder-count="4"><div style="flex:{{ g.flex }};height:18px;background:{{ g.bg }};transition:background 200ms"></div></sc-for></div><div style="position:absolute;top:0;left:{{ marker }};width:5px;height:30px;margin-left:-2px;background:#F2F0EB;box-shadow:0 0 0 2px #1A1A1D;transition:left 350ms cubic-bezier(.2,.8,.2,1)"></div><div style="margin-top:8px;display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:#9A9AA0"><span>Bajo</span><span>Normal</span><span>Sobre.</span><span>Obesidad</span></div></div>
+    <p style="position:relative;font-size:16px">{{ msg }}</p>
+  </div>
+
+  <sc-for list="{{ medidas }}" as="x" hint-placeholder-count="2">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font-size:15px;font-weight:700">{{ x.l }}</span>
+      <div style="display:grid;grid-template-columns:72px minmax(0,1fr) 72px;min-height:80px;border:2px solid {{ x.bd }};border-radius:4px;overflow:hidden">
+        <button onClick="{{ x.minus }}" aria-label="Restar" style="border:0;border-right:1px solid #2A2A2E;background:transparent;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:36px;cursor:pointer" style-active="background:#2A2A2E">−</button>
+        <div style="display:flex;align-items:baseline;justify-content:center;gap:6px;padding-top:14px"><input inputmode="decimal" value="{{ x.v }}" onChange="{{ x.on }}" aria-label="{{ x.l }}" style="width:100%;min-width:0;border:0;background:transparent;color:#F2F0EB;text-align:right;font-family:'JetBrains Mono',monospace;font-size:40px;font-weight:700" style-focus="outline:none"><span style="flex:none;width:44px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#9A9AA0">{{ x.u }}</span></div>
+        <button onClick="{{ x.plus }}" aria-label="Sumar" style="border:0;border-left:1px solid #2A2A2E;background:transparent;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:36px;cursor:pointer" style-active="background:#2A2A2E">+</button>
+      </div>
+    </div>
+  </sc-for>
+  <button onClick="{{ guardar }}" style="min-height:64px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:Anton,sans-serif;font-size:26px;cursor:pointer;box-shadow:0 5px 0 #7E9900" style-active="transform:translateY(3px);box-shadow:0 2px 0 #7E9900">GUARDAR MEDIDA</button>
+  <p style="font-size:14px;color:#9A9AA0">El IMC es una referencia, no un diagnóstico. No distingue músculo de grasa.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SEGS = [{ flex: 3.5, c: '#FFB020', max: 18.5, l: 'BAJO PESO' }, { flex: 6.5, c: '#3DDC84', max: 25, l: 'NORMAL' }, { flex: 5, c: '#FFB020', max: 30, l: 'SOBREPESO' }, { flex: 10, c: '#FF4D1A', max: 999, l: 'OBESIDAD' }];
+const MSG = ['Tu rutina buscará ganar fuerza y masa, sin afán.', 'Estás en rango. A mantener y sumar fuerza.', 'Vas bajando: desde 29,75 al empezar. Sigue con cardio suave y fuerza.', 'Empezamos suave, cuidando rodillas y espalda.'];
+const num = v => parseFloat(String(v).replace(',', '.'));
+class Component extends DCLogic {
+  state = { peso: '78', est: '165' };
+  renderVals() {
+    const a = this.props.app || {}; const s = this.state; const p = num(s.peso), e = num(s.est);
+    const ok = p >= 30 && p <= 250 && e >= 120 && e <= 220; const imc = ok ? p / Math.pow(e / 100, 2) : null;
+    const ci = imc == null ? -1 : SEGS.findIndex(g => imc < g.max);
+    const bump = (k, d) => () => { const v = num(s[k]); if (!isNaN(v)) { this.setState({ [k]: String(Math.round((v + d) * 10) / 10).replace('.', ',') }); try { a.vibrar !== false && navigator.vibrate && navigator.vibrate(8); } catch (er) {} } };
+    return {
+      back: () => a.go('hoy'),
+      imc: imc == null ? '--,--' : imc.toFixed(2).replace('.', ','), cat: ci < 0 ? 'REVISA LOS DATOS' : SEGS[ci].l, catBg: ci < 0 ? '#9A9AA0' : SEGS[ci].c, msg: ci < 0 ? 'Peso 30–250 kg y estatura 120–220 cm.' : MSG[ci],
+      segs: SEGS.map((g, i) => ({ flex: g.flex, bg: i === ci ? g.c : '#2A2A2E' })), marker: (imc == null ? 0 : Math.max(0, Math.min(100, (imc - 15) / 25 * 100))) + '%',
+      medidas: [
+        { l: 'Peso', u: 'kg', v: s.peso, on: ev => this.setState({ peso: ev.target.value }), minus: bump('peso', -0.5), plus: bump('peso', 0.5), bd: p >= 30 && p <= 250 ? '#2A2A2E' : '#FF3B3B' },
+        { l: 'Estatura', u: 'cm', v: s.est, on: ev => this.setState({ est: ev.target.value }), minus: bump('est', -1), plus: bump('est', 1), bd: e >= 120 && e <= 220 ? '#2A2A2E' : '#FF3B3B' }
+      ],
+      guardar: () => ok ? a.toast('ok', 'Medida guardada', `IMC ${imc.toFixed(2).replace('.', ',')} · la verás en Progreso.`) : a.toast('err', 'Revisa los datos', 'Peso o estatura fuera de rango.')
+    };
+  }
+}
+</script>
+</body>
+</html>

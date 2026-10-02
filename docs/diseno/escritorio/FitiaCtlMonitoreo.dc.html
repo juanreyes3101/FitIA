@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Monitoreo" style="display:flex;flex-direction:column;gap:14px;animation:fitia-in 300ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:#D4FF00">MONITOREO · AUTOSANACIÓN MAPE-K · {{ clock }}</div><h1 style="margin-top:4px;font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:.95;text-transform:uppercase">Sala de control</h1></div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">UMBRAL z &gt; {{ thr }} · {{ consec }} MUESTRAS · VENTANA {{ ventana }} s</span>
+      <button onClick="{{ simulate }}" disabled="{{ spiking }}" style="display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 18px;border:0;border-radius:4px;background:{{ simBg }};color:#0B0B0C;font-size:14px;font-weight:700;cursor:{{ simCur }};box-shadow:0 4px 0 {{ simSh }};transition:transform 90ms,box-shadow 90ms" style-active="transform:translateY(2px);box-shadow:0 2px 0 #8A2A0E" style-focus="outline:2px solid #F2F0EB;outline-offset:3px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg>{{ simTxt }}</button>
+    </div>
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+    <sc-for list="{{ servicios }}" as="s" hint-placeholder-count="4">
+      <div style="background:#1A1A1D;border:1px solid {{ s.bd }};border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-family:Anton,sans-serif;font-size:20px;line-height:1">{{ s.n }}</span><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 7px;border-radius:2px;background:{{ s.stBg }};color:{{ s.stFg }}"><span style="width:7px;height:7px;border-radius:50%;background:currentColor"></span>{{ s.st }}</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:8px">
+          <div><div style="font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;line-height:1;color:{{ s.latC }}">{{ s.p95 }}<span style="font-size:12px;color:#9A9AA0;font-weight:400"> ms</span></div><div style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#9A9AA0">P95</div></div>
+          <div style="text-align:right"><div style="font-family:'JetBrains Mono',monospace;font-size:13px"><strong style="font-size:20px">{{ s.rep }}</strong> / {{ s.min }}–{{ s.max }}</div><div style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#9A9AA0">RÉPLICAS ACT / MÍN–MÁX</div></div>
+        </div>
+        <div style="display:flex;gap:3px"><sc-for list="{{ s.pips }}" as="p" hint-placeholder-count="5"><span style="flex:1;height:8px;background:{{ p.bg }};border:1px {{ p.bs }} {{ p.bd }};transition:background 300ms"></span></sc-for></div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:minmax(0,2.2fr) minmax(280px,1fr);gap:10px">
+    <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:Anton,sans-serif;font-size:20px">LATENCIA API · EN VIVO</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:{{ latNowC }}">{{ latNow }} ms</span><span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:{{ zC }}">z = {{ zTxt }}</span></div>
+        <div style="display:flex;gap:14px;font-size:12px;color:#9A9AA0"><span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:10px;background:rgba(212,255,0,.14);border:1px solid rgba(212,255,0,.4)"></span>Línea base μ ± 3σ</span><span style="display:flex;align-items:center;gap:6px"><span style="width:14px;border-top:2px dashed #FF4D1A"></span>Umbral</span><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;background:#FF4D1A;border-radius:50%"></span>Anomalía</span></div>
+      </div>
+      <div style="position:relative;height:{{ chartH }};margin-left:40px">
+        <sc-for list="{{ yGrid }}" as="g" hint-placeholder-count="4"><div style="position:absolute;left:0;right:0;top:{{ g.top }};border-top:1px solid #232327"></div><span style="position:absolute;left:-40px;top:{{ g.top }};transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0">{{ g.l }}</span></sc-for>
+        <div style="position:absolute;left:0;right:0;top:{{ bandTop }};height:{{ bandH }};background:rgba(212,255,0,.08);border-top:1px solid rgba(212,255,0,.35);border-bottom:1px solid rgba(212,255,0,.35);transition:top 600ms,height 600ms"></div>
+        <div style="position:absolute;left:0;right:0;top:{{ meanTop }};border-top:1px dotted rgba(212,255,0,.5)"></div>
+        <div style="position:absolute;left:0;right:0;top:{{ thrTop }};border-top:2px dashed #FF4D1A;opacity:.7"></div>
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="Latencia de la API en vivo" role="img" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible"><path d="{{ latPath }}" fill="none" stroke="#F2F0EB" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"></path></svg>
+        <sc-for list="{{ anoms }}" as="p" hint-placeholder-count="0"><span style="position:absolute;left:{{ p.l }};top:{{ p.t }};width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:#FF4D1A;box-shadow:0 0 0 2px #1A1A1D"></span></sc-for>
+        <span style="position:absolute;right:-4px;top:{{ nowTop }};width:10px;height:10px;margin-top:-5px;background:#D4FF00;border-radius:50%;box-shadow:0 0 0 3px rgba(212,255,0,.25)"></span>
+      </div>
+      <div style="margin-left:40px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><span>−90 s</span><span>−45 s</span><span>AHORA</span></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <sc-for list="{{ minis }}" as="c" hint-placeholder-count="4">
+        <div style="background:#1A1A1D;border:1px solid {{ c.bd }};border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0">
+          <span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#9A9AA0">{{ c.l }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;line-height:1;color:{{ c.vc }}">{{ c.v }}<span style="font-size:11px;color:#9A9AA0;font-weight:400">{{ c.u }}</span></span>
+          <svg viewBox="0 0 100 40" preserveAspectRatio="none" style="width:100%;height:52px;overflow:visible"><path d="{{ c.area }}" fill="{{ c.fill }}"></path><path d="{{ c.path }}" fill="none" stroke="{{ c.stroke }}" stroke-width="1.6" vector-effect="non-scaling-stroke"></path></svg>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:10px">
+    <div style="background:#1A1A1D;border:1px solid {{ mapeBd }};border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-family:Anton,sans-serif;font-size:20px">CICLO MAPE-K</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:{{ mapeEstC }}">{{ mapeEst }}</span></div>
+      <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px">
+        <sc-for list="{{ fases }}" as="f" hint-placeholder-count="5">
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="height:6px;background:{{ f.bar }};transition:background 300ms"></div><span style="font-size:12px;font-weight:700;color:{{ f.fg }}">{{ f.n }}</span></div>
+        </sc-for>
+      </div>
+      <ol style="display:flex;flex-direction:column">
+        <sc-for list="{{ pasos }}" as="p" hint-placeholder-count="4">
+          <li style="display:grid;grid-template-columns:76px 86px minmax(0,1fr);gap:10px;align-items:baseline;padding:8px 0;border-top:1px solid #2A2A2E;animation:fitia-in 250ms"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">{{ p.h }}</span><span style="font-size:12px;font-weight:700;letter-spacing:.04em;color:{{ p.c }}">{{ p.f }}</span><span style="font-size:13px">{{ p.txt }}</span></li>
+        </sc-for>
+      </ol>
+      <sc-if value="{{ idle }}" hint-placeholder-val="{{ true }}"><p style="font-size:13px;color:#9A9AA0">Monitor activo. Sin anomalías: el último incidente aparece aquí apenas ocurra. Prueba con «Simular pico de tráfico».</p></sc-if>
+      <div style="margin-top:auto;padding:10px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">K · LÍNEA BASE μ <span style="color:#F2F0EB">{{ mean }} ms</span> · σ <span style="color:#F2F0EB">{{ sd }} ms</span> · μ+{{ thr }}σ <span style="color:#FF4D1A">{{ thrMs }} ms</span> · {{ ventana }} MUESTRAS NORMALES</div>
+    </div>
+
+    <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:Anton,sans-serif;font-size:20px">BITÁCORA DE REMEDIACIONES</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">{{ logN }} EVENTOS</span></div>
+      <div style="overflow:auto;max-height:260px">
+        <table>
+          <thead><tr style="position:sticky;top:0;background:#1A1A1D"><th style="text-align:left;padding:6px 8px 6px 0;font-size:11px;letter-spacing:.06em;color:#9A9AA0">HORA</th><th style="text-align:left;padding:6px 8px;font-size:11px;letter-spacing:.06em;color:#9A9AA0">DETECCIÓN</th><th style="text-align:left;padding:6px 8px;font-size:11px;letter-spacing:.06em;color:#9A9AA0">ACCIÓN</th><th style="text-align:right;padding:6px 0 6px 8px;font-size:11px;letter-spacing:.06em;color:#9A9AA0">RESULTADO</th></tr></thead>
+          <tbody>
+            <sc-for list="{{ log }}" as="l" hint-placeholder-count="3">
+              <tr style="border-top:1px solid #2A2A2E;animation:fitia-in 250ms"><td style="padding:8px 8px 8px 0;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0;white-space:nowrap">{{ l.hora }}</td><td style="padding:8px;font-size:13px">{{ l.det }}</td><td style="padding:8px;font-size:13px"><span style="font-size:11px;font-weight:700;padding:2px 5px;border-radius:2px;margin-right:6px;background:{{ l.tagBg }};color:{{ l.tagFg }}">{{ l.tag }}</span>{{ l.acc }}</td><td style="padding:8px 0 8px 8px;text-align:right;white-space:nowrap"><span style="font-size:12px;font-weight:700;color:#3DDC84">{{ l.res }}</span><span style="display:block;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0">{{ l.dur }}</span></td></tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const f1 = (n, d = 1) => n.toFixed(d).replace('.', ',');
+const spark = (arr, mn, mx) => { const n = arr.length; const pts = arr.map((v, i) => [i / (n - 1) * 100, 40 - (Math.min(mx, Math.max(mn, v)) - mn) / (mx - mn) * 40]); const p = pts.map((q, i) => (i ? 'L' : 'M') + q[0].toFixed(2) + ' ' + q[1].toFixed(2)).join(' '); return { path: p, area: p + ' L100 40 L0 40 Z' }; };
+const PH = ['Monitor', 'Analizar', 'Planificar', 'Ejecutar', 'Verificar'];
+const PC = { Monitor: '#F2F0EB', Analizar: '#FFB020', Planificar: '#D4FF00', Ejecutar: '#FF4D1A', Verificar: '#3DDC84' };
+class Component extends DCLogic {
+  renderVals() {
+    const c = this.props.ctl || {}; const m = c.mon || { lat: [], err: [], rps: [], cpu: [], mem: [], rep: {}, log: [] }; const cfg = c.cfg || { z: 3, pol: { api: [2, 5], ia: [1, 3], db: [1, 2], web: [2, 4] } };
+    const n = m.lat.length || 1; const vals = m.lat.map(p => p.v);
+    const lo = 60, hi = Math.max(260, Math.ceil(Math.max(...vals, 0) / 20) * 20 + 20);
+    const Y = v => (hi - v) / (hi - lo) * 100;
+    const latPath = m.lat.map((p, i) => (i ? 'L' : 'M') + (i / (n - 1) * 100).toFixed(2) + ' ' + Y(p.v).toFixed(2)).join(' ');
+    const bTop = Y(m.mean + 3 * m.sd), bBot = Y(Math.max(lo, m.mean - 3 * m.sd));
+    const last = vals[vals.length - 1] || 0;
+    const open = m.open || 0; const apiBad = m.latOpen || m.errOpen;
+    const iaMs = cfg.provider === 'Mock' ? 32 + Math.round(Math.random() * 6) : 820 + Math.round(Math.random() * 60);
+    const pip = (rep, mn, mx) => Array.from({ length: mx }, (_, i) => ({ bg: i < rep ? (i >= mn ? '#D4FF00' : '#F2F0EB') : 'transparent', bd: i < mn ? '#5A5A60' : '#3A3A40', bs: i < mn ? 'solid' : 'dashed' }));
+    const svc = (nm, rep, [mn, mx], p95, bad, warn) => ({ n: nm, rep, min: mn, max: mx, p95, pips: pip(rep, mn, mx), st: bad ? 'DEGRADADO' : 'OPERATIVO', stBg: bad ? 'rgba(255,77,26,.14)' : 'rgba(61,220,132,.12)', stFg: bad ? '#FF4D1A' : '#3DDC84', bd: bad ? '#FF4D1A' : '#2A2A2E', latC: bad ? '#FF4D1A' : '#F2F0EB' });
+    const inc = m.inc || m.lastInc; const steps = inc ? inc.steps : [];
+    const doneF = steps.map(s => s.f);
+    const curF = m.inc ? steps[steps.length - 1].f : null;
+    const mk = (arr, mn, mx, stroke, fill) => ({ ...spark(arr, mn, mx), stroke, fill });
+    const errNow = m.err[m.err.length - 1] || 0, rpsNow = m.rps[m.rps.length - 1] || 0, cpuNow = m.cpu[m.cpu.length - 1] || 0, memNow = m.mem[m.mem.length - 1] || 0;
+    const TAG = { 'scale-out': ['ESCALAR ↑', 'rgba(212,255,0,.14)', '#D4FF00'], 'scale-in': ['ESCALAR ↓', '#2A2A2E', '#C8C8CC'], fallback: ['FALLBACK', 'rgba(255,176,32,.14)', '#FFB020'] };
+    const narrow = typeof window !== 'undefined' && window.innerWidth < 1500;
+    return {
+      clock: c.clock, thr: f1(cfg.z), consec: cfg.consec, ventana: cfg.ventana,
+      simulate: () => c.simulate(), spiking: m.spike > 0, simTxt: m.spike > 0 ? `Pico en curso · ${m.spike} s` : 'Simular pico de tráfico', simBg: m.spike > 0 ? '#5A5A60' : '#FF4D1A', simSh: m.spike > 0 ? '#2A2A2E' : '#8A2A0E', simCur: m.spike > 0 ? 'not-allowed' : 'pointer',
+      servicios: [svc('API', m.rep.api, cfg.pol.api, c.mon ? c.mon.p95 : 0, apiBad), svc('IA · ' + (cfg.provider || 'Gemini'), m.rep.ia, cfg.pol.ia, iaMs, false), svc('BASE DE DATOS', m.rep.db, cfg.pol.db, 8 + Math.round(Math.random() * 3), false), svc('WEB', m.rep.web, cfg.pol.web, 42 + Math.round(Math.random() * 6), false)],
+      chartH: narrow ? '230px' : '330px',
+      latNow: Math.round(last), latNowC: m.z > cfg.z ? '#FF4D1A' : '#F2F0EB', zTxt: f1(m.z || 0) + 'σ', zC: m.z > cfg.z ? '#FF4D1A' : m.z > 2 ? '#FFB020' : '#9A9AA0',
+      yGrid: [lo, Math.round((lo + hi) / 2 / 10) * 10, hi - 20].map(v => ({ top: Y(v) + '%', l: v })),
+      bandTop: bTop + '%', bandH: (bBot - bTop) + '%', meanTop: Y(m.mean) + '%', thrTop: Y(m.mean + cfg.z * m.sd) + '%', nowTop: Y(last) + '%',
+      latPath, anoms: m.lat.map((p, i) => p.a ? { l: (i / (n - 1) * 100) + '%', t: Y(p.v) + '%' } : null).filter(Boolean),
+      minis: [
+        { l: 'TASA DE ERROR', v: f1(errNow, 2), u: ' %', vc: m.errOpen ? '#FF4D1A' : '#F2F0EB', bd: m.errOpen ? '#FF4D1A' : '#2A2A2E', ...mk(m.err, 0, 3, m.errOpen ? '#FF4D1A' : '#F2F0EB', m.errOpen ? 'rgba(255,77,26,.12)' : 'rgba(242,240,235,.05)') },
+        { l: 'PETICIONES / S', v: Math.round(rpsNow), u: ' rps', vc: '#F2F0EB', bd: '#2A2A2E', ...mk(m.rps, 60, 220, '#D4FF00', 'rgba(212,255,0,.08)') },
+        { l: 'CPU API (PROM.)', v: Math.round(cpuNow), u: ' %', vc: cpuNow > 70 ? '#FFB020' : '#F2F0EB', bd: '#2A2A2E', ...mk(m.cpu, 0, 100, cpuNow > 70 ? '#FFB020' : '#F2F0EB', 'rgba(242,240,235,.05)') },
+        { l: 'MEMORIA API', v: Math.round(memNow), u: ' %', vc: '#F2F0EB', bd: '#2A2A2E', ...mk(m.mem, 0, 100, '#9A9AA0', 'rgba(154,154,160,.08)') }
+      ],
+      mapeBd: m.inc ? '#FF4D1A' : '#2A2A2E',
+      mapeEst: m.inc ? `INCIDENTE ABIERTO · ${c.t - m.inc.start} s` : m.lastInc ? `ÚLTIMO INCIDENTE · CERRADO EN ${m.lastInc.dur} s` : 'SIN INCIDENTES EN ESTA SESIÓN', mapeEstC: m.inc ? '#FF4D1A' : m.lastInc ? '#3DDC84' : '#9A9AA0',
+      fases: PH.map(p => ({ n: p, bar: doneF.includes(p) ? (p === curF ? PC[p] : (m.inc ? '#5A5A60' : '#3DDC84')) : (!inc && p === 'Monitor' ? '#F2F0EB' : '#2A2A2E'), fg: doneF.includes(p) || (!inc && p === 'Monitor') ? '#F2F0EB' : '#5A5A60' })),
+      pasos: steps.map(s => ({ ...s, c: PC[s.f] })), idle: !inc,
+      mean: Math.round(m.mean), sd: f1(m.sd), thrMs: Math.round(m.mean + cfg.z * m.sd),
+      logN: m.log.length, log: m.log.map(l => { const [tag, tagBg, tagFg] = TAG[l.tipo] || TAG['scale-out']; return { ...l, tag, tagBg, tagFg }; })
+    };
+  }
+}
+</script>
+</body>
+</html>

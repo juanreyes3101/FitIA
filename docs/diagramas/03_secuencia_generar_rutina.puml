@@ -1,0 +1,60 @@
+@startuml 03_secuencia_generar_rutina
+title FitIA — Secuencia: generar rutina personalizada con IA
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam sequenceMessageAlign center
+autonumber
+
+actor Usuario
+participant "App móvil / Web\n(React · React Native)" as FE
+participant "API Flask\n/api/v1/rutinas" as API
+participant "ServicioRutinas" as SR
+participant "ValidadorSeguridad" as VAL
+participant "AdaptadorIA\n(Gemini | Mock)" as IA
+database "MySQL" as DB
+participant "Monitor\n(middleware métricas)" as MON
+
+Usuario -> FE : Pulsa "Generar mi rutina"
+FE -> API : POST /rutinas/generar (JWT)
+activate API
+API -> MON : inicia cronómetro
+API -> SR : generar(usuario_id)
+activate SR
+SR -> DB : CALL sp_cupo_ia(usuario_id)
+DB --> SR : restantes
+alt sin cupo en el plan
+  SR --> API : 402 "Mejora a Pro"
+  API --> FE : 402
+  FE --> Usuario : Muestra planes
+else con cupo
+  SR -> DB : SELECT v_usuario_resumen + condiciones activas
+  DB --> SR : perfil (IMC, objetivo, molestias)
+  SR -> DB : CALL sp_ejercicios_seguros(usuario_id)
+  DB --> SR : catálogo de ejercicios permitidos
+  SR -> IA : prompt (perfil + catálogo permitido)\nrespuesta en JSON estricto
+  activate IA
+  IA --> SR : rutina JSON (días, ejercicios, series)
+  deactivate IA
+  SR -> DB : INSERT solicitudes_ia (tokens, latencia)
+  SR -> VAL : validar(rutina, condiciones)
+  activate VAL
+  VAL -> VAL : ¿ids existen en catálogo?\n¿contraindicaciones?\n¿volumen acorde al nivel?\n¿incluye estiramientos si hay dolor lumbar?
+  alt rutina insegura (máx. 2 reintentos)
+    VAL --> SR : errores
+    SR -> IA : reintento con errores como retroalimentación
+    IA --> SR : rutina corregida
+  else rutina válida
+    VAL --> SR : OK
+  end
+  deactivate VAL
+  SR -> DB : BEGIN; INSERT rutinas, rutina_dias, rutina_ejercicios; COMMIT
+  note right of DB : trg_rutina_ejercicio_seguro\nbloquea cualquier ejercicio\ncontraindicado (última defensa)
+  DB --> SR : rutina_id
+  SR --> API : rutina
+  deactivate SR
+  API -> MON : registra LATENCIA_MS, estado HTTP
+  API --> FE : 201 Created + rutina
+  deactivate API
+  FE --> Usuario : Muestra la rutina día por día
+end
+@enduml

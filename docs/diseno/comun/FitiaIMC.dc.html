@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+</helmet>
+<div style="position:relative;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;padding:clamp(20px,3vw,36px);display:flex;flex-direction:column;gap:28px;box-shadow:8px 8px 0 #2A2A2E;font-family:'Inter Tight',sans-serif;color:#F2F0EB">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:20px">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <label for="imc-peso" style="font-size:14px;font-weight:600">Peso</label>
+      <div style="display:flex;align-items:stretch;min-height:56px;border:2px solid {{ pBorder }};border-radius:4px;overflow:hidden;transition:border-color 150ms">
+        <button onClick="{{ pMinus }}" aria-label="Restar 1 kg" style="width:52px;flex:none;border:0;border-right:1px solid #2A2A2E;background:transparent;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:22px;cursor:pointer" style-hover="background:#1A1A1D" style-active="background:#2A2A2E">−</button>
+        <input id="imc-peso" inputmode="decimal" value="{{ peso }}" onChange="{{ onPeso }}" style="flex:1;min-width:0;border:0;background:transparent;color:#F2F0EB;text-align:center;font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700" style-focus="outline:none;background:#1A1A1D">
+        <span style="display:flex;align-items:center;padding-right:12px;font-family:'JetBrains Mono',monospace;color:#9A9AA0">kg</span>
+        <button onClick="{{ pPlus }}" aria-label="Sumar 1 kg" style="width:52px;flex:none;border:0;border-left:1px solid #2A2A2E;background:transparent;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:22px;cursor:pointer" style-hover="background:#1A1A1D" style-active="background:#2A2A2E">+</button>
+      </div>
+      <input type="range" min="30" max="200" value="{{ pesoNum }}" onChange="{{ onPeso }}" aria-label="Peso en kilogramos" style="width:100%;height:44px;margin:0;accent-color:#D4FF00">
+      <span style="font-size:14px;color:{{ pMsgColor }}">{{ pMsg }}</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <label for="imc-est" style="font-size:14px;font-weight:600">Estatura</label>
+      <div style="display:flex;align-items:stretch;min-height:56px;border:2px solid {{ eBorder }};border-radius:4px;overflow:hidden;transition:border-color 150ms">
+        <button onClick="{{ eMinus }}" aria-label="Restar 1 cm" style="width:52px;flex:none;border:0;border-right:1px solid #2A2A2E;background:transparent;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:22px;cursor:pointer" style-hover="background:#1A1A1D" style-active="background:#2A2A2E">−</button>
+        <input id="imc-est" inputmode="numeric" value="{{ est }}" onChange="{{ onEst }}" style="flex:1;min-width:0;border:0;background:transparent;color:#F2F0EB;text-align:center;font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700" style-focus="outline:none;background:#1A1A1D">
+        <span style="display:flex;align-items:center;padding-right:12px;font-family:'JetBrains Mono',monospace;color:#9A9AA0">cm</span>
+        <button onClick="{{ ePlus }}" aria-label="Sumar 1 cm" style="width:52px;flex:none;border:0;border-left:1px solid #2A2A2E;background:transparent;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:22px;cursor:pointer" style-hover="background:#1A1A1D" style-active="background:#2A2A2E">+</button>
+      </div>
+      <input type="range" min="120" max="215" value="{{ estNum }}" onChange="{{ onEst }}" aria-label="Estatura en centímetros" style="width:100%;height:44px;margin:0;accent-color:#D4FF00">
+      <span style="font-size:14px;color:{{ eMsgColor }}">{{ eMsg }}</span>
+    </div>
+  </div>
+
+  <div style="height:1px;background:#2A2A2E"></div>
+
+  <div aria-live="polite" style="display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:12px;font-weight:700;letter-spacing:.08em;color:#9A9AA0">TU IMC</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(64px,8vw,96px);font-weight:700;line-height:1;letter-spacing:-.04em;color:#D4FF00">{{ shown }}</div>
+      </div>
+      <span style="font-size:13px;font-weight:700;letter-spacing:.08em;padding:8px 12px;border-radius:2px;background:{{ catColor }};color:#0B0B0C;transition:background 200ms">{{ catLabel }}</span>
+    </div>
+    <div style="position:relative;padding-top:6px">
+      <div style="display:flex;gap:4px">
+        <sc-for list="{{ segs }}" as="g" hint-placeholder-count="4">
+          <div style="flex:{{ g.flex }};min-width:0;display:flex;flex-direction:column;gap:8px">
+            <div style="height:16px;background:{{ g.bg }};transition:background 250ms"></div>
+            <div style="font-size:12px;line-height:1.3;font-weight:600;color:{{ g.fg }}">{{ g.label }}<br><span style="font-family:'JetBrains Mono',monospace;font-weight:400">{{ g.range }}</span></div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="position:absolute;top:0;left:{{ marker }};width:4px;height:28px;margin-left:-2px;background:#F2F0EB;box-shadow:0 0 0 2px #0B0B0C;opacity:{{ markerOp }};transition:left 450ms cubic-bezier(.2,.8,.2,1)"></div>
+    </div>
+    <p style="margin:0;font-size:17px;line-height:1.5;text-wrap:pretty">{{ msg }} <span style="color:#9A9AA0">El IMC es una referencia, no un diagnóstico.</span></p>
+    <sc-if value="{{ cta }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="FitIA%20Ingresar.dc.html#registro" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 22px;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:16px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 #7E9900;transition:transform 90ms,box-shadow 90ms,background 120ms" style-hover="background:#E1FF4D" style-active="transform:translateY(2px);box-shadow:0 2px 0 #7E9900" style-focus="outline:2px solid #F2F0EB;outline-offset:3px">Arma mi rutina con este dato <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"></path></svg></a>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:640,&quot;height&quot;:620},&quot;cta&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const SEGS = [
+  { label: 'Bajo peso', range: '<18.5', flex: 3.5, color: '#FFB020', max: 18.5 },
+  { label: 'Normal', range: '18.5–24.9', flex: 6.5, color: '#3DDC84', max: 25 },
+  { label: 'Sobrepeso', range: '25–29.9', flex: 5, color: '#FFB020', max: 30 },
+  { label: 'Obesidad', range: '≥30', flex: 10, color: '#FF4D1A', max: 999 }
+];
+const MSG = [
+  'Tu rutina se enfocará en ganar fuerza y masa muscular, sin afán.',
+  'Estás en rango. Vamos por fuerza, resistencia y constancia.',
+  'Arrancamos con cardio de bajo impacto y fuerza. Paso a paso, sin castigo.',
+  'Empezamos suave, cuidando rodillas y espalda. Lo importante es arrancar.'
+];
+const num = v => parseFloat(String(v).replace(',', '.'));
+class Component extends DCLogic {
+  state = { peso: '72', est: '168', shown: 0 };
+  calc(s = this.state) {
+    const p = num(s.peso), e = num(s.est);
+    const okP = p >= 30 && p <= 250, okE = e >= 120 && e <= 220;
+    return { p, e, okP, okE, imc: okP && okE ? p / Math.pow(e / 100, 2) : null };
+  }
+  componentDidMount() { this.animate(); }
+  componentDidUpdate(_, prev) { if (prev.peso !== this.state.peso || prev.est !== this.state.est) this.animate(); }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); }
+  animate() {
+    const t = this.calc().imc; if (t == null) return;
+    cancelAnimationFrame(this.raf);
+    const from = this.state.shown, start = performance.now();
+    const step = n => { const k = Math.min(1, (n - start) / 500), e = 1 - Math.pow(1 - k, 3); this.setState({ shown: from + (t - from) * e }); if (k < 1) this.raf = requestAnimationFrame(step); };
+    this.raf = requestAnimationFrame(step);
+  }
+  bump(key, d) { const v = num(this.state[key]); if (!isNaN(v)) this.setState({ [key]: String(Math.round(v + d)) }); }
+  renderVals() {
+    const c = this.calc();
+    const pTouched = this.state.peso !== '', eTouched = this.state.est !== '';
+    const ci = c.imc == null ? -1 : SEGS.findIndex(g => c.imc < g.max);
+    return {
+      peso: this.state.peso, est: this.state.est,
+      pesoNum: c.okP ? c.p : 72, estNum: c.okE ? c.e : 168,
+      onPeso: e => this.setState({ peso: e.target.value }), onEst: e => this.setState({ est: e.target.value }),
+      pMinus: () => this.bump('peso', -1), pPlus: () => this.bump('peso', 1),
+      eMinus: () => this.bump('est', -1), ePlus: () => this.bump('est', 1),
+      pBorder: c.okP ? '#2A2A2E' : '#FF3B3B', eBorder: c.okE ? '#2A2A2E' : '#FF3B3B',
+      pMsg: c.okP ? 'Con ropa ligera, en la mañana.' : (pTouched ? 'Escribe un peso entre 30 y 250 kg.' : 'Escribe tu peso.'),
+      eMsg: c.okE ? 'Sin zapatos, espalda recta.' : (eTouched ? 'Escribe una estatura entre 120 y 220 cm.' : 'Escribe tu estatura.'),
+      pMsgColor: c.okP ? '#9A9AA0' : '#FF3B3B', eMsgColor: c.okE ? '#9A9AA0' : '#FF3B3B',
+      shown: c.imc == null ? '--.-' : this.state.shown.toFixed(1),
+      catLabel: ci < 0 ? 'REVISA LOS DATOS' : SEGS[ci].label.toUpperCase(),
+      catColor: ci < 0 ? '#9A9AA0' : SEGS[ci].color,
+      msg: ci < 0 ? 'Completa peso y estatura para ver tu resultado.' : MSG[ci],
+      segs: SEGS.map((g, i) => ({ ...g, bg: i === ci ? g.color : '#2A2A2E', fg: i === ci ? '#F2F0EB' : '#9A9AA0' })),
+      marker: (c.imc == null ? 0 : Math.max(0, Math.min(100, (c.imc - 15) / 25 * 100))) + '%',
+      markerOp: c.imc == null ? 0 : 1,
+      cta: this.props.cta ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

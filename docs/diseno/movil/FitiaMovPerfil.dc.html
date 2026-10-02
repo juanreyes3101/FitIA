@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Perfil" style="padding:12px 16px 24px;display:flex;flex-direction:column;gap:14px;animation:fitia-in 350ms cubic-bezier(.2,.8,.2,1)">
+  <header style="display:flex;align-items:center;gap:14px">
+    <span style="width:72px;height:72px;flex:none;border-radius:4px;background:#F2F0EB;color:#0B0B0C;font-family:Anton,sans-serif;font-size:32px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg)">{{ ini }}</span>
+    <div style="min-width:0"><h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:36px;line-height:.92;text-transform:uppercase">{{ nombre }}</h1><div style="font-size:15px;color:#9A9AA0">{{ gym }}</div></div>
+  </header>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2A2A2E;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden">
+    <div style="background:#1A1A1D;padding:12px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700">78,0</div><div style="font-size:12px;font-weight:700;color:#9A9AA0">KG</div></div>
+    <div style="background:#1A1A1D;padding:12px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700">165</div><div style="font-size:12px;font-weight:700;color:#9A9AA0">CM</div></div>
+    <div style="background:#1A1A1D;padding:12px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#D4FF00">28,65</div><div style="font-size:12px;font-weight:700;color:#9A9AA0">IMC</div></div>
+  </div>
+
+  <button onClick="{{ openPlanes }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:72px;padding:0 16px;border:2px solid #D4FF00;border-radius:4px;background:transparent;color:#F2F0EB;text-align:left;cursor:pointer" style-active="transform:translateY(2px)"><span><span style="display:block;font-family:Anton,sans-serif;font-size:24px">PLAN {{ planUp }}</span><span style="font-size:14px;color:#9A9AA0">{{ planTxt }}</span></span><span style="font-weight:700;color:#D4FF00">{{ planCta }} ›</span></button>
+
+  <section style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:12px">
+    <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:22px;text-transform:uppercase">Molestias</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ mols }}" as="x" hint-placeholder-count="4"><button onClick="{{ x.toggle }}" aria-pressed="{{ x.on }}" style="min-height:48px;padding:0 14px;border:2px solid {{ x.bd }};border-radius:2px;background:{{ x.bg }};color:{{ x.fg }};font-size:15px;font-weight:700;cursor:pointer">{{ x.l }}</button></sc-for></div>
+  </section>
+
+  <section style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;display:flex;flex-direction:column">
+    <sc-for list="{{ ajustes }}" as="x" hint-placeholder-count="4">
+      <button role="switch" aria-checked="{{ x.on }}" onClick="{{ x.toggle }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px;padding:0 14px;border:0;border-bottom:1px solid #2A2A2E;background:transparent;color:#F2F0EB;text-align:left;cursor:pointer"><span><span style="display:block;font-size:16px;font-weight:700">{{ x.l }}</span><span style="font-size:13px;color:#9A9AA0">{{ x.d }}</span></span><span style="width:52px;height:30px;flex:none;border-radius:2px;background:{{ x.sw }};position:relative;transition:background 150ms"><span style="position:absolute;top:4px;left:{{ x.kl }};width:22px;height:22px;background:{{ x.k }};transition:left 150ms"></span></span></button>
+    </sc-for>
+    <button onClick="{{ probarPush }}" style="min-height:56px;padding:0 14px;border:0;background:transparent;color:#D4FF00;text-align:left;font-size:16px;font-weight:700;cursor:pointer">Probar notificación ›</button>
+  </section>
+
+  <section style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;display:flex;flex-direction:column">
+    <button onClick="{{ cambiarPw }}" style="min-height:56px;padding:0 14px;border:0;border-bottom:1px solid #2A2A2E;background:transparent;color:#F2F0EB;text-align:left;font-size:16px;font-weight:600;cursor:pointer">Cambiar contraseña ›</button>
+    <button onClick="{{ descargar }}" style="min-height:56px;padding:0 14px;border:0;border-bottom:1px solid #2A2A2E;background:transparent;color:#F2F0EB;text-align:left;font-size:16px;font-weight:600;cursor:pointer">{{ dlTxt }}</button>
+    <button onClick="{{ borrar }}" style="min-height:56px;padding:0 14px;border:0;background:transparent;color:#FF3B3B;text-align:left;font-size:16px;font-weight:700;cursor:pointer">Borrar mis datos</button>
+  </section>
+  <p style="font-size:13px;color:#9A9AA0">Tus datos se tratan según la Ley 1581 de 2012. FitIA · Proyecto Integrador CUN 2026 · v1.0</p>
+
+  <sc-if value="{{ confirm }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ cerrar }}" style="position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.6)"></div>
+    <div role="dialog" aria-modal="true" style="position:fixed;left:0;right:0;bottom:0;z-index:81;background:#141416;border-top:2px solid #FF3B3B;padding:20px 16px calc(20px + {{ inset }});display:flex;flex-direction:column;gap:12px;animation:fitia-up 300ms cubic-bezier(.2,.8,.2,1)">
+      <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:36px;line-height:.95;text-transform:uppercase">¿Borrar todo?</h2>
+      <p style="color:#9A9AA0">Se borran tu perfil, tus 60 días de progreso y tus rutinas. No se puede deshacer.</p>
+      <button onClick="{{ confirmar }}" style="min-height:60px;border:0;border-radius:4px;background:#FF3B3B;color:#0B0B0C;font-size:17px;font-weight:700;cursor:pointer">Sí, borrar mis datos</button>
+      <button onClick="{{ cerrar }}" style="min-height:56px;border:2px solid #F2F0EB;border-radius:4px;background:transparent;color:#F2F0EB;font-size:16px;font-weight:700;cursor:pointer">Cancelar</button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { mol: ['Lumbar'], notif: true, confirm: false, dl: false };
+  renderVals() {
+    const a = this.props.app || {}; const s = this.state; const u = a.user || {};
+    const sw = (on, toggle, l, d) => ({ l, d, on, toggle, sw: on ? '#D4FF00' : '#2A2A2E', kl: on ? '26px' : '4px', k: on ? '#0B0B0C' : '#9A9AA0' });
+    return {
+      ini: u.iniciales || 'LG', nombre: `${u.nombre || 'Laura'} ${u.apellido || 'Gómez'}`, gym: u.gym,
+      planUp: a.plan === 'pro' ? 'PRO' : 'FREE', planTxt: a.plan === 'pro' ? '10 rutinas IA al mes, sin anuncios' : `Te queda ${a.cupo ?? 1} rutina IA · con publicidad`, planCta: a.plan === 'pro' ? 'Gestionar' : 'Pro', openPlanes: () => a.openPlanes(),
+      mols: ['Lumbar', 'Rodilla', 'Hipertensión', 'Ninguna'].map(l => { const on = s.mol.includes(l); return { l: (on ? '✓ ' : '') + l, on, bg: on ? '#D4FF00' : 'transparent', fg: on ? '#0B0B0C' : '#F2F0EB', bd: on ? '#D4FF00' : '#2A2A2E', toggle: () => this.setState(st => { if (l === 'Ninguna') return { mol: ['Ninguna'] }; const r = st.mol.filter(x => x !== 'Ninguna'); const n = on ? r.filter(x => x !== l) : [...r, l]; return { mol: n.length ? n : ['Ninguna'] }; }) }; }),
+      ajustes: [
+        sw(a.tema === 'claro', () => { a.setTema(a.tema === 'claro' ? 'oscuro' : 'claro'); a.toast('ok', a.tema === 'claro' ? 'Modo oscuro' : 'Modo claro activado', a.tema === 'claro' ? '' : 'Muestra disponible en la pestaña Hoy.'); }, 'Modo claro', 'Para entrenar al aire libre'),
+        sw(a.vibrar !== false, () => a.setVibrar(a.vibrar === false), 'Vibración', 'Al terminar el descanso'),
+        sw(s.notif, () => this.setState({ notif: !s.notif }), 'Recordatorios', 'Lun, mié y vie · 9:00')
+      ],
+      probarPush: () => a.probarPush(), cambiarPw: () => a.toast('ok', 'Te enviamos un enlace', 'Revisa ' + (u.correo || 'tu correo')),
+      dlTxt: s.dl ? 'Datos descargados ✓' : 'Descargar mis datos ›',
+      descargar: () => { try { const url = URL.createObjectURL(new Blob([JSON.stringify({ perfil: u, plan: a.plan, progreso: a.data }, null, 2)], { type: 'application/json' })); const el = document.createElement('a'); el.href = url; el.download = 'fitia-mis-datos.json'; document.body.appendChild(el); el.click(); el.remove(); } catch (e) {} this.setState({ dl: true }); a.toast('ok', 'Tus datos están listos', 'fitia-mis-datos.json'); },
+      confirm: s.confirm, borrar: () => this.setState({ confirm: true }), cerrar: () => this.setState({ confirm: false }), inset: a.insetBottom || '34px',
+      confirmar: () => { this.setState({ confirm: false }); a.toast('warn', 'Solicitud registrada', 'Borramos tus datos en máx. 15 días hábiles.'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

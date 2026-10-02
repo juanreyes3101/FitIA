@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Rutina" style="display:flex;flex-direction:column;animation:fitia-in 350ms cubic-bezier(.2,.8,.2,1)">
+  <header style="padding:12px 16px 12px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px">
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:#D4FF00">{{ origen }}</div><h1 style="margin-top:4px;font-family:Anton,sans-serif;font-weight:400;font-size:44px;line-height:.92;text-transform:uppercase">Mi rutina</h1></div>
+    <button onClick="{{ gen }}" aria-label="Generar nueva rutina con IA" style="width:56px;height:56px;flex:none;border:2px solid {{ genBd }};border-radius:4px;background:transparent;color:{{ genFg }};display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(2px)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" style="animation:{{ genAnim }}"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg></button>
+  </header>
+
+  <div role="tablist" aria-label="Días" style="position:sticky;top:{{ stickyTop }};z-index:5;background:#0B0B0C;display:flex;gap:8px;overflow-x:auto;padding:0 16px 12px;scroll-snap-type:x mandatory;border-bottom:1px solid #2A2A2E">
+    <sc-for list="{{ dias }}" as="d" hint-placeholder-count="3">
+      <button role="tab" aria-selected="{{ d.sel }}" onClick="{{ d.pick }}" style="flex:none;scroll-snap-align:start;min-width:132px;min-height:76px;padding:10px 12px;border:2px solid {{ d.bd }};border-radius:4px;background:{{ d.bg }};color:{{ d.fg }};text-align:left;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer" style-active="transform:translateY(2px)">
+        <span style="display:flex;justify-content:space-between;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700"><span>{{ d.dow }}</span><span>{{ d.est }}</span></span>
+        <span style="font-family:Anton,sans-serif;font-size:26px;line-height:1">DÍA {{ d.n }}</span>
+      </button>
+    </sc-for>
+  </div>
+
+  <section style="padding:16px 16px 8px;display:flex;flex-direction:column;gap:6px">
+    <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:32px;line-height:.95;text-transform:uppercase">{{ dia.title }}</h2>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9A9AA0">45 MIN · {{ count }} EJERCICIOS · {{ seguros }} ✓ ESPALDA</div>
+  </section>
+
+  <ol style="display:flex;flex-direction:column">
+    <sc-for list="{{ ejercicios }}" as="e" hint-placeholder-count="5">
+      <li><button onClick="{{ e.go }}" style="width:100%;display:flex;align-items:center;gap:14px;padding:12px 16px;border:0;border-bottom:1px solid #2A2A2E;background:transparent;color:#F2F0EB;text-align:left;cursor:pointer" style-active="background:#1A1A1D">
+        <span style="position:relative;width:76px;height:76px;flex:none;border-radius:4px;overflow:hidden;isolation:isolate;background:#2A2A2E">
+          <span style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="mov-th-{{ e.id }}" shape="rect" placeholder="{{ e.short }}"></image-slot></span>
+          <span style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></span>
+          <span style="position:absolute;left:4px;bottom:0;font-family:Anton,sans-serif;font-size:26px;line-height:1;color:#0B0B0C;pointer-events:none">{{ e.num }}</span>
+        </span>
+        <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:18px;font-weight:700;line-height:1.2">{{ e.nombre }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:#D4FF00">{{ e.dosis }}</span>
+          <span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:#9A9AA0"><span>Descanso {{ e.descanso }}</span><sc-if value="{{ e.segura }}" hint-placeholder-val="{{ true }}"><span style="font-weight:700;color:#3DDC84">✓ Espalda</span></sc-if><sc-if value="{{ e.cuidado }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:#FFB020">Cuida la postura</span></sc-if></span>
+        </span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A9AA0" stroke-width="2" stroke-linecap="square" style="flex:none"><path d="M9 6l6 6-6 6"></path></svg>
+      </button></li>
+    </sc-for>
+  </ol>
+
+  <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+    <sc-if value="{{ esHoy }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ empezar }}" style="display:flex;align-items:center;justify-content:center;gap:10px;min-height:64px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-family:Anton,sans-serif;font-size:28px;cursor:pointer;box-shadow:0 5px 0 #7E9900" style-active="transform:translateY(3px);box-shadow:0 2px 0 #7E9900"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"></path></svg>EMPEZAR DÍA {{ dia.n }}</button>
+    </sc-if>
+    <button onClick="{{ gen }}" style="display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;border:2px solid {{ genBd }};border-radius:4px;background:transparent;color:{{ genFg }};font-size:16px;font-weight:700;cursor:pointer" style-active="transform:translateY(2px)">{{ genLabel }}</button>
+    <span style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">{{ cupoTxt }}</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { dia: 1, busy: false };
+  componentWillUnmount() { clearTimeout(this.to); }
+  renderVals() {
+    const a = this.props.app || {}; const rut = a.rutina || []; const cupo = a.cupo ?? 1;
+    const dia = rut[this.state.dia] || { n: 1, title: '', ejercicios: [], estado: 'proximo' };
+    const E = { hecho: 'HECHO', hoy: 'HOY', proximo: 'VIE' };
+    const can = cupo > 0;
+    return {
+      origen: a.rutinaTipo === 'ia2' ? 'NUEVA · IA · 30 SEP' : 'GENERADA POR IA · 15 SEP',
+      stickyTop: a.insetTop || '54px',
+      dias: rut.map((d, i) => { const sel = i === this.state.dia; return { n: d.n, dow: d.dow, est: d.estado === 'hecho' ? '✓' : d.estado === 'hoy' ? 'HOY' : '', sel, bg: sel ? '#D4FF00' : '#1A1A1D', fg: sel ? '#0B0B0C' : '#F2F0EB', bd: sel ? '#D4FF00' : d.estado === 'hoy' ? '#D4FF00' : '#2A2A2E', pick: () => this.setState({ dia: i }) }; }),
+      dia, count: dia.ejercicios.length, seguros: dia.ejercicios.filter(e => e.segura).length, esHoy: dia.estado === 'hoy',
+      ejercicios: dia.ejercicios.map((e, i) => ({ ...e, num: '0' + (i + 1), short: e.nombre.split(' ')[0], cuidado: !e.segura, go: () => a.go('ejercicio', e.id) })),
+      empezar: () => a.go('entreno'),
+      genBd: can ? '#D4FF00' : '#2A2A2E', genFg: can ? '#D4FF00' : '#6E6E74', genAnim: this.state.busy ? 'fitia-spin 800ms linear infinite' : 'none',
+      genLabel: this.state.busy ? 'La IA está armando tu rutina…' : can ? 'Generar nueva rutina con IA' : 'Sin rutinas IA este mes',
+      cupoTxt: can ? (cupo === 1 ? 'Te queda 1 rutina IA este mes' : `Te quedan ${cupo} rutinas IA`) : 'Se recargan el 1 de octubre',
+      gen: () => {
+        if (this.state.busy) return;
+        if (!can) { a.openPlanes(); return; }
+        this.setState({ busy: true });
+        this.to = setTimeout(() => { a.usarCupo(); a.setRutinaTipo('ia2'); this.setState({ busy: false, dia: 1 }); a.toast('ia', 'Rutina nueva lista', 'Ajustada a tu espalda.'); }, 2200);
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>*{box-sizing:border-box}html,body{margin:0;background:#0B0B0C;color:#F2F0EB;font-family:'Inter Tight',system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}a{color:#D4FF00;text-decoration:none}a:hover{color:#F2F0EB}h1,h2,h3,p{margin:0}</style>
+</helmet>
+
+<header data-screen-label="Portada" style="position:relative;overflow:hidden;min-height:720px;background:#0B0B0C">
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:.08;background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.8%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url%28%23n%29%27/%3E%3C/svg%3E)"></div>
+  <div style="position:absolute;right:-2vw;top:90px;font-family:Anton,sans-serif;font-size:clamp(220px,34vw,520px);line-height:.8;color:transparent;-webkit-text-stroke:2px #2A2A2E;pointer-events:none;letter-spacing:-.01em">24/7</div>
+  <div style="position:absolute;left:-10%;right:-10%;bottom:-150px;height:260px;background:#D4FF00;transform:skewY(-7deg);transform-origin:left"></div>
+  <div style="position:absolute;left:-10%;right:-10%;bottom:118px;height:28px;transform:skewY(-7deg);transform-origin:left;background:repeating-linear-gradient(-45deg,#D4FF00 0 16px,#0B0B0C 16px 32px)"></div>
+
+  <nav style="position:relative;max-width:1280px;margin:0 auto;padding:24px clamp(20px,4vw,48px);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:10px">
+      <svg viewBox="0 0 48 36" width="38" height="29" style="display:block;color:#D4FF00"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"></path></svg>
+      <span style="font-family:Anton,sans-serif;font-size:30px;line-height:1;letter-spacing:.01em">FIT<span style="color:#D4FF00">IA</span></span>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:13px">
+      <a href="#logo" style="padding:12px 14px;color:#F2F0EB">01 LOGO</a>
+      <a href="#color" style="padding:12px 14px;color:#F2F0EB">02 COLOR</a>
+      <a href="#tipo" style="padding:12px 14px;color:#F2F0EB">03 TIPO</a>
+      <a href="#base" style="padding:12px 14px;color:#F2F0EB">04 BASE</a>
+      <a href="#grafico" style="padding:12px 14px;color:#F2F0EB">05 GRÁFICO</a>
+      <a href="FitIA Componentes.dc.html" style="padding:12px 16px;background:#D4FF00;color:#0B0B0C;border-radius:4px;font-weight:700">COMPONENTES →</a>
+    </div>
+  </nav>
+
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:80px clamp(20px,4vw,48px) 260px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em;margin-bottom:24px">SISTEMA DE DISEÑO · V1.0 · BOGOTÁ</div>
+    <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(72px,12vw,184px);line-height:.88;text-transform:uppercase;letter-spacing:.005em;max-width:12ch">Entrena con calle.</h1>
+    <p style="margin-top:28px;max-width:560px;font-size:20px;line-height:1.45;color:#F2F0EB;text-wrap:pretty">Identidad y sistema de FitIA: entrenamiento personalizado con IA para los gimnasios de barrio. Web, app móvil y escritorio, un solo lenguaje.</p>
+  </div>
+</header>
+
+<section id="logo" data-screen-label="01 Logo" style="position:relative;overflow:hidden;padding:120px 0 96px;background:#0B0B0C">
+  <div style="position:absolute;right:-10px;top:40px;font-family:Anton,sans-serif;font-size:clamp(180px,28vw,400px);line-height:.8;color:#141416;pointer-events:none">01</div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,48px)">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">01 / LOGO</div>
+    <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,72px);line-height:.92;text-transform:uppercase;margin-top:12px">Pesa + pulso + chispa</h2>
+    <p style="margin-top:16px;max-width:640px;color:#9A9AA0;font-size:18px;text-wrap:pretty">La barra de la pesa es una línea de pulso: el esfuerzo se convierte en dato. La chispa sobre el disco es la IA, pequeña y al servicio del entrenamiento. Todo en formas rectas para que funcione en un solo color, en sello, vinilo o bordado.</p>
+
+    <div style="margin-top:48px;position:relative;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;min-height:380px;display:flex;align-items:center;justify-content:center;padding:64px 24px;overflow:hidden">
+      <div style="position:absolute;inset:0;pointer-events:none;opacity:.06;background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.8%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url%28%23n%29%27/%3E%3C/svg%3E)"></div>
+      <div style="position:relative;display:flex;align-items:center;gap:clamp(16px,2.5vw,32px)">
+        <svg viewBox="0 0 48 36" style="display:block;width:clamp(110px,15vw,190px);height:auto;color:#D4FF00"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"></path></svg>
+        <span style="font-family:Anton,sans-serif;font-size:clamp(110px,16vw,210px);line-height:.8;letter-spacing:.01em">FIT<span style="color:#D4FF00">IA</span></span>
+      </div>
+      <div style="position:absolute;left:20px;bottom:16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">PRINCIPAL · HORIZONTAL · SOBRE ASFALTO</div>
+    </div>
+
+    <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:#D4FF00;border-radius:4px;height:200px;display:flex;align-items:center;justify-content:center;gap:14px;color:#0B0B0C">
+          <svg viewBox="0 0 48 36" width="72" height="54" style="display:block;color:#0B0B0C"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path></svg>
+          <span style="font-family:Anton,sans-serif;font-size:76px;line-height:.8">FITIA</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">UNA TINTA · ASFALTO SOBRE VOLTAJE</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:#F2F0EB;border-radius:4px;height:200px;display:flex;align-items:center;justify-content:center;gap:14px;color:#0B0B0C">
+          <svg viewBox="0 0 48 36" width="72" height="54" style="display:block;color:#0B0B0C"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path></svg>
+          <span style="font-family:Anton,sans-serif;font-size:76px;line-height:.8">FITIA</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">UNA TINTA · ASFALTO SOBRE HUESO</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:#FF4D1A;border-radius:4px;height:200px;display:flex;align-items:center;justify-content:center;gap:14px;color:#0B0B0C">
+          <svg viewBox="0 0 48 36" width="72" height="54" style="display:block;color:#0B0B0C"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path></svg>
+          <span style="font-family:Anton,sans-serif;font-size:76px;line-height:.8">FITIA</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">UNA TINTA · SOBRE SEÑAL (EVENTOS, EN VIVO)</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:32px;display:flex;flex-direction:column;align-items:center;gap:6px">
+        <svg viewBox="0 0 48 36" width="96" height="72" style="display:block;color:#F2F0EB"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path></svg>
+        <span style="font-family:Anton,sans-serif;font-size:64px;line-height:.9;margin-top:10px">FITIA</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0;margin-top:14px">VERTICAL · HUESO</span>
+      </div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:32px;display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;align-items:flex-end;gap:20px">
+          <div style="width:96px;height:96px;background:#D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 48 36" width="64" height="48" style="display:block;color:#0B0B0C"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path></svg></div>
+          <div style="width:48px;height:48px;background:#D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 48 36" width="32" height="24" style="display:block;color:#0B0B0C"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path></svg></div>
+          <svg viewBox="0 0 48 36" width="24" height="18" style="display:block;color:#D4FF00"><g fill="currentColor"><rect x="2" y="12" width="6" height="24"></rect><rect x="8" y="17" width="4" height="14"></rect><rect x="40" y="12" width="6" height="24"></rect><rect x="36" y="17" width="4" height="14"></rect><path d="M43 0l1.4 3.6L48 5l-3.6 1.4L43 10l-1.4-3.6L38 5l3.6-1.4z"></path></g><path d="M12 24h5l3-8 5 16 3-10 2 2h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path></svg>
+        </div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">ÍCONO DE APP 96 · 48 · FAVICON 24 (MÍNIMO)</span>
+      </div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:32px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:Anton,sans-serif;font-size:24px;line-height:1;text-transform:uppercase">Reglas</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:#F2F0EB">
+          <div style="display:flex;gap:10px"><span style="font-family:'JetBrains Mono',monospace;color:#D4FF00">→</span>Área de protección: el alto de la chispa en los cuatro lados.</div>
+          <div style="display:flex;gap:10px"><span style="font-family:'JetBrains Mono',monospace;color:#D4FF00">→</span>Mínimo: símbolo 24 px, wordmark 80 px de ancho.</div>
+          <div style="display:flex;gap:10px"><span style="font-family:'JetBrains Mono',monospace;color:#D4FF00">→</span>“IA” en Voltaje solo en la versión a color sobre oscuro.</div>
+          <div style="display:flex;gap:10px"><span style="font-family:'JetBrains Mono',monospace;color:#FF4D1A">×</span>Sin degradados, sombras, contornos ni rotación.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="color" data-screen-label="02 Color" style="position:relative;overflow:hidden;padding:120px 0 96px;background:#0B0B0C;border-top:1px solid #2A2A2E">
+  <div style="position:absolute;right:-10px;top:40px;font-family:Anton,sans-serif;font-size:clamp(180px,28vw,400px);line-height:.8;color:#141416;pointer-events:none">02</div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,48px)">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">02 / COLOR</div>
+    <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,72px);line-height:.92;text-transform:uppercase;margin-top:12px">Asfalto y voltaje</h2>
+    <p style="margin-top:16px;max-width:640px;color:#9A9AA0;font-size:18px;text-wrap:pretty">El oscuro manda. El Voltaje es escaso a propósito: si todo brilla, nada brilla. Úsalo para la acción principal, el progreso y el dato que importa.</p>
+
+    <div style="margin-top:40px;display:flex;height:56px;border-radius:4px;overflow:hidden;border:1px solid #2A2A2E">
+      <div style="flex:60;background:#0B0B0C"></div><div style="flex:18;background:#1A1A1D"></div><div style="flex:8;background:#2A2A2E"></div><div style="flex:8;background:#F2F0EB"></div><div style="flex:4;background:#D4FF00"></div><div style="flex:2;background:#FF4D1A"></div>
+    </div>
+    <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">PROPORCIÓN DE USO · 60 / 18 / 8 / 8 / 4 / 2</div>
+
+    <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px">
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden"><div style="height:140px;background:#0B0B0C;border-bottom:1px solid #2A2A2E"></div><div style="padding:16px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1">ASFALTO</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;margin-top:6px">#0B0B0C</div><div style="font-size:14px;color:#9A9AA0;margin-top:8px">Fondo principal</div></div></div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden"><div style="height:140px;background:#1A1A1D;border-bottom:1px solid #2A2A2E"></div><div style="padding:16px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1">CONCRETO</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;margin-top:6px">#1A1A1D</div><div style="font-size:14px;color:#9A9AA0;margin-top:8px">Tarjetas y superficies</div></div></div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden"><div style="height:140px;background:#2A2A2E"></div><div style="padding:16px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1">GRAFITO</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;margin-top:6px">#2A2A2E</div><div style="font-size:14px;color:#9A9AA0;margin-top:8px">Bordes y divisores · nunca texto</div></div></div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden"><div style="height:140px;background:#9A9AA0"></div><div style="padding:16px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1">NIEBLA</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;margin-top:6px">#9A9AA0 · 7.1:1</div><div style="font-size:14px;color:#9A9AA0;margin-top:8px">Texto secundario en oscuro</div></div></div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden"><div style="height:140px;background:#F2F0EB"></div><div style="padding:16px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1">HUESO</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;margin-top:6px">#F2F0EB · 17.4:1</div><div style="font-size:14px;color:#9A9AA0;margin-top:8px">Texto principal · fondo claro</div></div></div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden"><div style="height:140px;background:#D4FF00;display:flex;align-items:flex-end;padding:12px;font-family:Anton,sans-serif;font-size:40px;line-height:.8;color:#0B0B0C">ARRANCA</div><div style="padding:16px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1;color:#D4FF00">VOLTAJE</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;margin-top:6px">#D4FF00 · 16.2:1</div><div style="font-size:14px;color:#9A9AA0;margin-top:8px">CTA, progreso, datos clave</div></div></div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden"><div style="height:140px;background:#FF4D1A;display:flex;align-items:flex-end;padding:12px;font-family:Anton,sans-serif;font-size:40px;line-height:.8;color:#0B0B0C">EN VIVO</div><div style="padding:16px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1;color:#FF4D1A">SEÑAL</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;margin-top:6px">#FF4D1A · 6.3:1</div><div style="font-size:14px;color:#9A9AA0;margin-top:8px">Alertas, intensidad, en vivo</div></div></div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden"><div style="height:140px;display:flex"><div style="flex:1;background:#3DDC84"></div><div style="flex:1;background:#FFB020"></div><div style="flex:1;background:#FF3B3B"></div></div><div style="padding:16px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1">ESTADOS</div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;margin-top:6px;display:flex;gap:8px;flex-wrap:wrap"><span style="color:#3DDC84">#3DDC84</span><span style="color:#FFB020">#FFB020</span><span style="color:#FF3B3B">#FF3B3B</span></div><div style="font-size:14px;color:#9A9AA0;margin-top:8px">Éxito · advertencia · error</div></div></div>
+    </div>
+
+    <div style="margin-top:64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px">
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px">
+        <div style="font-family:Anton,sans-serif;font-size:28px;line-height:1;text-transform:uppercase">Tokens · modo oscuro</div>
+        <div style="margin-top:20px;display:flex;flex-direction:column;font-family:'JetBrains Mono',monospace;font-size:14px">
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #2A2A2E"><span>--fondo</span><span style="color:#9A9AA0">Asfalto #0B0B0C</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #2A2A2E"><span>--superficie</span><span style="color:#9A9AA0">Concreto #1A1A1D</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #2A2A2E"><span>--borde</span><span style="color:#9A9AA0">Grafito #2A2A2E</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #2A2A2E"><span>--texto</span><span style="color:#9A9AA0">Hueso #F2F0EB</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #2A2A2E"><span>--texto-2</span><span style="color:#9A9AA0">Niebla #9A9AA0</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #2A2A2E"><span>--acento</span><span style="color:#D4FF00">Voltaje #D4FF00</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0"><span>--alerta</span><span style="color:#FF4D1A">Señal #FF4D1A</span></div>
+        </div>
+      </div>
+      <div style="background:#F2F0EB;color:#0B0B0C;border-radius:4px;padding:28px">
+        <div style="font-family:Anton,sans-serif;font-size:28px;line-height:1;text-transform:uppercase">Tokens · modo claro</div>
+        <div style="margin-top:20px;display:flex;flex-direction:column;font-family:'JetBrains Mono',monospace;font-size:14px">
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #D9D6CF"><span>--fondo</span><span style="color:#5C5C62">Hueso #F2F0EB</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #D9D6CF"><span>--superficie</span><span style="color:#5C5C62">Blanco #FFFFFF</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #D9D6CF"><span>--borde</span><span style="color:#5C5C62">Yeso #D9D6CF</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #D9D6CF"><span>--texto</span><span style="color:#5C5C62">Asfalto #0B0B0C</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #D9D6CF"><span>--texto-2</span><span style="color:#5C5C62">Humo #5C5C62 · 5.9:1</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #D9D6CF;align-items:center"><span>--acento</span><span style="background:#D4FF00;padding:2px 8px;border-radius:2px">Voltaje solo como relleno</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0"><span>--alerta</span><span style="color:#C2380C">Señal oscura #C2380C · 5.2:1</span></div>
+        </div>
+        <p style="margin-top:16px;font-size:14px;color:#5C5C62">En claro, Voltaje y Señal nunca van como texto sobre Hueso (no pasan AA). Van de fondo con texto Asfalto encima.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tipo" data-screen-label="03 Tipografía" style="position:relative;overflow:hidden;padding:120px 0 96px;background:#0B0B0C;border-top:1px solid #2A2A2E">
+  <div style="position:absolute;right:-10px;top:40px;font-family:Anton,sans-serif;font-size:clamp(180px,28vw,400px);line-height:.8;color:#141416;pointer-events:none">Aa</div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,48px)">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">03 / TIPOGRAFÍA</div>
+    <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,72px);line-height:.92;text-transform:uppercase;margin-top:12px">Tres voces</h2>
+
+    <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px">
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">TITULARES</div>
+        <div style="font-family:Anton,sans-serif;font-size:96px;line-height:.85">ANTON</div>
+        <div style="font-size:15px;color:#9A9AA0">Siempre en mayúsculas. Interlineado 0.88–0.95. Tracking +0.5%. Nunca en párrafos.</div>
+      </div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">TEXTO E INTERFAZ</div>
+        <div style="font-size:64px;line-height:1.1;font-weight:600;letter-spacing:-.02em">Inter Tight</div>
+        <div style="font-size:15px;color:#9A9AA0">400 texto · 500 interfaz · 600 botones y etiquetas · 700 énfasis. Base 16 px.</div>
+      </div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">NÚMEROS Y MÉTRICAS</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:56px;line-height:1.1;font-weight:700;color:#D4FF00;letter-spacing:-.03em">24.6</div>
+        <div style="font-size:15px;color:#9A9AA0">IMC, kg, series, repeticiones, cronómetros. Cifras tabulares: no “bailan” al contar.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;display:flex;flex-direction:column;border-top:1px solid #2A2A2E">
+      <div style="display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">DISPLAY<br>Anton 120 / 0.88</div><div style="font-family:Anton,sans-serif;font-size:clamp(56px,9vw,120px);line-height:.88;text-transform:uppercase">Arranca hoy</div></div>
+      <div style="display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">H1<br>Anton 72 / 0.92</div><div style="font-family:Anton,sans-serif;font-size:clamp(44px,6vw,72px);line-height:.92;text-transform:uppercase">Tu rutina, a tu medida</div></div>
+      <div style="display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">H2<br>Anton 48 / 0.95</div><div style="font-family:Anton,sans-serif;font-size:48px;line-height:.95;text-transform:uppercase">Sin excusas, sin costo</div></div>
+      <div style="display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">H3<br>Anton 32 / 1</div><div style="font-family:Anton,sans-serif;font-size:32px;line-height:1;text-transform:uppercase">Rutina de hoy: pierna</div></div>
+      <div style="display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">H4<br>Anton 24 / 1</div><div style="font-family:Anton,sans-serif;font-size:24px;line-height:1;text-transform:uppercase">Sentadilla goblet</div></div>
+      <div style="display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">TEXTO L<br>Inter Tight 20 / 1.45</div><div style="font-size:20px;line-height:1.45;max-width:640px">La IA arma tu plan según tu nivel, el equipo de tu gimnasio y el tiempo que tienes.</div></div>
+      <div style="display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">TEXTO BASE<br>Inter Tight 16 / 1.5</div><div style="font-size:16px;line-height:1.5;max-width:640px">Haz 4 series de 12 repeticiones. Si sientes dolor en la rodilla, para y avísale a tu entrenador.</div></div>
+      <div style="display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">PEQUEÑO<br>Inter Tight 14 / 1.45</div><div style="font-size:14px;line-height:1.45;color:#9A9AA0">Actualizado hace 2 min · Gimnasio La 68</div></div>
+      <div style="display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">ETIQUETA<br>Inter Tight 600 13 +8%</div><div style="font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase">Nivel principiante</div></div>
+      <div style="display:grid;grid-template-columns:minmax(110px,200px) minmax(0,1fr);gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid #2A2A2E"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">MÉTRICA<br>JetBrains Mono 64 · 32 · 20 · 14</div><div style="display:flex;align-items:baseline;gap:28px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-weight:700"><span style="font-size:64px;line-height:1;color:#D4FF00;letter-spacing:-.03em">00:45</span><span style="font-size:32px">72.5<span style="font-size:16px;color:#9A9AA0;font-weight:400"> kg</span></span><span style="font-size:20px">4×12</span><span style="font-size:14px;font-weight:400;color:#9A9AA0">IMC 24.6</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="base" data-screen-label="04 Espaciado, radios, sombras" style="position:relative;overflow:hidden;padding:120px 0 96px;background:#0B0B0C;border-top:1px solid #2A2A2E">
+  <div style="position:absolute;right:-10px;top:40px;font-family:Anton,sans-serif;font-size:clamp(180px,28vw,400px);line-height:.8;color:#141416;pointer-events:none">04</div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,48px)">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">04 / BASE</div>
+    <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,72px);line-height:.92;text-transform:uppercase;margin-top:12px">Espacio, radio, sombra</h2>
+
+    <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px">
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px">
+        <div style="font-family:Anton,sans-serif;font-size:28px;line-height:1;text-transform:uppercase">Espaciado · escala de 4 px</div>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px;font-family:'JetBrains Mono',monospace;font-size:13px">
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-1</span><span style="color:#9A9AA0">4</span><div style="height:12px;width:4px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-2</span><span style="color:#9A9AA0">8</span><div style="height:12px;width:8px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-3</span><span style="color:#9A9AA0">12</span><div style="height:12px;width:12px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-4</span><span style="color:#9A9AA0">16</span><div style="height:12px;width:16px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-5</span><span style="color:#9A9AA0">20</span><div style="height:12px;width:20px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-6</span><span style="color:#9A9AA0">24</span><div style="height:12px;width:24px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-8</span><span style="color:#9A9AA0">32</span><div style="height:12px;width:32px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-10</span><span style="color:#9A9AA0">40</span><div style="height:12px;width:40px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-12</span><span style="color:#9A9AA0">48</span><div style="height:12px;width:48px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-16</span><span style="color:#9A9AA0">64</span><div style="height:12px;width:64px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-20</span><span style="color:#9A9AA0">80</span><div style="height:12px;width:80px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-24</span><span style="color:#9A9AA0">96</span><div style="height:12px;width:96px;background:#D4FF00"></div></div>
+          <div style="display:grid;grid-template-columns:72px 44px minmax(0,1fr);gap:12px;align-items:center"><span>esp-32</span><span style="color:#9A9AA0">128</span><div style="height:12px;width:128px;background:#D4FF00"></div></div>
+        </div>
+        <p style="margin-top:20px;font-size:14px;color:#9A9AA0">Área táctil mínima: 44 × 44 px (esp-11). Botones de app: 52 px de alto.</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px">
+          <div style="font-family:Anton,sans-serif;font-size:28px;line-height:1;text-transform:uppercase">Radios</div>
+          <div style="margin-top:24px;display:flex;gap:20px;flex-wrap:wrap">
+            <div style="display:flex;flex-direction:column;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0"><div style="width:88px;height:88px;border:2px solid #F2F0EB;border-radius:0"></div>radio-0 · 0<br>cintas, cortes</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0"><div style="width:88px;height:88px;border:2px solid #F2F0EB;border-radius:2px"></div>radio-1 · 2<br>badges, chips</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#D4FF00"><div style="width:88px;height:88px;border:2px solid #D4FF00;border-radius:4px"></div>radio-2 · 4<br>POR DEFECTO</div>
+          </div>
+          <p style="margin-top:16px;font-size:14px;color:#9A9AA0">No hay radio mayor a 4. Nada de píldoras ni burbujas; los únicos círculos son avatares y puntos de estado.</p>
+        </div>
+        <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px">
+          <div style="font-family:Anton,sans-serif;font-size:28px;line-height:1;text-transform:uppercase">Sombras</div>
+          <div style="margin-top:24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px">
+            <div style="display:flex;flex-direction:column;gap:12px"><div style="height:64px;background:#D4FF00;border-radius:4px;box-shadow:0 4px 0 #7E9900"></div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">sombra-golpe<br>0 4 0 #7E9900<br>botones: se aplasta a 2</div></div>
+            <div style="display:flex;flex-direction:column;gap:12px"><div style="height:64px;background:#1A1A1D;border-radius:4px;box-shadow:4px 4px 0 #2A2A2E;border:1px solid #2A2A2E"></div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">sombra-bloque<br>4 4 0 Grafito<br>tarjeta activa / hover</div></div>
+            <div style="display:flex;flex-direction:column;gap:12px"><div style="height:64px;background:#1A1A1D;border-radius:4px;box-shadow:0 24px 48px -12px rgba(0,0,0,.8),0 0 0 1px #2A2A2E"></div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">sombra-flotante<br>0 24 48 -12 negro 80%<br>modal, toast, menú</div></div>
+            <div style="display:flex;flex-direction:column;gap:12px"><div style="height:64px;background:#1A1A1D;border-radius:4px;box-shadow:0 0 0 2px #0B0B0C,0 0 0 4px #D4FF00"></div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">anillo-foco<br>2 Asfalto + 2 Voltaje<br>teclado, siempre visible</div></div>
+          </div>
+        </div>
+        <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px">
+          <div style="font-family:Anton,sans-serif;font-size:28px;line-height:1;text-transform:uppercase">Movimiento</div>
+          <div style="margin-top:16px;display:flex;flex-direction:column;font-family:'JetBrains Mono',monospace;font-size:13px">
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #2A2A2E"><span>golpe · 90 ms</span><span style="color:#9A9AA0">presionar botón (−2 px)</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #2A2A2E"><span>arranque · 600 ms</span><span style="color:#9A9AA0">barras que se llenan</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #2A2A2E"><span>conteo · 900 ms</span><span style="color:#9A9AA0">contadores que suben</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0"><span>curva</span><span style="color:#9A9AA0">cubic-bezier(.2,.8,.2,1)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="grafico" data-screen-label="05 Lenguaje gráfico" style="position:relative;overflow:hidden;padding:120px 0 96px;background:#0B0B0C;border-top:1px solid #2A2A2E">
+  <div style="position:absolute;right:-10px;top:40px;font-family:Anton,sans-serif;font-size:clamp(180px,28vw,400px);line-height:.8;color:#141416;pointer-events:none">05</div>
+  <div style="position:relative;max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,48px)">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">05 / LENGUAJE GRÁFICO</div>
+    <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(48px,6vw,72px);line-height:.92;text-transform:uppercase;margin-top:12px">Calle, concreto, ritmo</h2>
+
+    <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:16px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="position:relative;height:280px;background:#1A1A1D;border-radius:4px;overflow:hidden">
+          <div style="position:absolute;left:-10%;right:-10%;top:150px;height:300px;background:#D4FF00;transform:skewY(-7deg)"></div>
+          <div style="position:absolute;left:24px;top:24px;font-family:Anton,sans-serif;font-size:56px;line-height:.9;text-transform:uppercase">Corte<br>a 7°</div>
+          <div style="position:absolute;right:20px;bottom:20px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#0B0B0C;font-weight:700">skewY(−7°)</div>
+        </div>
+        <div style="font-size:15px;color:#9A9AA0"><strong style="color:#F2F0EB">Cortes diagonales.</strong> Entre secciones y en bloques grandes, de 6° a 8°, siempre subiendo hacia la derecha. Uno por pantalla.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="position:relative;height:280px;background:#1A1A1D;border-radius:4px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr">
+          <div style="display:flex;align-items:flex-end;padding:16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">SIN GRANO</div>
+          <div style="position:relative;display:flex;align-items:flex-end;padding:16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0;border-left:1px solid #2A2A2E"><div style="position:absolute;inset:0;pointer-events:none;opacity:.1;background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.8%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url%28%23n%29%27/%3E%3C/svg%3E)"></div><span style="position:relative">GRANO 6–10%</span></div>
+        </div>
+        <div style="font-size:15px;color:#9A9AA0"><strong style="color:#F2F0EB">Textura de concreto.</strong> Ruido fino al 6–10% de opacidad, solo en fondos grandes (hero, cortes). Nunca detrás de texto pequeño ni dentro de tarjetas de datos.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="position:relative;height:280px;background:#1A1A1D;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:28px">
+          <div style="height:20px;background:repeating-linear-gradient(-45deg,#D4FF00 0 14px,#0B0B0C 14px 28px)"></div>
+          <div style="align-self:center;background:#D4FF00;color:#0B0B0C;font-family:Anton,sans-serif;font-size:28px;padding:8px 16px;transform:rotate(-7deg);text-transform:uppercase">Zona de esfuerzo</div>
+          <div style="height:8px;margin:0 24px;background:repeating-linear-gradient(-45deg,#D4FF00 0 6px,#0B0B0C 6px 12px)"></div>
+        </div>
+        <div style="font-size:15px;color:#9A9AA0"><strong style="color:#F2F0EB">Cinta de obra.</strong> Diagonales a 45°, franjas de 14 px. Máximo una por pantalla: plan destacado, retos, cierre de sección.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="position:relative;height:280px;background:#1A1A1D;border-radius:4px;overflow:hidden">
+          <div style="position:absolute;right:-12px;bottom:-30px;font-family:Anton,sans-serif;font-size:240px;line-height:.8;color:#2A2A2E">IMC</div>
+          <div style="position:absolute;left:24px;top:24px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">TU IMC</div>
+          <div style="position:absolute;left:24px;top:48px;font-family:'JetBrains Mono',monospace;font-size:72px;font-weight:700;line-height:1;color:#D4FF00;letter-spacing:-.03em">24.6</div>
+        </div>
+        <div style="font-size:15px;color:#9A9AA0"><strong style="color:#F2F0EB">Números de fondo.</strong> Anton gigante en Grafito o contorno de 2 px, cortado por el borde. Es textura, no contenido: el dato real va encima.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:64px">
+      <div style="font-family:Anton,sans-serif;font-size:32px;line-height:1;text-transform:uppercase">Fotografía · duotono</div>
+      <p style="margin-top:12px;max-width:680px;font-size:16px;color:#9A9AA0;text-wrap:pretty">Gente real del barrio, luz dura, sombras marcadas. Todos los cuerpos y niveles. Tratamiento: escala de grises con contraste alto + Voltaje en multiplicar. Arrastra fotos a los recuadros para ver el tratamiento.</p>
+      <div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="position:relative;height:360px;border-radius:4px;overflow:hidden;isolation:isolate;background:#2A2A2E">
+            <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="foto-duo-1" shape="rect" placeholder="Mujer 40+ en sentadilla, luz de ventana"></image-slot></div>
+            <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">PRINCIPIANTE · LUZ LATERAL</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="position:relative;height:360px;border-radius:4px;overflow:hidden;isolation:isolate;background:#2A2A2E">
+            <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="foto-duo-2" shape="rect" placeholder="Hombre con sobrepeso en remo con mancuerna"></image-slot></div>
+            <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">CUERPO REAL · CONTRALUZ</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="position:relative;height:360px;border-radius:4px;overflow:hidden;isolation:isolate;background:#2A2A2E">
+            <div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="foto-duo-3" shape="rect" placeholder="Parche entrenando en el gimnasio del barrio"></image-slot></div>
+            <div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0">GRUPO · LUZ CENITAL DURA</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:64px">
+      <div style="font-family:Anton,sans-serif;font-size:32px;line-height:1;text-transform:uppercase">Iconos · trazo 2 px, esquinas rectas</div>
+      <div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:1px;background:#2A2A2E;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden">
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M3 11l9-7 9 7v10H3z"></path><path d="M10 21v-6h4v6"></path></svg>inicio</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"></path></svg>rutina</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M3 20h18"></path><path d="M4 16l5-5 4 3 7-7"></path><path d="M15 7h5v5"></path></svg>progreso</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M8 4h8v8H8z"></path><path d="M4 21l2-5h12l2 5"></path></svg>perfil</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><circle cx="12" cy="14" r="7"></circle><path d="M12 14v-4M9 3h6M18 7l1.5-1.5"></path></svg>tiempo</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg>intensidad</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg>ia</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M3 5h18v16H3zM3 10h18M8 3v4M16 3v4"></path></svg>calendario</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M12 22l-7-9V3h14v10z"></path><path d="M10 8h4"></path></svg>gimnasio</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M6 17V9h12v8l2 2H4z"></path><path d="M10 21h4M12 5v4"></path></svg>avisos</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M7 4l13 8-13 8z"></path></svg>iniciar</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3DDC84" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M4 12l5 5L20 6"></path></svg>listo</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFB020" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v1"></path></svg>alerta</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M6 6l12 12M18 6L6 18"></path></svg>cerrar</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M4 12h15M13 6l6 6-6 6"></path></svg>seguir</div>
+        <div style="background:#1A1A1D;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9A9AA0"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2F0EB" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>menú</div>
+      </div>
+    </div>
+
+    <div style="margin-top:64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px">
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px">
+        <div style="display:flex;align-items:center;gap:10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3DDC84" stroke-width="2" stroke-linecap="square"><path d="M4 12l5 5L20 6"></path></svg><span style="font-family:Anton,sans-serif;font-size:24px;line-height:1">ASÍ HABLAMOS</span></div>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;font-size:18px">
+          <div>“Arranca hoy.”</div><div>“Tu rutina, a tu medida.”</div><div>“Vas en la serie 3 de 4. ¡Dale, que ya casi!”</div><div>“Hoy no pudiste. Mañana retomamos, sin culpa.”</div>
+        </div>
+      </div>
+      <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:28px">
+        <div style="display:flex;align-items:center;gap:10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF3B3B" stroke-width="2" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"></path></svg><span style="font-family:Anton,sans-serif;font-size:24px;line-height:1">ASÍ NO</span></div>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;font-size:18px;color:#9A9AA0">
+          <div>“Optimice su rendimiento corporal.” <span style="font-size:14px">— frío, de usted</span></div><div>“¡¡DESTROZA TUS LÍMITES!!” <span style="font-size:14px">— grita</span></div><div>“Error 402: transacción fallida.” <span style="font-size:14px">— técnico</span></div><div>“Quema esa grasa.” <span style="font-size:14px">— juzga cuerpos</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="position:relative;overflow:hidden;background:#D4FF00;color:#0B0B0C;padding:80px 0 64px">
+  <div style="position:absolute;left:0;right:0;top:0;height:16px;background:repeating-linear-gradient(-45deg,#0B0B0C 0 14px,#D4FF00 14px 28px)"></div>
+  <div style="max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,48px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+    <div style="font-family:Anton,sans-serif;font-size:clamp(56px,9vw,120px);line-height:.88;text-transform:uppercase">Sin excusas,<br>sin costo.</div>
+    <a href="FitIA Componentes.dc.html" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;background:#0B0B0C;color:#D4FF00;border-radius:4px;font-weight:600;font-size:16px">Ver componentes <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"></path></svg></a>
+  </div>
+</footer>
+</x-dc>
+</body>
+</html>

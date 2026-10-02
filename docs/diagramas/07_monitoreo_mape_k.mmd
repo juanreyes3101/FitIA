@@ -1,0 +1,34 @@
+---
+title: FitIA — Monitoreo inteligente basado en redes autónomas (ciclo MAPE-K)
+---
+flowchart LR
+    REQ["Peticiones HTTP<br/>web · móvil · exe"] --> MW["Middleware Flask<br/>mide latencia, código HTTP, RPS"]
+    MW --> MET[("metricas")]
+
+    subgraph LOOP["Worker cada 60 s (APScheduler)"]
+        direction TB
+        M["<b>M · Monitor</b><br/>lee últimos N min<br/>por servicio y métrica"]
+        A["<b>A · Analizar</b><br/>Pandas: media y σ móviles (EWMA)<br/>z = (x − μ) / σ"]
+        D{"|z| > 3<br/>o error > 5 %?"}
+        P["<b>P · Planificar</b><br/>tabla de políticas<br/>severidad → acción"]
+        E["<b>E · Ejecutar</b><br/>acción simulada"]
+        M --> A --> D
+        D -- no --> OK["actualizar línea base<br/>servicio SALUDABLE"]
+        D -- sí --> P --> E
+    end
+
+    MET --> M
+    A --> LB[("lineas_base<br/><b>K · Knowledge</b>")]
+    LB --> A
+    D -- sí --> AN[("anomalias")]
+    E --> AR[("acciones_remediacion")]
+
+    E --> X1["⬆️ escalar réplicas API<br/>(latencia alta + RPS alto)"]
+    E --> X2["🔁 reiniciar worker<br/>(errores 5xx)"]
+    E --> X3["🔀 cambiar proveedor IA<br/>(IA lenta o caída → Mock/Gemini)"]
+    E --> X4["⬇️ reducir réplicas<br/>(tráfico bajo sostenido)"]
+    E --> X5["🔔 notificar admin<br/>(severidad CRÍTICA)"]
+
+    AN --> CON["Consola .exe<br/>gráficas en vivo + bitácora"]
+    AR --> CON
+    E -. "verifica en el siguiente ciclo" .-> M

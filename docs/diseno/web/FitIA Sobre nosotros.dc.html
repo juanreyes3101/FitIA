@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>*{box-sizing:border-box}html,body{margin:0;background:#0B0B0C;color:#F2F0EB;font-family:'Inter Tight',system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}body{overflow-x:clip}a{color:#D4FF00}a:hover{color:#E1FF4D}h1,h2,h3,p{margin:0}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
+</helmet>
+<dc-import name="FitiaNav" active="nosotros" hint-size="100%,1px"></dc-import>
+
+<section data-screen-label="Nosotros · Hero" style="position:relative;overflow:hidden;padding:160px 0 120px">
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:.08;background-image:url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.8%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url%28%23n%29%27/%3E%3C/svg%3E)"></div>
+  <div style="position:absolute;right:-2vw;bottom:-4vw;font-family:Anton,sans-serif;font-size:clamp(160px,26vw,420px);line-height:.8;color:transparent;-webkit-text-stroke:2px #1F1F23;pointer-events:none">BOG</div>
+  <div data-reveal="0" style="position:relative;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:flex;flex-direction:column;gap:24px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">SOBRE NOSOTROS · PROYECTO INTEGRADOR CUN 2026</div>
+    <h1 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(64px,9vw,152px);line-height:.88;text-transform:uppercase">Hecho en Bogotá.<br><span style="color:#D4FF00">Para el barrio.</span></h1>
+    <p style="max-width:600px;font-size:19px;line-height:1.45;text-wrap:pretty">Somos estudiantes de Ingeniería de Sistemas de la CUN. FitIA nació de algo que vemos todos los días: gimnasios llenos de ganas y vacíos de acompañamiento.</p>
+  </div>
+</section>
+
+<section data-screen-label="Nosotros · Problema" style="padding:96px 0;border-top:1px solid #2A2A2E">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(32px,5vw,80px)">
+    <div data-reveal="0" style="display:flex;flex-direction:column;gap:20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#FF4D1A;letter-spacing:.06em">EL PROBLEMA</div>
+      <h2 style="font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,5vw,80px);line-height:.92;text-transform:uppercase">Hay gimnasio.<br>Falta quién<br>te guíe.</h2>
+      <p style="max-width:520px;font-size:17px;color:#9A9AA0;text-wrap:pretty">En los gimnasios de barrio de estratos 1, 2 y 3 hay máquinas, buena música y gente con ganas. Lo que casi nunca hay es un profesional que arme rutinas a la medida y corrija. La gente copia lo que ve, se lesiona o se aburre, y vuelve al sedentarismo.</p>
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <div data-reveal="0" style="display:grid;grid-template-columns:72px minmax(0,1fr);gap:20px;padding:28px 0;border-top:1px solid #2A2A2E"><span style="font-family:Anton,sans-serif;font-size:56px;line-height:.85;color:#FF4D1A">01</span><div><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Sedentarismo</h3><p style="margin-top:8px;color:#9A9AA0">Sin un plan claro, la constancia se pierde en pocas semanas.</p></div></div>
+      <div data-reveal="100" style="display:grid;grid-template-columns:72px minmax(0,1fr);gap:20px;padding:28px 0;border-top:1px solid #2A2A2E"><span style="font-family:Anton,sans-serif;font-size:56px;line-height:.85;color:#FF4D1A">02</span><div><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Rutinas copiadas</h3><p style="margin-top:8px;color:#9A9AA0">Lo que le sirve al vecino no siempre le sirve a tu cuerpo ni a tus molestias.</p></div></div>
+      <div data-reveal="200" style="display:grid;grid-template-columns:72px minmax(0,1fr);gap:20px;padding:28px 0;border-top:1px solid #2A2A2E;border-bottom:1px solid #2A2A2E"><span style="font-family:Anton,sans-serif;font-size:56px;line-height:.85;color:#FF4D1A">03</span><div><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:28px;line-height:1;text-transform:uppercase">Entrenador caro</h3><p style="margin-top:8px;color:#9A9AA0">Un entrenador personal está fuera del bolsillo de la mayoría.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Nosotros · Misión" style="position:relative;overflow:hidden;padding:160px 0">
+  <div style="position:absolute;left:0;right:0;top:80px;bottom:80px;background:#D4FF00;transform:skewY(-7deg)"></div>
+  <div data-reveal="0" style="position:relative;max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px);color:#0B0B0C">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.06em">NUESTRA MISIÓN</div>
+    <p style="margin-top:20px;font-family:Anton,sans-serif;font-size:clamp(40px,5.4vw,88px);line-height:.95;text-transform:uppercase;max-width:16ch">Que cualquiera, en cualquier gimnasio del barrio, entrene con una rutina hecha a su medida. Gratis.</p>
+  </div>
+</section>
+
+<section id="equipo" data-screen-label="Nosotros · Equipo" style="padding:96px 0;scroll-margin-top:64px">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px)">
+    <div data-reveal="0" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">EL EQUIPO</div><h2 style="margin-top:12px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,5vw,80px);line-height:.92;text-transform:uppercase">Cuatro del parche</h2></div>
+      <p style="max-width:380px;color:#9A9AA0">Estudiantes de Ingeniería de Sistemas · Corporación Unificada Nacional de Educación Superior (CUN).</p>
+    </div>
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+      <figure data-reveal="0" style="margin:0;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;transition:transform 150ms,box-shadow 150ms" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #D4FF00">
+        <div style="position:relative;aspect-ratio:4/5;isolation:isolate;background:#2A2A2E"><div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="equipo-reyes" shape="rect" placeholder="Foto: Juan Reyes"></image-slot></div><div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div><span style="position:absolute;right:12px;bottom:-10px;font-family:Anton,sans-serif;font-size:80px;line-height:1;color:#0B0B0C;pointer-events:none">01</span></div>
+        <figcaption style="padding:20px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1;text-transform:uppercase">Juan Reyes</div><div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">ING. DE SISTEMAS · CUN</div></figcaption>
+      </figure>
+      <figure data-reveal="100" style="margin:0;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;transition:transform 150ms,box-shadow 150ms" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #D4FF00">
+        <div style="position:relative;aspect-ratio:4/5;isolation:isolate;background:#2A2A2E"><div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="equipo-delgado" shape="rect" placeholder="Foto: Juan Delgado"></image-slot></div><div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div><span style="position:absolute;right:12px;bottom:-10px;font-family:Anton,sans-serif;font-size:80px;line-height:1;color:#0B0B0C;pointer-events:none">02</span></div>
+        <figcaption style="padding:20px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1;text-transform:uppercase">Juan Delgado</div><div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">ING. DE SISTEMAS · CUN</div></figcaption>
+      </figure>
+      <figure data-reveal="200" style="margin:0;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;transition:transform 150ms,box-shadow 150ms" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #D4FF00">
+        <div style="position:relative;aspect-ratio:4/5;isolation:isolate;background:#2A2A2E"><div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="equipo-vargas" shape="rect" placeholder="Foto: Vanesa Vargas"></image-slot></div><div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div><span style="position:absolute;right:12px;bottom:-10px;font-family:Anton,sans-serif;font-size:80px;line-height:1;color:#0B0B0C;pointer-events:none">03</span></div>
+        <figcaption style="padding:20px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1;text-transform:uppercase">Vanesa Vargas</div><div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">ING. DE SISTEMAS · CUN</div></figcaption>
+      </figure>
+      <figure data-reveal="300" style="margin:0;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden;transition:transform 150ms,box-shadow 150ms" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 #D4FF00">
+        <div style="position:relative;aspect-ratio:4/5;isolation:isolate;background:#2A2A2E"><div style="position:absolute;inset:0;filter:grayscale(1) contrast(1.35)"><image-slot id="equipo-castaneda" shape="rect" placeholder="Foto: Santiago Castañeda"></image-slot></div><div style="position:absolute;inset:0;background:#D4FF00;mix-blend-mode:multiply;pointer-events:none"></div><span style="position:absolute;right:12px;bottom:-10px;font-family:Anton,sans-serif;font-size:80px;line-height:1;color:#0B0B0C;pointer-events:none">04</span></div>
+        <figcaption style="padding:20px"><div style="font-family:Anton,sans-serif;font-size:26px;line-height:1;text-transform:uppercase">Santiago Castañeda</div><div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#9A9AA0">ING. DE SISTEMAS · CUN</div></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="tecnologia" data-screen-label="Nosotros · Tecnología" style="padding:96px 0 120px;border-top:1px solid #2A2A2E;scroll-margin-top:64px">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,56px)">
+    <div data-reveal="0"><div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#D4FF00;letter-spacing:.06em">LA TECNOLOGÍA</div><h2 style="margin-top:12px;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(44px,5vw,80px);line-height:.92;text-transform:uppercase">Cuatro piezas,<br>un sistema.</h2></div>
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1px;background:#2A2A2E;border:1px solid #2A2A2E;border-radius:4px;overflow:hidden">
+      <div data-reveal="0" style="background:#0B0B0C;padding:32px 28px;display:flex;flex-direction:column;gap:16px"><span style="width:56px;height:56px;background:#D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="2" stroke-linecap="square"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"></path></svg></span><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:32px;line-height:1;text-transform:uppercase">IA</h3><p style="color:#9A9AA0">Genera rutinas con tu peso, estatura, nivel y molestias, y las ajusta según cómo te va.</p></div>
+      <div data-reveal="100" style="background:#0B0B0C;padding:32px 28px;display:flex;flex-direction:column;gap:16px"><span style="width:56px;height:56px;border:2px solid #D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M3 4h18v13H3zM8 21h8M12 17v4"></path></svg></span><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:32px;line-height:1;text-transform:uppercase">Web</h3><p style="color:#9A9AA0">Este sitio y la versión web de la app: registro, calculadora y rutinas desde cualquier navegador.</p></div>
+      <div data-reveal="200" style="background:#0B0B0C;padding:32px 28px;display:flex;flex-direction:column;gap:16px"><span style="width:56px;height:56px;border:2px solid #D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M7 2h10v20H7zM11 18h2"></path></svg></span><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:32px;line-height:1;text-transform:uppercase">App móvil</h3><p style="color:#9A9AA0">Tu rutina en el bolsillo: marca series, cronómetro de descanso y tu progreso.</p></div>
+      <div data-reveal="300" style="background:#0B0B0C;padding:32px 28px;display:flex;flex-direction:column;gap:16px"><span style="width:56px;height:56px;border:2px solid #D4FF00;border-radius:4px;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D4FF00" stroke-width="2" stroke-linecap="square"><path d="M3 20h18M4 16l5-5 4 3 7-7M15 7h5v5"></path></svg></span><h3 style="font-family:Anton,sans-serif;font-weight:400;font-size:32px;line-height:1;text-transform:uppercase">Monitoreo</h3><p style="color:#9A9AA0">App de escritorio para el gimnasio: asistencia, progreso de sus miembros y alertas.</p></div>
+    </div>
+    <div data-reveal="0" style="margin-top:64px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding:32px;background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px">
+      <p style="font-family:Anton,sans-serif;font-size:clamp(32px,3.4vw,48px);line-height:1;text-transform:uppercase">¿Tienes un gimnasio de barrio?</p>
+      <a href="#" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border:2px solid #F2F0EB;border-radius:4px;color:#F2F0EB;font-size:16px;font-weight:600;text-decoration:none" style-hover="background:#F2F0EB;color:#0B0B0C" style-active="transform:translateY(2px)" style-focus="outline:2px solid #D4FF00;outline-offset:3px">Hablemos por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<dc-import name="FitiaFooter" hint-size="100%,560px"></dc-import>
+</x-dc>
+</body>
+</html>

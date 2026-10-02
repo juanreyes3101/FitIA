@@ -1,0 +1,251 @@
+---
+title: FitIA — Modelo Entidad-Relación (MySQL)
+config:
+  er:
+    layoutDirection: LR
+---
+erDiagram
+    roles ||--o{ usuarios : "asigna"
+    usuarios ||--o| entrenadores : "se especializa"
+    usuarios ||--o| perfiles_salud : "tiene"
+    usuarios ||--o{ mediciones_corporales : "registra"
+    usuarios ||--o{ usuario_condiciones : "presenta"
+    condiciones ||--o{ usuario_condiciones : "clasifica"
+    condiciones ||--o{ contraindicaciones : "restringe"
+    ejercicios ||--o{ contraindicaciones : "tiene"
+    grupos_musculares ||--o{ ejercicios : "agrupa"
+    equipamiento ||--o{ ejercicios : "requiere"
+    usuarios ||--o{ rutinas : "recibe"
+    entrenadores |o--o{ rutinas : "revisa"
+    rutinas ||--|{ rutina_dias : "se divide en"
+    rutina_dias ||--|{ rutina_ejercicios : "contiene"
+    ejercicios ||--o{ rutina_ejercicios : "se usa en"
+    usuarios ||--o{ solicitudes_ia : "genera"
+    rutinas |o--o{ solicitudes_ia : "resulta de"
+    usuarios ||--o{ sesiones_entrenamiento : "realiza"
+    rutina_dias |o--o{ sesiones_entrenamiento : "se ejecuta en"
+    sesiones_entrenamiento ||--o{ sesion_ejercicios : "detalla"
+    ejercicios ||--o{ sesion_ejercicios : "registrado en"
+    planes ||--o{ suscripciones : "define"
+    usuarios ||--o{ suscripciones : "contrata"
+    usuarios ||--o{ pagos : "realiza"
+    suscripciones |o--o{ pagos : "se activa con"
+    servicios ||--o{ metricas : "emite"
+    servicios ||--o{ lineas_base : "aprende"
+    servicios ||--o{ anomalias : "sufre"
+    lineas_base |o--o{ anomalias : "referencia"
+    anomalias ||--o{ acciones_remediacion : "dispara"
+
+    roles {
+        tinyint id PK
+        varchar codigo UK
+        varchar nombre
+    }
+    usuarios {
+        int id PK
+        tinyint rol_id FK
+        varchar nombres
+        varchar apellidos
+        varchar email UK
+        varchar password_hash
+        date fecha_nacimiento
+        enum sexo
+        enum estado
+        bool acepta_terminos
+        datetime creado_en
+    }
+    entrenadores {
+        int usuario_id PK,FK
+        varchar especialidad
+        varchar certificacion
+        bool activo
+    }
+    auditoria {
+        bigint id PK
+        varchar tabla
+        bigint registro_id
+        enum accion
+        json datos
+        datetime creado_en
+    }
+    perfiles_salud {
+        int usuario_id PK,FK
+        enum nivel_actividad
+        enum objetivo
+        tinyint dias_disponibles
+        smallint minutos_por_sesion
+        enum lugar_entreno
+    }
+    mediciones_corporales {
+        int id PK
+        int usuario_id FK
+        decimal peso_kg
+        decimal estatura_cm
+        decimal imc "columna generada"
+        decimal cintura_cm
+        datetime registrado_en
+    }
+    condiciones {
+        smallint id PK
+        varchar codigo UK
+        varchar nombre
+        enum origen "IMC o AUTORREPORTE"
+    }
+    usuario_condiciones {
+        int usuario_id PK,FK
+        smallint condicion_id PK,FK
+        tinyint severidad
+        bool activa
+        date desde
+    }
+    grupos_musculares {
+        tinyint id PK
+        varchar nombre UK
+    }
+    equipamiento {
+        tinyint id PK
+        varchar nombre UK
+    }
+    ejercicios {
+        int id PK
+        varchar nombre UK
+        enum tipo
+        tinyint grupo_muscular_id FK
+        tinyint equipamiento_id FK
+        enum dificultad
+        enum impacto
+        bool apto_lumbar
+    }
+    contraindicaciones {
+        int ejercicio_id PK,FK
+        smallint condicion_id PK,FK
+        varchar motivo
+    }
+    rutinas {
+        int id PK
+        int usuario_id FK
+        int entrenador_revisor_id FK
+        varchar nombre
+        enum origen
+        enum estado
+        tinyint semanas
+    }
+    rutina_dias {
+        int id PK
+        int rutina_id FK
+        tinyint dia_numero
+        varchar enfoque
+    }
+    rutina_ejercicios {
+        int id PK
+        int rutina_dia_id FK
+        int ejercicio_id FK
+        tinyint orden
+        tinyint series
+        tinyint repeticiones
+        smallint duracion_seg
+        smallint descanso_seg
+    }
+    solicitudes_ia {
+        bigint id PK
+        int usuario_id FK
+        int rutina_id FK
+        varchar proveedor
+        varchar modelo
+        int tokens_entrada
+        int tokens_salida
+        int latencia_ms
+        enum estado
+    }
+    sesiones_entrenamiento {
+        int id PK
+        int usuario_id FK
+        int rutina_dia_id FK
+        datetime fecha
+        tinyint esfuerzo_percibido
+        tinyint dolor_reportado
+        bool completada
+    }
+    sesion_ejercicios {
+        int sesion_id PK,FK
+        int ejercicio_id PK,FK
+        tinyint series_hechas
+        tinyint reps_hechas
+        decimal peso_kg
+    }
+    planes {
+        tinyint id PK
+        varchar codigo UK
+        decimal precio_cop
+        smallint duracion_dias
+        bool con_publicidad
+        tinyint rutinas_ia_mes
+    }
+    suscripciones {
+        int id PK
+        int usuario_id FK
+        tinyint plan_id FK
+        date fecha_inicio
+        date fecha_fin
+        enum estado
+    }
+    pagos {
+        int id PK
+        int usuario_id FK
+        int suscripcion_id FK
+        decimal monto_cop
+        enum metodo
+        char ultimos4
+        varchar referencia UK
+        enum estado
+        bool simulado
+    }
+    anuncios {
+        smallint id PK
+        varchar anunciante
+        enum ubicacion
+        int impresiones
+        int clics
+    }
+    servicios {
+        tinyint id PK
+        varchar codigo UK
+        tinyint replicas_actuales
+        tinyint replicas_min
+        tinyint replicas_max
+        enum estado
+    }
+    metricas {
+        bigint id PK
+        tinyint servicio_id FK
+        enum metrica
+        decimal valor
+        datetime registrado_en
+    }
+    lineas_base {
+        int id PK
+        tinyint servicio_id FK
+        enum metrica
+        decimal media
+        decimal desviacion
+        decimal p95
+        smallint ventana_min
+    }
+    anomalias {
+        bigint id PK
+        tinyint servicio_id FK
+        int linea_base_id FK
+        decimal valor_observado
+        decimal valor_esperado
+        decimal zscore
+        enum severidad
+        enum estado
+    }
+    acciones_remediacion {
+        bigint id PK
+        bigint anomalia_id FK
+        enum tipo
+        tinyint replicas_antes
+        tinyint replicas_despues
+        enum resultado
+    }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div data-screen-label="Planes y anuncios" style="display:flex;flex-direction:column;gap:14px;animation:fitia-in 300ms cubic-bezier(.2,.8,.2,1)">
+  <header><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:#D4FF00">PRECIOS EN COP · COBROS SIMULADOS</div><h1 style="margin-top:4px;font-family:Anton,sans-serif;font-weight:400;font-size:40px;line-height:.95;text-transform:uppercase">Planes y anuncios</h1></header>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+    <sc-for list="{{ planes }}" as="p" hint-placeholder-count="3">
+      <div style="background:#1A1A1D;border:1px solid {{ p.bd }};border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:Anton,sans-serif;font-size:22px">{{ p.n }}</span><button role="switch" aria-checked="{{ p.on }}" onClick="{{ p.toggle }}" style="display:flex;align-items:center;gap:6px;border:0;background:transparent;color:{{ p.stC }};font-size:12px;font-weight:700;cursor:pointer">{{ p.st }}<span style="width:34px;height:18px;background:{{ p.sw }};position:relative"><span style="position:absolute;top:2px;left:{{ p.kl }};width:14px;height:14px;background:#0B0B0C;transition:left 150ms"></span></span></button></div>
+        <label style="display:flex;align-items:center;gap:6px"><span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700">$</span><input value="{{ p.precio }}" onChange="{{ p.onPrecio }}" inputmode="numeric" aria-label="Precio {{ p.n }}" style="width:130px;min-height:36px;padding:0 8px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;color:#F2F0EB;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700" style-focus="outline:none;border-color:#D4FF00"><span style="font-size:13px;color:#9A9AA0">{{ p.per }}</span></label>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-size:12px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700">{{ p.subs }}</div><span style="color:#9A9AA0">SUSCRIPTORES</span></div><div><div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700">{{ p.cupo }}</div><span style="color:#9A9AA0">RUTINAS IA/MES</span></div><div><div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700">{{ p.ads }}</div><span style="color:#9A9AA0">ANUNCIOS</span></div></div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="background:#1A1A1D;border:1px solid #2A2A2E;border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-family:Anton,sans-serif;font-size:20px">ANUNCIOS · SOLO PLAN FREE</span>
+      <div style="display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9A9AA0"><span>IMPRESIONES <strong style="color:#F2F0EB">{{ totImp }}</strong></span><span>CLICS <strong style="color:#F2F0EB">{{ totClk }}</strong></span><span>CTR <strong style="color:#D4FF00">{{ totCtr }}</strong></span></div>
+      <button onClick="{{ nuevo }}" style="min-height:34px;padding:0 12px;border:0;border-radius:4px;background:#D4FF00;color:#0B0B0C;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #7E9900">+ Nuevo anuncio</button>
+    </div>
+    <sc-if value="{{ form }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:2fr 1.5fr 1fr auto;gap:8px;padding:10px;border:1px solid #D4FF00;border-radius:4px;background:#141416">
+        <input value="{{ fA }}" onChange="{{ onA }}" placeholder="Anunciante" style="min-height:34px;padding:0 10px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;color:#F2F0EB">
+        <input value="{{ fT }}" onChange="{{ onT }}" placeholder="Texto corto" style="min-height:34px;padding:0 10px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;color:#F2F0EB">
+        <select value="{{ fP }}" onChange="{{ onP }}" style="min-height:34px;padding:0 8px;background:#0B0B0C;border:1px solid #2A2A2E;border-radius:4px;color:#F2F0EB"><option>Inicio</option><option>Fin de sesión</option><option>Biblioteca</option></select>
+        <button onClick="{{ crear }}" style="min-height:34px;padding:0 12px;border:0;border-radius:4px;background:#F2F0EB;color:#0B0B0C;font-weight:700;cursor:pointer">Crear</button>
+      </div>
+    </sc-if>
+    <table>
+      <thead><tr><sc-for list="{{ heads }}" as="h" hint-placeholder-count="8"><th style="text-align:{{ h.al }};padding:8px 10px;font-size:11px;letter-spacing:.06em;color:#9A9AA0;white-space:nowrap">{{ h.l }}</th></sc-for></tr></thead>
+      <tbody>
+        <sc-for list="{{ ads }}" as="a" hint-placeholder-count="5">
+          <tr style="border-top:1px solid #2A2A2E;opacity:{{ a.op }}" style-hover="background:#202024">
+            <td style="padding:8px 10px"><strong style="display:block;font-size:13px">{{ a.anun }}</strong><span style="font-size:12px;color:#9A9AA0">{{ a.txt }}</span></td>
+            <td style="padding:8px 10px;font-size:13px">{{ a.pos }}</td>
+            <td style="padding:8px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:13px">{{ a.impT }}</td>
+            <td style="padding:8px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:13px">{{ a.clkT }}</td>
+            <td style="padding:8px 10px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:13px;color:{{ a.ctrC }}">{{ a.ctr }}</td>
+            <td style="padding:8px 10px;width:140px"><div style="height:8px;background:#2A2A2E"><div style="height:100%;width:{{ a.w }};background:{{ a.barC }}"></div></div></td>
+            <td style="padding:8px 10px"><button onClick="{{ a.toggle }}" style="min-height:28px;padding:0 10px;border:1px solid {{ a.stBd }};border-radius:2px;background:transparent;color:{{ a.stC }};font-size:11px;font-weight:700;cursor:pointer">{{ a.st }}</button></td>
+            <td style="padding:8px 10px;text-align:right"><button onClick="{{ a.del }}" aria-label="Eliminar anuncio" style="width:28px;height:28px;border:0;border-radius:2px;background:transparent;color:#9A9AA0;cursor:pointer" style-hover="color:#FF3B3B;background:rgba(255,59,59,.12)">✕</button></td>
+          </tr>
+        </sc-for>
+      </tbody>
+    </table>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ADS0 = [['Deportes El Campeón', 'Tenis desde $89.900 · 10 % con FitIA', 'Inicio', 48210, 1012, true], ['Proteína Barrio', 'Batido post-entreno $6.000', 'Fin de sesión', 31540, 1104, true], ['Fisio Kennedy', 'Valoración lumbar $35.000', 'Biblioteca', 12880, 618, true], ['Mercado La 68', 'Frutas para tu semana', 'Inicio', 22400, 201, false], ['Gym Bosa Fit', 'Matrícula gratis en octubre', 'Fin de sesión', 18320, 512, true]].map((a, i) => ({ id: i, anun: a[0], txt: a[1], pos: a[2], imp: a[3], clk: a[4], on: a[5] }));
+class Component extends DCLogic {
+  state = { ads: ADS0, pl: [{ n: 'FITIA FREE', precio: '0', per: 'siempre', subs: '1.067', cupo: 2, ads: 'SÍ', on: true }, { n: 'PRO MENSUAL', precio: '19.900', per: '/mes', subs: '171', cupo: 10, ads: 'NO', on: true }, { n: 'PRO ANUAL', precio: '199.000', per: '/año', subs: '46', cupo: 10, ads: 'NO', on: true }], form: false, f: { a: '', t: '', p: 'Inicio' } };
+  renderVals() {
+    const c = this.props.ctl || {}; const s = this.state;
+    const act = s.ads.filter(a => a.on); const ti = act.reduce((x, a) => x + a.imp, 0), tc = act.reduce((x, a) => x + a.clk, 0);
+    const maxCtr = Math.max(...s.ads.map(a => a.clk / a.imp));
+    const fmt = n => n.toLocaleString('es-CO');
+    return {
+      planes: s.pl.map((p, i) => ({ ...p, bd: i === 0 ? '#D4FF00' : '#2A2A2E', st: p.on ? 'ACTIVO' : 'PAUSADO', stC: p.on ? '#3DDC84' : '#9A9AA0', sw: p.on ? '#3DDC84' : '#2A2A2E', kl: p.on ? '18px' : '2px', toggle: () => { this.setState({ pl: s.pl.map((x, k) => k === i ? { ...x, on: !x.on } : x) }); c.toast(p.on ? 'warn' : 'ok', p.on ? 'Plan pausado' : 'Plan activo', p.n); }, onPrecio: e => { const v = e.target.value.replace(/\D/g, ''); this.setState({ pl: s.pl.map((x, k) => k === i ? { ...x, precio: v ? Number(v).toLocaleString('es-CO') : '' } : x) }); } })),
+      totImp: fmt(ti), totClk: fmt(tc), totCtr: (ti ? tc / ti * 100 : 0).toFixed(2).replace('.', ',') + ' %',
+      heads: [['ANUNCIO', 'left'], ['UBICACIÓN', 'left'], ['IMPRESIONES', 'right'], ['CLICS', 'right'], ['CTR', 'right'], ['', 'left'], ['ESTADO', 'left'], ['', 'right']].map(([l, al]) => ({ l, al })),
+      ads: s.ads.map(a => { const ctr = a.clk / a.imp; return { ...a, impT: fmt(a.imp), clkT: fmt(a.clk), ctr: (ctr * 100).toFixed(2).replace('.', ',') + ' %', ctrC: ctr > 0.03 ? '#D4FF00' : ctr < 0.01 ? '#FF4D1A' : '#F2F0EB', w: (ctr / maxCtr * 100) + '%', barC: ctr > 0.03 ? '#D4FF00' : '#5A5A60', op: a.on ? 1 : .55, st: a.on ? 'ACTIVO' : 'PAUSADO', stC: a.on ? '#3DDC84' : '#9A9AA0', stBd: a.on ? '#3DDC84' : '#2A2A2E', toggle: () => this.setState({ ads: s.ads.map(x => x.id === a.id ? { ...x, on: !x.on } : x) }), del: () => { this.setState({ ads: s.ads.filter(x => x.id !== a.id) }); c.toast('warn', 'Anuncio eliminado', a.anun); } }; }),
+      form: s.form, nuevo: () => this.setState({ form: !s.form }), fA: s.f.a, fT: s.f.t, fP: s.f.p,
+      onA: e => this.setState({ f: { ...s.f, a: e.target.value } }), onT: e => this.setState({ f: { ...s.f, t: e.target.value } }), onP: e => this.setState({ f: { ...s.f, p: e.target.value } }),
+      crear: () => { if (!s.f.a.trim()) { c.toast('err', 'Falta el anunciante', ''); return; } this.setState({ ads: [{ id: Date.now(), anun: s.f.a, txt: s.f.t, pos: s.f.p, imp: 1, clk: 0, on: true }, ...s.ads], form: false, f: { a: '', t: '', p: 'Inicio' } }); c.toast('ok', 'Anuncio creado', s.f.a); }
+    };
+  }
+}
+</script>
+</body>
+</html>
