@@ -24,6 +24,17 @@ py -3.13 -m venv .venv
 .venv\Scripts\flask --app wsgi run --debug
 ```
 
+### API en la red WiFi (para la app móvil con Expo Go)
+
+```bash
+npm run api:lan          # desde la raíz = .venv\Scripts\flask --app wsgi run --host 0.0.0.0 --port 5000
+```
+
+- Escucha en todas las interfaces, así el celular la alcanza en `http://<IP-de-la-PC>:5000/api/v1` (en el equipo de desarrollo, `192.168.0.10`).
+- **Sin `--debug`**: el depurador de Werkzeug permite ejecutar código y no debe quedar expuesto a la red.
+- El firewall de Windows se abre **solo en el perfil Privado** (ver `apps/mobile/README.md`).
+- La app nativa no necesita CORS. `CORS_ORIGINS` ya incluye `http://localhost:8081` para la vista web de Expo.
+
 `SHOW VIEW` es necesario porque la app **refleja** el esquema (tablas y vistas) desde MySQL al arrancar: `schema.sql` es la única fuente de verdad y no hay una segunda copia del modelo en Python.
 
 ## Decisiones y desviaciones

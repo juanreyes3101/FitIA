@@ -36,7 +36,7 @@ Los tres consumen **una sola API** (Flask) conectada a **MySQL**.
 | 2b | Diagramas | `docs/diagramas/` | ✅ 7 diagramas |
 | 3 | Backend: API + IA + validador | **Claude Code** → `docs/03_prompts_claude_code.md` | Prompt listo |
 | 4 | Web | Claude Code | Prompt listo |
-| 5 | App móvil + APK | Claude Code | Prompt listo |
+| 5 | App móvil + APK | Claude Code → `apps/mobile/` | ✅ App hecha · APK por generar (`apps/mobile/README.md`) |
 | 6 | Monitoreo autónomo + ejecutable .exe | Claude Code | Prompt listo |
 | 7 | Docker, pruebas de punta a punta, manual y guion de sustentación | Claude Code | Prompt listo |
 

@@ -4,9 +4,11 @@
   "description": "Monorepo de FitIA: packages/shared + apps (web, móvil, escritorio)",
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps/web"
   ],
   "scripts": {
-    "web": "npm -w apps/web run dev"
+    "web": "npm -w apps/web run dev",
+    "api:lan": "cd backend && .venv\\Scripts\\flask --app wsgi run --host 0.0.0.0 --port 5000",
+    "movil": "npm --prefix apps/mobile run start"
   }
 }
