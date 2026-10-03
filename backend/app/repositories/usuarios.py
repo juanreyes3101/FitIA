@@ -36,10 +36,11 @@ def marcar_acceso(conn, usuario_id: int) -> None:
 
 
 def listar(conn, rol: str | None = None, estado: str | None = None):
-    u, r = tabla("usuarios"), tabla("roles")
+    u, r, v = tabla("usuarios"), tabla("roles"), tabla("v_usuario_resumen")
     q = (select(u.c.id, u.c.nombres, u.c.apellidos, u.c.email, u.c.telefono, u.c.estado,
-                u.c.creado_en, u.c.ultimo_acceso, r.c.codigo.label("rol"))
-         .join(r, r.c.id == u.c.rol_id).order_by(u.c.id))
+                u.c.creado_en, u.c.ultimo_acceso, r.c.codigo.label("rol"),
+                v.c.peso_kg, v.c.imc, v.c.clasificacion_imc, v.c.plan)
+         .join(r, r.c.id == u.c.rol_id).outerjoin(v, v.c.usuario_id == u.c.id).order_by(u.c.id))
     if rol:
         q = q.where(r.c.codigo == rol)
     if estado:

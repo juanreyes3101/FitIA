@@ -32,8 +32,9 @@ FitIA genera rutinas de ejercicio personalizadas con IA según el IMC y las mole
 - BD: `mysql -u root -p < database/schema.sql && mysql -u root -p fitia < database/seed.sql`
 - API: `cd backend && pip install -r requirements.txt && flask --app wsgi run --debug`
 - Pruebas: `cd backend && pytest`
+- Worker de monitoreo MAPE-K (proceso aparte): `npm run worker` (= `cd backend && .venv\Scripts\python -m app.monitoring.worker`; para la demo, `MONITOR_INTERVAL_SEG=15`)
 - Web: `cd apps/web && npm i && npm run dev`
 - API en la WiFi (para el celular): `npm run api:lan` (sin `--debug`; firewall solo en perfil Privado)
 - Móvil: `cd apps/mobile && npm i && npx expo start` (escanear con Expo Go). Va fuera de los workspaces de npm (React 19 vs. 18 de la web). Desbordes: `npm --prefix apps/mobile run revision`
-- Escritorio: `cd apps/desktop && npm run dev` · instalador: `npm run dist`
+- Escritorio (FitIA Control, en los workspaces): `npm run desktop` · instalador: `npm run desktop:dist` → `apps/desktop/release/FitIA Control Setup.exe` · revisión: `npm -w apps/desktop run revision [-- --pico]`
 - Todo junto: `docker compose up`

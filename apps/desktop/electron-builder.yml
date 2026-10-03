@@ -1,0 +1,24 @@
+# Instalador de Windows "FitIA Control Setup.exe" (npm run dist). Sin firma de código: costo $0.
+# Windows SmartScreen avisará la primera vez: "Más información" → "Ejecutar de todas formas".
+appId: co.edu.cun.fitia.control
+productName: FitIA Control
+# Fija: con los workspaces de npm electron vive en la raíz y electron-builder no deduce la versión de un rango
+electronVersion: 44.5.1
+copyright: Equipo FitIA · CUN 2026
+directories:
+  output: release
+  buildResources: recursos
+# El renderer ya viene empaquetado por Vite y el proceso principal solo usa Electron y Node:
+# no hace falta copiar node_modules (todas las dependencias son de desarrollo).
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+win:
+  target: nsis
+  icon: recursos/icon.png
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: FitIA Control
+  artifactName: ${productName} Setup.${ext}

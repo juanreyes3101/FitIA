@@ -13,6 +13,11 @@ def _int(nombre: str, defecto: int) -> int:
     return int(valor) if valor not in (None, "") else defecto
 
 
+def _float(nombre: str, defecto: float) -> float:
+    valor = os.getenv(nombre)
+    return float(valor) if valor not in (None, "") else defecto
+
+
 class Config:
     TESTING = False
 
@@ -35,6 +40,9 @@ class Config:
 
     MONITOR_INTERVAL_SEG = _int("MONITOR_INTERVAL_SEG", 60)
     MONITOR_VENTANA_MIN = _int("MONITOR_VENTANA_MIN", 30)
+    MONITOR_Z_UMBRAL = _float("MONITOR_Z_UMBRAL", 3.0)
+    MONITOR_ERROR_UMBRAL = _float("MONITOR_ERROR_UMBRAL", 0.05)
+    MONITOR_ENFRIAMIENTO_SEG = _int("MONITOR_ENFRIAMIENTO_SEG", 300)
     METRICAS_FLUSH_SEG = 10
 
     RATE_LIMIT_ACTIVO = True

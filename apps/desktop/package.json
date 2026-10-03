@@ -1,0 +1,40 @@
+{
+  "name": "@fitia/desktop",
+  "productName": "FitIA Control",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FitIA Control: consola de administración y monitoreo MAPE-K (Electron + React)",
+  "author": "Equipo FitIA · CUN 2026",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "concurrently -k -n vite,main,app -c yellow,blue,green \"vite\" \"tsc -p tsconfig.electron.json -w --preserveWatchOutput\" \"wait-on tcp:5174 file:dist-electron/main.js && electron . --dev\"",
+    "build": "tsc --noEmit && tsc -p tsconfig.electron.json && vite build",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.electron.json --noEmit",
+    "start": "electron .",
+    "dist": "npm run build && electron-builder --win nsis",
+    "icono": "node scripts/icono.mjs",
+    "revision": "node scripts/revision.mjs"
+  },
+  "devDependencies": {
+    "@fitia/shared": "*",
+    "@fontsource/anton": "^5.1.0",
+    "@fontsource/inter-tight": "^5.1.0",
+    "@fontsource/jetbrains-mono": "^5.1.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.0",
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
+    "postcss": "^8.4.49",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.13.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.6.3",
+    "vite": "^5.4.11",
+    "wait-on": "^8.0.1"
+  }
+}

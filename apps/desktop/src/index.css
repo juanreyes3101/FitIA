@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  html,
+  body {
+    @apply bg-asfalto text-hueso font-texto antialiased;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.45;
+    overflow: hidden;
+  }
+  h1, h2, h3, p, ul, ol {
+    margin: 0;
+  }
+  ul, ol {
+    padding: 0;
+    list-style: none;
+  }
+  button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: #7a7a80;
+  }
+  select option {
+    @apply bg-concreto text-hueso;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  a {
+    @apply text-voltaje;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.voltaje.DEFAULT');
+    outline-offset: 2px;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-grafito;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition: none !important;
+    }
+  }
+}
+
+@layer components {
+  /* Superficie de tarjeta del diseño de escritorio */
+  .panel {
+    @apply rounded border border-grafito bg-concreto;
+  }
+  .kicker {
+    @apply font-metrica text-[12px] font-bold tracking-[.06em] text-voltaje;
+  }
+  .titulo-pagina {
+    @apply mt-1 font-titulo text-[40px] font-normal uppercase leading-[.95];
+  }
+  .titulo-panel {
+    @apply font-titulo text-[20px] font-normal uppercase leading-none;
+  }
+  .etiqueta {
+    @apply text-[11px] font-bold tracking-[.06em] text-niebla;
+  }
+  .campo {
+    @apply min-h-[34px] w-full rounded border border-grafito bg-asfalto px-[10px] text-hueso outline-none focus:border-voltaje;
+  }
+  .arrastre {
+    -webkit-app-region: drag;
+  }
+  .sin-arrastre {
+    -webkit-app-region: no-drag;
+  }
+  .cifra {
+    font-variant-numeric: tabular-nums;
+  }
+}

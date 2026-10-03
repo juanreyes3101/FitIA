@@ -135,12 +135,14 @@ FitIA/
 | GET | `/anuncios?ubicacion=` | usuario Free | Anuncio a mostrar |
 | GET | `/entrenador/rutinas-pendientes` | entrenador | Cola de revisión |
 | PATCH | `/entrenador/rutinas/{id}` | entrenador | Aprobar o ajustar |
-| CRUD | `/admin/usuarios`, `/admin/ejercicios`, `/admin/contraindicaciones`, `/admin/planes`, `/admin/anuncios` | admin | Gestión |
+| CRUD | `/admin/usuarios`, `/admin/ejercicios`, `/admin/contraindicaciones`, `/admin/planes`, `/admin/anuncios` | admin | Gestión. `GET /admin/usuarios` incluye `peso_kg`, `imc`, `clasificacion_imc` y `plan` (`v_usuario_resumen`) |
+| GET | `/admin/condiciones` | admin | Catálogo de condiciones (columnas de la matriz ejercicio × condición) |
 | GET | `/reportes/{ingresos\|uso-ia\|adherencia}` | admin | Pandas → JSON o CSV |
-| GET | `/monitoreo/servicios` | admin | `v_salud_servicios` |
-| GET | `/monitoreo/metricas?servicio=&metrica=&min=60` | admin | Serie de tiempo + banda de la línea base |
+| GET | `/monitoreo/servicios` | admin | `v_salud_servicios` + `replicas_min` y `replicas_max` |
+| GET | `/monitoreo/metricas?servicio=&metrica=&min=60&paso=1min` | admin | Serie de tiempo + banda μ ± 3σ (`paso` = `10s`, `30s` o `1min`) |
 | GET | `/monitoreo/anomalias`, `/monitoreo/acciones` | admin | Bitácora MAPE-K |
-| POST | `/monitoreo/simular-pico` | admin | Genera tráfico/latencia artificial para la demo |
+| GET | `/monitoreo/estado` | admin | Parámetros del detector, latido del worker, proveedor de IA efectivo y la última línea base por servicio y métrica |
+| POST | `/monitoreo/simular-pico` | admin | Inyecta un pico sintético y corre el ciclo MAPE-K en el acto (devuelve `ciclo` con las anomalías y acciones) |
 | GET | `/health` | público | Liveness/readiness |
 
 Formato de error único: `{ "error": { "codigo": "CUPO_IA_AGOTADO", "mensaje": "..." } }`. Catálogo de códigos en `backend/README.md`.
@@ -193,6 +195,15 @@ Implementa el ciclo **MAPE-K** del *autonomic computing* (IBM), la base conceptu
 | **Plan** | Tabla de políticas (`monitoring/politicas.py`): latencia alta + RPS alto → escalar arriba; RPS bajo 15 min → escalar abajo; 5xx → reiniciar worker; latencia de IA alta o errores → cambiar a Mock (circuit breaker); CRÍTICA → notificar al admin. Respeta `replicas_min` y `replicas_max` y un enfriamiento de 5 min. |
 | **Execute** | Simulado: actualiza `servicios.replicas_actuales` y escribe en `acciones_remediacion`. En el ciclo siguiente se verifica: si la métrica volvió a la banda → anomalía MITIGADA. |
 | **Knowledge** | `lineas_base` + historial de anomalías y acciones. |
+
+**Cómo quedó implementado** (`backend/app/monitoring/`: `analisis.py`, `politicas.py`, `mape_k.py`, `worker.py`):
+- El worker corre aparte: `python -m app.monitoring.worker`, un ciclo cada `MONITOR_INTERVAL_SEG`. El ciclo se protege con `GET_LOCK` de MySQL.
+- El valor actual es la media del último intervalo; la línea base usa el resto de la ventana y **excluye los tramos de anomalías ya detectadas**, para no aprender del incidente.
+- **Detección de un solo lado** (z > 3, no |z| > 3): una latencia, un error o una CPU bajos no son un problema. Mientras una anomalía siga ABIERTA no se duplica.
+- La verificación compara el valor nuevo con la línea base **guardada** de la anomalía (Knowledge).
+- **Escalar abajo:** `acciones_remediacion.anomalia_id` es obligatorio, así que no hay "RPS bajo 15 min" sin anomalía. Tras mitigar y pasado el enfriamiento, el servicio vuelve una réplica por ciclo a las que tenía antes del incidente (`ESCALAR_ABAJO` ligado a esa anomalía).
+- **Cambiar a Mock entre procesos:** mientras haya una acción `CAMBIAR_PROVEEDOR_IA` con su anomalía ABIERTA, la API usa Mock (`repo.ia_forzada_a_mock`).
+- El worker mide la CPU y la memoria del equipo (`psutil`) y la tasa de error de Gemini desde `solicitudes_ia`.
 
 Para la sustentación: el botón **"Simular pico de tráfico"** de la consola inyecta métricas sintéticas (NumPy: ruido normal + un pico) y se ve el ciclo completo en vivo.
 

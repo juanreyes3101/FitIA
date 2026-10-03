@@ -19,6 +19,7 @@ from app.ai.schema import EjercicioCatalogo
 from app.db import engine, tabla
 from app.errors import ApiError, es_error_trigger
 from app.repositories import ejercicios as repo_ej
+from app.repositories import monitoreo as repo_mon
 from app.repositories import rutinas as repo
 from app.repositories import solicitudes_ia as repo_sia
 from app.services.perfil import perfil_anonimo
@@ -60,6 +61,9 @@ def _elegir_proveedor(svc: ServicioIA, usuario_id: int) -> AdaptadorIA:
     with engine().connect() as conn:
         if repo_sia.total_hoy(conn) >= current_app.config["IA_MAX_SOLICITUDES_DIA"]:
             log.warning("Límite diario de IA alcanzado: se usa Mock")
+            return svc.mock
+        if repo_mon.ia_forzada_a_mock(conn):
+            log.info("El monitor MAPE-K pasó la IA a Mock (anomalía abierta en el servicio ia)")
             return svc.mock
     if not svc.breaker.permite():
         return svc.mock

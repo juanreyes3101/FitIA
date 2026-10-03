@@ -93,3 +93,21 @@ def crear_usuario(app, engine, md):
         for uid in creados:
             conn.execute(delete(md.tables["auditoria"]).where(md.tables["auditoria"].c.usuario_id == uid))
             conn.execute(delete(md.tables["usuarios"]).where(md.tables["usuarios"].c.id == uid))
+
+
+def _limpiar_servicio(engine, codigo: str) -> None:
+    with engine.begin() as conn:
+        sid = conn.execute(text("SELECT id FROM servicios WHERE codigo = :c"), {"c": codigo}).scalar_one()
+        conn.execute(text("DELETE FROM anomalias WHERE servicio_id = :s"), {"s": sid})  # CASCADE a acciones
+        conn.execute(text("DELETE FROM lineas_base WHERE servicio_id = :s"), {"s": sid})
+        conn.execute(text("DELETE FROM metricas WHERE servicio_id = :s"), {"s": sid})
+        conn.execute(text("UPDATE servicios SET replicas_actuales = replicas_min, estado = 'SALUDABLE' "
+                          "WHERE id = :s"), {"s": sid})
+
+
+@pytest.fixture
+def servicio_web(engine):
+    """El servicio `web` no recibe tráfico real: las pruebas del monitoreo lo usan y lo dejan como en la semilla."""
+    _limpiar_servicio(engine, "web")
+    yield "web"
+    _limpiar_servicio(engine, "web")

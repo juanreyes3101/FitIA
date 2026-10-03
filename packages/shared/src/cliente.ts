@@ -30,6 +30,8 @@ export interface OpcionesPeticion {
   /** Token explícito (p. ej. el refresh para /auth/refresh). Desactiva el refresh automático. */
   token?: string;
   signal?: AbortSignal;
+  /** 'texto' devuelve el cuerpo tal cual (p. ej. un CSV) en lugar de interpretarlo como JSON. */
+  respuesta?: 'json' | 'texto';
 }
 
 export type ClienteApi = <T>(ruta: string, opciones?: OpcionesPeticion) => Promise<T>;
@@ -68,7 +70,7 @@ export function crearClienteApi({ baseUrl, almacen, onSesionCerrada }: OpcionesC
   }
 
   async function enviar(ruta: string, op: OpcionesPeticion): Promise<Response> {
-    const headers: Record<string, string> = { Accept: 'application/json' };
+    const headers: Record<string, string> = { Accept: op.respuesta === 'texto' ? '*/*' : 'application/json' };
     if (op.cuerpo !== undefined) headers['Content-Type'] = 'application/json';
     if (op.token) {
       headers.Authorization = `Bearer ${op.token}`;
@@ -106,6 +108,7 @@ export function crearClienteApi({ baseUrl, almacen, onSesionCerrada }: OpcionesC
     }
 
     const texto = await resp.text();
+    if (resp.ok && op.respuesta === 'texto') return texto as T;
     const datos = texto ? safeJson(texto) : null;
     if (!resp.ok) {
       const err = (datos as CuerpoError | null)?.error;

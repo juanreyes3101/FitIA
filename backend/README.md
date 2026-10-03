@@ -49,7 +49,27 @@ npm run api:lan          # desde la raíz = .venv\Scripts\flask --app wsgi run -
 - **Pagos simulados**: `POST /pagos/simular` valida la tarjeta con Luhn y solo guarda los últimos 4 dígitos. Un pago rechazado responde **200** con `"estado": "RECHAZADO"`, porque es un resultado de negocio. La tarjeta terminada en `0000` siempre se rechaza.
 - **Estado en memoria del proceso**: la caché de rutinas (24 h), el circuit breaker (3 fallos o un 429 → Mock por 5 min), el rate-limit (5 logins/min por IP y 3 generaciones/min por usuario) y el buffer de métricas (flush cada 10 s) no se comparten entre procesos. Por eso Gunicorn corre con **1 worker** y varios hilos.
 - Un *hit* de caché no gasta cupo ni se registra en `solicitudes_ia`. Al llegar a `IA_MAX_SOLICITUDES_DIA` se pasa a Mock sin mostrar error. Agotar el cupo mensual del plan sí es visible (`402 CUPO_IA_AGOTADO`).
-- **Monitoreo**: esta etapa solo implementa la fase *Monitor* (middleware → tabla `metricas`) y lecturas de `/monitoreo/*`. La banda de `/monitoreo/metricas` se calcula al vuelo con pandas (EWMA α=0.3 ± 2σ). El ciclo completo Analyze/Plan/Execute es la Etapa 6.
+- **Monitoreo (MAPE-K)**: ver la sección "Monitoreo autónomo" más abajo.
+
+## Monitoreo autónomo (MAPE-K)
+
+```bash
+.venv\Scripts\python -m app.monitoring.worker      # proceso aparte de la API; Ctrl+C para detenerlo
+```
+
+- Cada `MONITOR_INTERVAL_SEG` (60 s; **15 s para la demo**) corre Monitor → Analizar → Planificar → Ejecutar → Verificar (`app/monitoring/mape_k.py`).
+- Variables: `MONITOR_VENTANA_MIN` (30), `MONITOR_Z_UMBRAL` (3), `MONITOR_ERROR_UMBRAL` (0.05) y `MONITOR_ENFRIAMIENTO_SEG` (300).
+- **Analizar:** EWMA α=0.3 de las medias por minuto (μ) y σ de las muestras de la ventana → `lineas_base`. Para el valor del último intervalo, z = (x − μ)/σ. Es anomalía si z > 3 o si la tasa de error pasa del 5 %. Severidad: 3-4σ BAJA, 4-5σ MEDIA, > 5σ ALTA; tasa de error ≥ 50 % = CRÍTICA. σ tiene un piso por métrica (latencia 5 ms, CPU 2 puntos, memoria 1 punto) para que la calma total no vuelva anomalía cualquier variación mínima.
+- **Planificar** (`politicas.py`):
+  - latencia, RPS o CPU alta en `api`/`web` → `ESCALAR_ARRIBA`, o `NOTIFICAR_ADMIN` si ya está en el máximo
+  - `ia` lenta o con errores → `CAMBIAR_PROVEEDOR_IA`
+  - errores en `api`/`web` → `REINICIAR_WORKER`
+  - CRÍTICA → además `NOTIFICAR_ADMIN`
+  - con enfriamiento por servicio; si sigue alta tras el enfriamiento, se repite la acción
+- **Ejecutar (simulado):** `servicios.replicas_actuales` y `estado` + `acciones_remediacion`.
+- **Verificar:** en el ciclo siguiente, si el valor vuelve a la banda de su línea base → `MITIGADA`. Pasado el enfriamiento, `ESCALAR_ABAJO` hasta las réplicas de antes del incidente.
+- **Demo:** `POST /monitoreo/simular-pico` inserta el pico (solo en el último intervalo) y corre el ciclo en el acto; la MITIGADA la marca el worker. Si la métrica ya tiene ≥ 30 muestras reales, el pico se calcula sobre esa base real (`max(μ × factor, μ + 8σ)`).
+- **Cambiar a Mock:** el worker y la API son procesos distintos. La API consulta la BD: mientras haya una acción `CAMBIAR_PROVEEDOR_IA` con su anomalía abierta, usa Mock.
 
 ## Pruebas
 

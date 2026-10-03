@@ -10,6 +10,7 @@ Flask-JWT-Extended>=4.6
 APScheduler>=3.10,<4
 pandas>=2.2
 numpy>=1.26
+psutil>=5.9
 google-genai>=1.0
 gunicorn>=22; sys_platform != "win32"
 pytest>=8.0

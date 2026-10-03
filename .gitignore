@@ -15,3 +15,6 @@ out/
 .pytest_cache/
 .claude/settings.local.json
 apps/web/revision/
+apps/desktop/release/
+apps/desktop/dist-electron/
+apps/desktop/revision/

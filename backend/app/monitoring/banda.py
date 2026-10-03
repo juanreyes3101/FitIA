@@ -1,9 +1,9 @@
-"""Banda de la línea base calculada al vuelo con Pandas (EWMA α=0.3 y desviación móvil).
-El ciclo MAPE-K completo (worker que guarda en lineas_base y detecta anomalías) es la Etapa 6."""
+"""Banda para la gráfica de la consola, calculada al vuelo con Pandas (EWMA α=0.3 ± 3σ móvil).
+La línea base que decide las anomalías la guarda el ciclo MAPE-K en `lineas_base` (ver mape_k.py)."""
 import pandas as pd
 
 ALFA = 0.3
-K_SIGMA = 2
+K_SIGMA = 3
 
 
 def serie_con_banda(filas, frecuencia: str = "1min") -> dict:
