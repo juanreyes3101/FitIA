@@ -18,6 +18,10 @@ def create_app(config: Config | None = None) -> Flask:
     config.validar()
 
     app = Flask(__name__)
+    if config.PROXY_SALTOS > 0:
+        # Detrás de Nginx: request.remote_addr pasa a ser la IP real del cliente (rate-limit por IP)
+        from werkzeug.middleware.proxy_fix import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=config.PROXY_SALTOS, x_proto=config.PROXY_SALTOS)
     app.config.from_object(config)
     app.config["DATABASE_URL"] = config.DATABASE_URL
     app.json.ensure_ascii = False

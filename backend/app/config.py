@@ -45,6 +45,10 @@ class Config:
     MONITOR_ENFRIAMIENTO_SEG = _int("MONITOR_ENFRIAMIENTO_SEG", 300)
     METRICAS_FLUSH_SEG = 10
 
+    # Proxies inversos de confianza delante de la API (Docker: 1 = Nginx). Con 0 se ignora
+    # X-Forwarded-For; así nadie puede falsear su IP para saltarse el rate-limit cuando no hay proxy.
+    PROXY_SALTOS = _int("PROXY_SALTOS", 0)
+
     RATE_LIMIT_ACTIVO = True
     SCHEDULER_ACTIVO = True
 

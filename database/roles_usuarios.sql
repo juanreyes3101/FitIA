@@ -8,7 +8,8 @@
 CREATE ROLE IF NOT EXISTS rol_api, rol_reportes, rol_dba;
 
 -- La API: leer y escribir datos y ejecutar procedimientos. NO puede borrar tablas ni cambiar la estructura.
-GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON fitia.* TO rol_api;
+-- SHOW VIEW: la API lee al arrancar la definición de tablas y vistas (schema.sql es la única fuente de verdad).
+GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE, SHOW VIEW ON fitia.* TO rol_api;
 
 -- Reportes: SOLO lectura y SOLO de las vistas (no ve contraseñas ni datos crudos)
 GRANT SELECT ON fitia.v_usuario_resumen    TO rol_reportes;

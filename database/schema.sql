@@ -20,6 +20,8 @@
 --                                       anomalias, acciones_remediacion
 -- =====================================================================
 
+-- Las tildes y la ñ se guardan bien aunque el cliente use otro juego de caracteres
+SET NAMES utf8mb4;
 DROP DATABASE IF EXISTS fitia;
 CREATE DATABASE fitia CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE fitia;

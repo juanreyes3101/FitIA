@@ -1,6 +1,13 @@
+# Nunca meter secretos ni entornos locales en la imagen
 .env
-.venv/
-__pycache__/
+.env.*
+!.env.example
+.venv
+venv
+__pycache__
+**/__pycache__
+.pytest_cache
 *.pyc
-.pytest_cache/
+*.log
 tests/
+demo_avance.py

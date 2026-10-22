@@ -1,0 +1,91 @@
+# FitIA — todo el sistema con un solo comando:   docker compose up --build
+#
+#   http://localhost:8080        → página web (Nginx sirve la web y reenvía /api a la API)
+#   http://localhost:5000/api/v1 → la API, también detrás de Nginx (la usan la app móvil y FitIA Control)
+#   localhost:3307               → MySQL 8 (Workbench: usuario root, clave abajo)
+#
+# Costo $0: solo imágenes oficiales gratuitas. Todo corre en el PC del equipo.
+# MySQL usa el puerto 3307 del PC para no chocar con un MySQL instalado (3306).
+#
+# Variables opcionales (en un archivo .env junto a este, que NO se sube a GitHub):
+#   FITIA_DB_ROOT_PASSWORD, FITIA_DB_PASSWORD, JWT_SECRET_KEY, MONITOR_INTERVAL_SEG
+# Si existe backend/.env, la API y el worker toman de ahí AI_PROVIDER y GEMINI_API_KEY.
+# Los valores por defecto son SOLO para la demo local: cámbienlos fuera de clase.
+
+name: fitia
+
+x-backend: &backend
+  build: ./backend
+  image: fitia-backend
+  restart: unless-stopped
+  depends_on:
+    db:
+      condition: service_healthy
+  env_file:
+    - path: ./backend/.env
+      required: false
+  environment: &backend-env
+    DB_HOST: db
+    DB_PORT: "3306"
+    DB_NAME: fitia
+    DB_USER: fitia_app
+    DB_PASSWORD: ${FITIA_DB_PASSWORD:-FitiaDocker2026*}
+    JWT_SECRET_KEY: ${JWT_SECRET_KEY:-fitia-demo-docker-cambiar-esta-clave-2026}
+    # El mismo intervalo para la API (lo muestra en pantalla) y el worker (lo usa): ciclo rápido para la demo
+    MONITOR_INTERVAL_SEG: ${MONITOR_INTERVAL_SEG:-15}
+    CORS_ORIGINS: http://localhost:8080,http://localhost:5173,http://localhost:8081,http://localhost:5174,app://fitia
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=-05:00
+    environment:
+      MYSQL_ROOT_PASSWORD: ${FITIA_DB_ROOT_PASSWORD:-RootDocker2026*}
+      FITIA_DB_PASSWORD: ${FITIA_DB_PASSWORD:-FitiaDocker2026*}
+    ports:
+      - "3307:3306"
+    volumes:
+      - fitia_datos:/var/lib/mysql
+      # Solo corren la PRIMERA vez (con el volumen vacío), en orden alfabético
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql:ro
+      - ./database/roles_usuarios.sql:/docker-entrypoint-initdb.d/03_roles_usuarios.sql:ro
+      - ./docker/mysql/04_usuario_app.sh:/docker-entrypoint-initdb.d/04_usuario_app.sh:ro
+    healthcheck:
+      # Por TCP: el servidor temporal de la inicialización no escucha en red,
+      # así que la API no arranca hasta que los 4 scripts terminaron.
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  api:
+    <<: *backend
+    # Sin puertos propios: solo se llega a ella a través de Nginx (servicio web)
+    environment:
+      <<: *backend-env
+      PROXY_SALTOS: "1"   # confía en la IP real que manda Nginx (rate-limit por cliente)
+
+  worker:
+    <<: *backend
+    command: ["python", "-m", "app.monitoring.worker"]
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+    image: fitia-web
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "8080:80"     # web
+      - "5000:5000"   # API para el celular y FitIA Control (mismo puerto de siempre)
+
+volumes:
+  fitia_datos:

@@ -9,6 +9,8 @@
 --     laura@fitia.co       / Demo2026*    (USUARIO con sobrepeso + dolor lumbar)
 --     andres@fitia.co      / Demo2026*    (USUARIO con bajo peso, premium)
 -- =====================================================================
+-- Las tildes y la ñ se guardan bien aunque el cliente use otro juego de caracteres
+SET NAMES utf8mb4;
 USE fitia;
 
 -- ---------- Roles ----------

@@ -13,6 +13,7 @@ Diagramas en `docs/diagramas/` (PNG para el documento, SVG para hacer zoom, y el
 | 5 | BPMN del proceso principal (`.bpmn` abre en bpmn.io o Camunda) | Arquitectura | `05_bpmn_proceso_principal` |
 | 6 | Arquitectura de componentes | Arquitectura | `06_arquitectura_componentes` |
 | 7 | Monitoreo autónomo MAPE-K | Redes | `07_monitoreo_mape_k` |
+| 8 | Despliegue con Docker Compose (Nginx + API + worker + MySQL) | Redes / Arquitectura | `08_despliegue_docker` (SVG editable) |
 
 ---
 
@@ -82,7 +83,8 @@ Diagramas en `docs/diagramas/` (PNG para el documento, SVG para hacer zoom, y el
 FitIA/
 ├── CLAUDE.md                 ← contexto para Claude Code
 ├── README.md
-├── docker-compose.yml        ← mysql + api + worker (+ nginx opcional)
+├── docker-compose.yml        ← mysql + api + worker + nginx (docker compose up)
+├── docker/                   ← nginx.conf, imagen de la web, usuario de MySQL para Docker
 ├── .env.example
 ├── database/
 │   ├── schema.sql            ← tablas, triggers, procedimientos, vistas
@@ -248,9 +250,18 @@ SELECT * FROM auditoria;
 ---
 
 ## 8. Seguridad
-- JWT en el header `Authorization: Bearer`. En móvil se guarda en `expo-secure-store` y en web en memoria más un refresh en una cookie httpOnly.
-- Las API keys solo viven en el `.env` del backend; **nunca** en web, móvil ni exe.
-- Rate-limit: 5 intentos de login por minuto y 3 generaciones de IA por minuto por usuario.
-- Validación de entrada con `pydantic`; consultas parametrizadas (sin SQL armado con strings).
+- JWT en el header `Authorization: Bearer` (access 1 h, refresh 7 d). Móvil: los dos tokens en `expo-secure-store` (Keychain/Keystore cifrado). Escritorio: archivo cifrado con `safeStorage` de Electron (DPAPI de Windows). Web: el access token solo en memoria y el refresh en `localStorage` para sobrevivir a recargar la página; el riesgo de XSS se mitiga con la política CSP de Nginx (solo scripts propios).
+- Las API keys solo viven en el `.env` del backend; **nunca** en web, móvil ni exe. Los `.env` están en `.gitignore` y en `.dockerignore` (no entran ni al repo ni a las imágenes).
+- Contraseñas con hash y sal de Werkzeug (`scrypt` en las cuentas nuevas; los usuarios demo de `seed.sql` usan `pbkdf2:sha256`); mínimo 8 caracteres.
+- Rate-limit: 5 intentos de login por minuto por IP y 3 generaciones de IA por minuto por usuario. Detrás de Nginx (`PROXY_SALTOS=1`) la IP real se toma de `X-Forwarded-For`; sin proxy ese encabezado se ignora para que nadie lo falsee.
+- Validación de entrada con `pydantic` (`extra="forbid"`); consultas parametrizadas (sin SQL armado con strings).
+- Mínimo privilegio en MySQL: la API usa `rol_api` (`SELECT, INSERT, UPDATE, DELETE, EXECUTE, SHOW VIEW`), nunca root. `SHOW VIEW` es necesario porque la API lee la definición de las vistas al arrancar.
 - Pagos: solo se guardan los últimos 4 dígitos; se valida con el algoritmo de Luhn y se muestra en la interfaz que es un "modo demostración".
+- Docker: Nginx es la única puerta de entrada (la API y el worker no publican puertos; MySQL solo en `3307` del PC para Workbench) y agrega `Content-Security-Policy`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff` y `Referrer-Policy`. Las claves por defecto de `docker-compose.yml` son solo para la demo local.
+- `npm run api:lan` corre sin `--debug` (el depurador de Werkzeug permite ejecutar código) y el firewall de Windows se abre solo en el perfil Privado.
 - Aviso legal visible: FitIA no reemplaza a un profesional de la salud.
+
+### Verificación (etapa 7)
+- `pytest`: 69 pruebas, también con un usuario de MySQL que solo tiene los permisos de `rol_api`.
+- `backend/scripts/prueba_punta_a_punta.py`: 19 pasos de punta a punta, directo a la API y a través de Nginx.
+- La web compilada se probó detrás de Nginx con la CSP activa: sin violaciones en la consola.
